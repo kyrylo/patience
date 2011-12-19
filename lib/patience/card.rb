@@ -8,7 +8,7 @@ module Patience
     def initialize(rank, suit)
       @rank   = rank
       @suit   = suit
-      @sprite = Ray::Sprite.new('sprites/card_deck.png')
+      @sprite = Ray::Sprite.new path_of('patience/sprites/card_deck.png')
 
       @sprite.sheet_size = [13, 5]
       @sprite.sheet_pos = [rank, suit]
