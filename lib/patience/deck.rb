@@ -4,13 +4,12 @@ module Patience
 
     def initialize
       @cards = []
-      suits  = 0..13
+      suits  = 0..12
       ranks  = 0..4
 
       suits.each do |rank|
         ranks.each { |suit| @cards << Card.new(rank, suit) }
       end
-
     end
 
     def size
