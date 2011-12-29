@@ -17,15 +17,15 @@ module Patience
 
       always do
         on :mouse_press do
-          @clicked_card = @deck.cards.find { |card| card.received_click?(mouse_pos) }
-          @clicked_card.pick_up(mouse_pos) if @clicked_card
+          @clicked_card = @deck.cards.find { |card| Cursor.clicked_on?(card, mouse_pos) }
+          Cursor.pick_up(@clicked_card, mouse_pos) if @clicked_card
         end
 
         on :mouse_release do
           @clicked_card = nil
         end
 
-        @clicked_card.drag(mouse_pos) if @clicked_card
+        Cursor.drag(@clicked_card, mouse_pos) if @clicked_card
       end
     end
 

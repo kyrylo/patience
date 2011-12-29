@@ -20,18 +20,6 @@ module Patience
       "#{RANKS[@rank]} of #{SUITS[@suit-1]}"
     end
 
-    def pick_up(mouse_pos)
-      @offset = @sprite.pos - mouse_pos
-    end
-
-    def drag(mouse_pos)
-      @sprite.pos = mouse_pos + @offset
-    end
-
-    def received_click?(mouse_pos)
-      @sprite.to_rect.contain?(mouse_pos)
-    end
-
   end
 end
 
