@@ -4,11 +4,11 @@ module Patience
 
     def initialize
       @cards = []
-      suits  = 0..12
-      ranks  = 0..4
 
-      suits.each do |rank|
-        ranks.each { |suit| @cards << Card.new(rank, suit) }
+      Card::RANKS.each.with_index do |r, rank|
+        Card::SUITS.each.with_index(1) do |s, suit|
+          @cards << Card.new(rank, suit)
+        end
       end
     end
 
