@@ -4,19 +4,31 @@ module Patience
   class TestVersion < MiniTest::Unit::TestCase
 
     def test_version_has_major_number
-      skip "Try to write me, in the first place!"
+      assert Version::MAJOR
+    end
+
+    def test_major_number_is_fixnum
+      assert_instance_of Fixnum, Version::MAJOR
     end
 
     def test_version_has_minor_number
-      skip "Try to write me, in the first place!"
+      assert Version::MINOR
+    end
+
+    def test_minor_number_is_fixnum
+      assert_instance_of Fixnum, Version::MINOR
     end
 
     def test_version_has_tiny_number
-      skip "Try to write me, in the first place!"
+      assert Version::TINY
+    end
+
+    def test_tiny_number_is_fixnum
+      assert_instance_of Fixnum, Version::TINY
     end
 
     def test_version_numbers_can_be_concatenated_together
-      skip "Try to write me, in the first place!"
+      assert_instance_of String, Version::STRING
     end
 
   end
