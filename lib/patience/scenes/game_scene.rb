@@ -15,25 +15,30 @@ module Patience
       add_hook :quit, method(:exit!)
       add_hook :key_press, key(:q), method(:exit!)
 
+      on :mouse_press do
+        @clicked_card = @deck.cards.reverse.find do |card|
+          Cursor.clicked_on?(card, mouse_pos)
+        end
+
+        if @clicked_card
+          @deck.cards << @deck.cards.delete(@clicked_card)
+          Cursor.pick_up(@clicked_card, mouse_pos)
+        end
+      end
+
+      on :mouse_release do
+        @clicked_card = nil
+      end
+
       always do
-        on :mouse_press do
-          @clicked_card = @deck.cards.find { |card| Cursor.clicked_on?(card, mouse_pos) }
-          Cursor.pick_up(@clicked_card, mouse_pos) if @clicked_card
-        end
-
-        on :mouse_release do
-          @clicked_card = nil
-        end
-
         Cursor.drag(@clicked_card, mouse_pos) if @clicked_card
       end
+
     end
 
     def render(win)
       win.clear(@background_color)
-      @deck.cards.each do |card|
-        win.draw(card.sprite)
-      end
+      @deck.cards.each { |card| win.draw(card.sprite) }
     end
 
   end
