@@ -1,4 +1,9 @@
 module Patience
+  ###
+  # Patience::Card is a card creator class. Cards have ranks and suits. Every
+  # card has its own sprite. Sprite is a one big image, that contains all cards.
+  # A sprite for a card is chosen by shift on the sprite. Shift is defined by
+  # integer values on X and Y axis repsectively.
   class Card
     extend Forwardable
     def_delegators :@sprite, :pos, :x, :y

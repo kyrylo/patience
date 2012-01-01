@@ -1,4 +1,7 @@
 module Patience
+  ###
+  # Patience::Cursor handles operations with mouse. Specifically, it confers the
+  # ability to move cards on the window.
   module Cursor
 
     class << self
