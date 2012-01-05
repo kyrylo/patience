@@ -4,11 +4,7 @@ module Patience
     def setup
       @background_color = Ray::Color.new(31, 95, 25)
       @deck = Deck.new
-      a = 0
-      @deck.cards.each do |card|
-        card.sprite.pos += [a, 0]
-        a += 10
-      end
+      @tableau = Tableau.new(@deck.shuffle_off 28)
     end
 
     def register
@@ -38,7 +34,10 @@ module Patience
 
     def render(win)
       win.clear(@background_color)
-      @deck.cards.each { |card| win.draw(card.sprite) }
+      @tableau.piles.each do |pile|
+        win.draw pile.background
+        pile.cards.each { |card| win.draw card.sprite }
+      end
     end
 
   end
