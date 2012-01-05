@@ -2,7 +2,7 @@ module Patience
   ###
   # Patience::Deck allows managing stack of cards. Every initial card deck
   # contains 52 cards (just like in real world).
-  class Deck
+  class Deck < Pile
     attr_reader :cards
 
     def initialize
@@ -13,10 +13,6 @@ module Patience
           @cards << Card.new(rank, suit)
         end
       end
-    end
-
-    def size
-      @cards.size
     end
 
   end
