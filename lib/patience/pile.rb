@@ -7,7 +7,7 @@ module Patience
 
     def initialize(cards)
       @cards = cards
-      @background = Ray::Sprite.new path_of 'patience/sprites/empty_frame.png'
+      @background = Ray::Sprite.new path_of 'patience/sprites/pile_background.png'
     end
 
     # Throw off some quantity of cards.
