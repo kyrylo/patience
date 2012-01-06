@@ -15,8 +15,14 @@ module Patience
       @cards.slice!(0..num-1)
     end
 
-    # Change position of a pile. Applies to
-    # cards in a pile and background both.
+    # Get position of a pile. Applies to
+    # the cards in a pile and background both.
+    def pos
+      @background.pos
+    end
+
+    # Set position of a pile. Applies to
+    # the cards in a pile and background both.
     def pos=(pos)
       @background.pos = *pos
       @cards.each { |card| card.sprite.pos = *pos }
