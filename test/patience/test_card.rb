@@ -99,5 +99,44 @@ module Patience
       refute Card.new(5, 1).black?
     end
 
+    def test_card_can_be_faced_up
+      card = @card.dup
+      assert card.face_up
+      assert_equal [12, 3], card.face_up
+    end
+
+    def test_card_can_be_checked_if_its_faced_up
+      card = @card.dup
+      assert card.faced_up?
+      refute card.faced_down?
+    end
+
+    def test_card_can_be_faced_down
+      card = @card.dup
+      assert card.face_down
+      assert [0, 0], card.face_down
+    end
+
+    def test_card_can_be_checked_if_its_faced_down
+      card = @card.dup
+      card.sprite.sheet_pos = [0, 0]
+      assert card.faced_down?
+      refute card.faced_up?
+    end
+
+    def test_card_can_be_flipped
+      card = @card.dup
+      assert card.faced_up?
+      refute card.faced_down?
+
+      card.flip!
+      assert card.faced_down?
+      refute card.faced_up?
+
+      card.flip!
+      assert card.faced_up?
+      refute card.faced_down?
+    end
+
   end
 end
