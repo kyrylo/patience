@@ -65,7 +65,7 @@ module Patience
 
     # Either turn a card to its face if it's faced
     # down or turn it to its back if it's faced up.
-    def flip
+    def flip!
       (face_up if faced_down?) or (face_down if faced_up?)
     end
 
