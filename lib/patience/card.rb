@@ -25,5 +25,13 @@ module Patience
       "#{RANKS[@rank]} of #{SUITS[@suit-1]}"
     end
 
+    def red?
+      suit == 1 or suit == 2
+    end
+
+    def black?(card)
+      !red?(card)
+    end
+
   end
 end
