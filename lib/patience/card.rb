@@ -29,8 +29,8 @@ module Patience
       suit == 1 or suit == 2
     end
 
-    def black?(card)
-      !red?(card)
+    def black?
+      !self.red?
     end
 
   end
