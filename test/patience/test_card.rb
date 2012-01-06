@@ -85,5 +85,19 @@ module Patience
       assert_respond_to @card.sprite, :sheet_pos
     end
 
+    def test_card_can_be_of_red_suit
+      assert Card.new(5, 1).red?
+      assert Card.new(12, 2).red?
+      refute Card.new(12, 3).red?
+      refute Card.new(1, 4).red?
+    end
+
+    def test_card_can_be_of_black_suit
+      assert Card.new(2, 3).black?
+      assert Card.new(2, 4).black?
+      refute Card.new(10, 2).black?
+      refute Card.new(5, 1).black?
+    end
+
   end
 end
