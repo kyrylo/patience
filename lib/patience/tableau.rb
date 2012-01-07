@@ -13,7 +13,7 @@ module Patience
 
       x = 31 # X position of the first pile.
       @piles.each { |pile|
-        pile.pos = [x, 150]
+        pile.pos = [x, 165]
         x += 110 # Margin between piles along the axis X.
 
         y = 0    # Y position of the first card.
