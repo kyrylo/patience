@@ -45,7 +45,7 @@ module Patience
         win.draw @waste.cards.each { |card| win.draw card.sprite }
       end
 
-      @foundation.each_background { |bg| win.draw bg }
+      @foundation.piles.each { |pile| win.draw pile.background }
 
       @tableau.piles.each do |pile|
         win.draw pile.background
