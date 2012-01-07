@@ -12,25 +12,25 @@ module Patience
 
     # Throw off some quantity of cards.
     def shuffle_off(num)
-      @cards.slice!(0..num-1)
+      cards.slice!(0..num-1)
     end
 
     # Get position of a pile. Applies to
     # the cards in a pile and background both.
     def pos
-      @background.pos
+      background.pos
     end
 
     # Set position of a pile. Applies to
     # the cards in a pile and background both.
     def pos=(pos)
-      @background.pos = *pos
-      @cards.each { |card| card.sprite.pos = *pos }
+      background.pos = *pos
+      cards.each { |card| card.sprite.pos = *pos }
     end
 
     # Size of a pile.
     def size
-      @cards.size
+      cards.size
     end
 
   end
