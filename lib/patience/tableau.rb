@@ -25,11 +25,5 @@ module Patience
       }
     end
 
-    # Iterate over each background in
-    # Tableau, yielding it to the block.
-    def each_background
-      @piles.each { |pile| yield(pile.background) }
-    end
-
   end
 end
