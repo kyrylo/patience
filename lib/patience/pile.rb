@@ -33,5 +33,11 @@ module Patience
       cards.size
     end
 
+    # Returns true if the given number is the index of the
+    # last element of the array of cards. Otherwise, returns false.
+    def last_card?(n)
+      cards[n] == cards.last
+    end
+
   end
 end

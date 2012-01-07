@@ -17,9 +17,10 @@ module Patience
         x += 110 # Margin between piles along the axis X.
 
         y = 0    # Y position of the first card.
-        pile.cards.each do |card|
+        pile.cards.each_with_index do |card, i|
           card.sprite.y += y
           y += 26 # Margin between cards along the axis Y.
+          card.face_down unless pile.last_card?(i)
         end
       }
     end
