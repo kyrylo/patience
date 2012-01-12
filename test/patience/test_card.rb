@@ -107,8 +107,8 @@ module Patience
 
     def test_card_can_be_checked_if_its_faced_up
       card = @card.dup
-      assert card.faced_up?
-      refute card.faced_down?
+      assert card.face_up?
+      refute card.face_down?
     end
 
     def test_card_can_be_faced_down
@@ -120,22 +120,22 @@ module Patience
     def test_card_can_be_checked_if_its_faced_down
       card = @card.dup
       card.sprite.sheet_pos = [0, 0]
-      assert card.faced_down?
-      refute card.faced_up?
+      assert card.face_down?
+      refute card.face_up?
     end
 
     def test_card_can_be_flipped
       card = @card.dup
-      assert card.faced_up?
-      refute card.faced_down?
+      assert card.face_up?
+      refute card.face_down?
 
       card.flip!
-      assert card.faced_down?
-      refute card.faced_up?
+      assert card.face_down?
+      refute card.face_up?
 
       card.flip!
-      assert card.faced_up?
-      refute card.faced_down?
+      assert card.face_up?
+      refute card.face_down?
     end
 
   end

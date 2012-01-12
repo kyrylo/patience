@@ -5,6 +5,12 @@ module Patience
   # A sprite for a card is chosen by shift on the sprite. Shift is defined by
   # integer values on X and Y axis repsectively.
   class Card
+    class Suit
+      def red?
+        not black?
+      end
+    end
+
     extend Forwardable
     def_delegators :@sprite, :pos, :x, :y
 
@@ -50,7 +56,7 @@ module Patience
     # Check if a card is turned to its face.
     # The opposite of #face_down? method.
     def face_up?
-      !self.faced_down?
+      !self.face_down?
     end
 
     # Turn a card to its back.
@@ -66,7 +72,7 @@ module Patience
     # Either turn a card to its face if it's faced
     # down or turn it to its back if it's faced up.
     def flip!
-      (face_up if faced_down?) or (face_down if faced_up?)
+      (face_up if face_down?) or (face_down if face_up?)
     end
 
   end
