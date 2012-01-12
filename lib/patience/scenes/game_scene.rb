@@ -1,6 +1,12 @@
 module Patience
   class GameScene < Ray::Scene
 
+    def find_card_in_pile(pile)
+      pile.cards.reverse.find do |card|
+        Cursor.clicked_on?(card, mouse_pos) unless card.faced_down?
+      end
+    end
+
     def setup
       @background_color = Ray::Color.new(31, 95, 25)
       @deck       = Deck.new
@@ -15,14 +21,13 @@ module Patience
       add_hook :key_press, key(:q), method(:exit!)
 
       on :mouse_press do
-        @clicked_card = @deck.cards.reverse.find do |card|
-          Cursor.clicked_on?(card, mouse_pos)
+        [@tableau, @stock].find { |p| @clicked_card = find_card_in_pile(p) }
+
+        begin
+          Cursor.pick_up(@clicked_card, mouse_pos) if @clicked_card.faced_up?
+        rescue
         end
 
-        if @clicked_card
-          @deck.cards << @deck.cards.delete(@clicked_card)
-          Cursor.pick_up(@clicked_card, mouse_pos)
-        end
       end
 
       on :mouse_release do
@@ -36,7 +41,7 @@ module Patience
     end
 
     def render(win)
-      win.clear(@background_color)
+      win.clear @background_color
       win.draw @stock.background
       @stock.cards.each { |card| win.draw card.sprite }
 
