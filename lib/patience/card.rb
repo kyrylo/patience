@@ -49,7 +49,7 @@ module Patience
 
     # Check if a card is turned to its face.
     # The opposite of #face_down? method.
-    def faced_up?
+    def face_up?
       !self.faced_down?
     end
 
@@ -59,7 +59,7 @@ module Patience
     end
 
     # Check if a card is turned to its back.
-    def faced_down?
+    def face_down?
       sprite.sheet_pos == [0, 0]
     end
 
