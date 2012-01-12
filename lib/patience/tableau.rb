@@ -25,5 +25,11 @@ module Patience
       }
     end
 
+    # Find all cards in every pile and return array of these cards.
+    def cards
+      cards = @piles.inject([]) { |cards, pile| cards << pile.cards  }
+      cards.flatten
+    end
+
   end
 end
