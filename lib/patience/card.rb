@@ -152,7 +152,7 @@ module Patience
 
     # Turns a card to its face.
     def face_up
-      sprite.sheet_pos = [@rank, @suit]
+      sprite.sheet_pos = [rank.to_i, suit.to_i]
     end
 
     # Checks if a card is turned to its face.
