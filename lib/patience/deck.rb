@@ -8,10 +8,8 @@ module Patience
     def initialize
       @cards = []
 
-      Card::RANKS.each.with_index do |r, rank|
-        Card::SUITS.each.with_index(1) do |s, suit|
-          @cards << Card.new(rank, suit)
-        end
+      Card::Rank.descendants.size.times do |r|
+        Card::Suit.descendants.size.times { |s| @cards << Card.new(r+1, s+1) }
       end
     end
 
