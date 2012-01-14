@@ -23,7 +23,7 @@ module Patience
           #   card.rank.to_i #=> 13
           #
           def to_i
-            num
+            @num
           end
 
           # Returns string representation of a rank. It asks class to
@@ -77,7 +77,7 @@ module Patience
           #   card.suit.to_i #=> 3
           #
           def to_i
-            num
+            @num
           end
 
           # Returns plural string representation of a suit. It asks class to
