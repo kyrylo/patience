@@ -1,5 +1,5 @@
 module Patience
-  module Drawing
+  module CardHelper
 
     def draw_on(win)
       if self.respond_to?(:piles)
