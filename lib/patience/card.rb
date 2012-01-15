@@ -10,9 +10,10 @@ module Patience
     class Rank
       ##
       # This lambda defines new class, designed to be a child of Rank.
-      create_rank_class = lambda {
+      create_rank_class = lambda { |num|
         Class.new(Rank) do
-          def initialize(num)
+
+          define_method :initialize do
             @num = num
           end
 
@@ -40,8 +41,8 @@ module Patience
 
       # Dynamically create rank classes.
       %w[Two Three Four Five Six Seven
-         Eight Nine Ten Jack Queen King Ace].each do |class_name|
-        Rank.const_set(class_name, create_rank_class.call)
+         Eight Nine Ten Jack Queen King Ace].each_with_index do |class_name, i|
+        Rank.const_set(class_name, create_rank_class.call(i+1))
       end
     end
 
@@ -54,10 +55,10 @@ module Patience
       # This lambda defines new class, designed to be a child
       # of Suit and supplied with #black? method, contents of
       # which depends on the given argument "true_or_false".
-      create_suit_class = lambda { |true_or_false|
+      create_suit_class = lambda { |num, true_or_false|
         Class.new(Suit) do
 
-          def initialize(num)
+          define_method :initialize do
             @num = num
           end
 
@@ -95,10 +96,10 @@ module Patience
 
       # Create classes for every suit, giving the answer on the question about
       # their blackness. If the answer is negative, obviously the suit is red.
-      Heart   = create_suit_class.call(false)
-      Diamond = create_suit_class.call(false)
-      Spade   = create_suit_class.call(true)
-      Club    = create_suit_class.call(true)
+      Heart   = create_suit_class.call(1, false)
+      Diamond = create_suit_class.call(2, false)
+      Spade   = create_suit_class.call(3, true)
+      Club    = create_suit_class.call(4, true)
 
       # Checks whether card is "red" (being not black).
       def red?; not black?; end
@@ -112,26 +113,26 @@ module Patience
     def initialize(rank, suit)
       # Supply every suit and rank with its numerical alias.
       @rank = case rank
-              when 1  then Rank::Two.new    1
-              when 2  then Rank::Three.new  2
-              when 3  then Rank::Four.new   3
-              when 4  then Rank::Five.new   4
-              when 5  then Rank::Six.new    5
-              when 6  then Rank::Seven.new  6
-              when 7  then Rank::Eight.new  7
-              when 8  then Rank::Nine.new   8
-              when 9  then Rank::Ten.new    9
-              when 10 then Rank::Jack.new  10
-              when 11 then Rank::Queen.new 11
-              when 12 then Rank::King.new  12
-              when 13 then Rank::Ace.new   13
+              when 1  then Rank::Two.new
+              when 2  then Rank::Three.new
+              when 3  then Rank::Four.new
+              when 4  then Rank::Five.new
+              when 5  then Rank::Six.new
+              when 6  then Rank::Seven.new
+              when 7  then Rank::Eight.new
+              when 8  then Rank::Nine.new
+              when 9  then Rank::Ten.new
+              when 10 then Rank::Jack.new
+              when 11 then Rank::Queen.new
+              when 12 then Rank::King.new
+              when 13 then Rank::Ace.new
               else raise DefunctRank, "Nonexistent rank: #{rank}"
               end
       @suit = case suit
-              when 1 then Suit::Heart.new   1
-              when 2 then Suit::Diamond.new 2
-              when 3 then Suit::Spade.new   3
-              when 4 then Suit::Club.new    4
+              when 1 then Suit::Heart.new
+              when 2 then Suit::Diamond.new
+              when 3 then Suit::Spade.new
+              when 4 then Suit::Club.new
               else raise DefunctSuit, "Nonexistnet suit: #{suit}"
               end
       @sprite = Ray::Sprite.new path_of('patience/sprites/card_deck.png')
