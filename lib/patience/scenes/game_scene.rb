@@ -3,7 +3,7 @@ module Patience
 
     def find_card_in_pile(pile)
       pile.cards.reverse.find do |card|
-        Cursor.clicked_on?(card, mouse_pos) unless card.faced_down?
+        Cursor.clicked_on?(card, mouse_pos) unless card.face_down?
       end
     end
 
@@ -22,12 +22,7 @@ module Patience
 
       on :mouse_press do
         [@tableau, @stock].find { |p| @clicked_card = find_card_in_pile(p) }
-
-        begin
-          Cursor.pick_up(@clicked_card, mouse_pos) if @clicked_card.faced_up?
-        rescue
-        end
-
+        Cursor.pick_up(@clicked_card, mouse_pos) if @clicked_card && @clicked_card.face_up?
       end
 
       on :mouse_release do
@@ -42,20 +37,10 @@ module Patience
 
     def render(win)
       win.clear @background_color
-      win.draw @stock.background
-      @stock.cards.each { |card| win.draw card.sprite }
-
-      win.draw @waste.background
-      unless @waste.cards.empty?
-        win.draw @waste.cards.each { |card| win.draw card.sprite }
-      end
-
-      @foundation.piles.each { |pile| win.draw pile.background }
-
-      @tableau.piles.each do |pile|
-        win.draw pile.background
-        pile.cards.each { |card| win.draw card.sprite }
-      end
+      @stock.draw_on win
+      @waste.draw_on win
+      @foundation.draw_on win
+      @tableau.draw_on win
     end
 
   end

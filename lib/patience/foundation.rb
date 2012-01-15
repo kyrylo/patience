@@ -1,8 +1,11 @@
 require_relative 'pile'
+require_relative 'drawing'
+require_relative 'pile_manager'
 
 module Patience
   class Foundation < Pile
-    attr_reader :piles
+    include Drawing
+    include PileManager
 
     def initialize(cards=[], piles=4)
       @piles = piles.times.map { |i| cards.shift(i+1) }.map { |p| Pile.new(p) }

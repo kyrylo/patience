@@ -1,11 +1,14 @@
 require_relative 'pile'
+require_relative 'drawing'
+require_relative 'pile_manager'
 
 module Patience
   ###
   # Patience::Tableau is a class, that holds cards distributed into piles. Each
   # pile is an individual instance of Patience::Pile class.
   class Tableau
-    attr_reader :piles
+    include Drawing
+    include PileManager
 
     def initialize(cards, piles=7)
       # Initialize piles from the array of cards.
@@ -23,12 +26,6 @@ module Patience
           card.face_down unless pile.last_card?(i)
         end
       }
-    end
-
-    # Find all cards in every pile and return array of these cards.
-    def cards
-      cards = @piles.inject([]) { |cards, pile| cards << pile.cards  }
-      cards.flatten
     end
 
   end
