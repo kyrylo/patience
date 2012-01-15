@@ -1,9 +1,9 @@
 require_relative 'pile'
-require_relative 'drawing'
+require_relative 'card_helper'
 
 module Patience
   class Stock < Pile
-    include Drawing
+    include CardHelper
 
     def initialize(cards)
       super(cards.each(&:face_down))

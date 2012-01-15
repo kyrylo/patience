@@ -1,10 +1,10 @@
 require_relative 'pile'
-require_relative 'drawing'
+require_relative 'card_helper'
 require_relative 'pile_manager'
 
 module Patience
   class Foundation < Pile
-    include Drawing
+    include CardHelper
     include PileManager
 
     def initialize(cards=[], piles=4)

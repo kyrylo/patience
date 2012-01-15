@@ -1,5 +1,5 @@
 require_relative 'pile'
-require_relative 'drawing'
+require_relative 'card_helper'
 require_relative 'pile_manager'
 
 module Patience
@@ -7,7 +7,7 @@ module Patience
   # Patience::Tableau is a class, that holds cards distributed into piles. Each
   # pile is an individual instance of Patience::Pile class.
   class Tableau
-    include Drawing
+    include CardHelper
     include PileManager
 
     def initialize(cards, piles=7)
