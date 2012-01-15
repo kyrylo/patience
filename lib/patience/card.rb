@@ -133,7 +133,7 @@ module Patience
               when 2 then Suit::Diamond.new
               when 3 then Suit::Spade.new
               when 4 then Suit::Club.new
-              else raise DefunctSuit, "Nonexistnet suit: #{suit}"
+              else raise DefunctSuit, "Nonexistent suit: #{suit}"
               end
       @sprite = Ray::Sprite.new path_of('patience/sprites/card_deck.png')
       # A sheet with 13 columns and 5 rows. First
