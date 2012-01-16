@@ -13,5 +13,9 @@ module Patience
       end
     end
 
+    def card_at(mouse_pos)
+      cards.reverse.find { |card| card.sprite.to_rect.contain?(mouse_pos) }
+    end
+
   end
 end

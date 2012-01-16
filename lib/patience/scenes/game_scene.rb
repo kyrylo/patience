@@ -1,12 +1,6 @@
 module Patience
   class GameScene < Ray::Scene
 
-    def find_card_in_pile(pile)
-      pile.cards.reverse.find do |card|
-        Cursor.clicked_on?(card, mouse_pos) unless card.face_down?
-      end
-    end
-
     def setup
       @background_color = Ray::Color.new(31, 95, 25)
       @deck       = Deck.new
@@ -14,6 +8,7 @@ module Patience
       @stock      = Stock.new(@deck.shuffle_off 24)
       @waste      = Waste.new
       @foundation = Foundation.new
+      @zones      = [@tableau, @stock, @waste, @foundation]
     end
 
     def register
@@ -21,7 +16,7 @@ module Patience
       add_hook :key_press, key(:q), method(:exit!)
 
       on :mouse_press do
-        [@tableau, @stock].find { |p| @clicked_card = find_card_in_pile(p) }
+        @clicked_card = find_card_at(mouse_pos)
         Cursor.pick_up(@clicked_card, mouse_pos) if @clicked_card && @clicked_card.face_up?
       end
 
@@ -30,17 +25,18 @@ module Patience
       end
 
       always do
-        Cursor.drag(@clicked_card, mouse_pos) if @clicked_card
+        Cursor.drag(@clicked_card, mouse_pos) if @clicked_card && @clicked_card.face_up?
       end
 
     end
 
     def render(win)
       win.clear @background_color
-      @stock.draw_on win
-      @waste.draw_on win
-      @foundation.draw_on win
-      @tableau.draw_on win
+      @zones.each { |zone| zone.draw_on(win) }
+    end
+
+    def find_card_at(mouse_pos)
+      @zones.map { |zone| zone.card_at(mouse_pos) }.compact.pop
     end
 
   end
