@@ -106,7 +106,6 @@ module Patience
     end
 
     extend Forwardable
-    def_delegators :@sprite, :pos, :x, :y
 
     attr_reader :rank, :suit, :sprite
 
@@ -177,6 +176,8 @@ module Patience
     def flip!
       (face_up if face_down?) or (face_down if face_up?)
     end
+
+    def_delegators :@sprite, :pos, :x, :y
 
     class DefunctRank < StandardError; end
     class DefunctSuit < StandardError; end
