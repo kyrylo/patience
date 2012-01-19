@@ -33,7 +33,7 @@ module Patience
 
     def test_cards_can_be_shuffled_off_from_a_pile
       pile = @pile.dup
-      assert_equal 6, pile.shuffle_off(6).size
+      assert_equal 6, pile.shuffle_off!(6).size
       assert_equal 4, pile.size
     end
 
