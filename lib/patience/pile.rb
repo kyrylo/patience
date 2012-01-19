@@ -3,22 +3,18 @@ module Patience
   # Patience::Pile is aimed to hold cards in a pile :surprise:. Every pile has
   # its own background sprite.
   class Pile
+    extend Forwardable
+
     attr_accessor :cards, :background
 
-    def initialize(cards)
+    def initialize(cards=[])
       @cards = cards
       @background = Ray::Sprite.new path_of 'patience/sprites/pile_background.png'
     end
 
     # Throw off some quantity of cards.
-    def shuffle_off(num)
+    def shuffle_off!(num)
       cards.slice!(0..num-1)
-    end
-
-    # Get position of a pile. Applies to
-    # the cards in a pile and background both.
-    def pos
-      background.pos
     end
 
     # Set position of a pile. Applies to
@@ -39,5 +35,11 @@ module Patience
       cards[n] == cards.last
     end
 
+    def draw_on(win)
+      win.draw(background)
+      cards.each { |card| card.draw_on(win) }
+    end
+
+    def_delegators :@background, :pos, :x, :y
   end
 end

@@ -1,16 +1,25 @@
-require_relative 'pile'
-require_relative 'card_helper'
-require_relative 'pile_manager'
+require_relative 'area'
 
 module Patience
-  class Foundation < Pile
-    include CardHelper
-    include PileManager
+  ###
+  # Patience::Area::Foundation is a class, which represents Foundation area of
+  # the game.
+  class Foundation < Area
 
-    def initialize(cards=[], piles=4)
-      @piles = piles.times.map { |i| cards.shift(i+1) }.map { |p| Pile.new(p) }
-      x = 251
-      @piles.each { |pile| pile.background.pos = [x+=110, 23] }
+    def initialize(cards=[], piles_num=4)
+      super(cards, piles_num)
+      self.pos = [361, 23]
+    end
+
+    protected
+
+    # Disposes Foundation.
+    def pos=(pos)
+      x, y, step_x = pos[0], pos[1], 110
+      piles.each do |pile|
+        pile.pos = [x, y]
+        x += step_x # Margin between piles along the axis X.
+      end
     end
 
   end

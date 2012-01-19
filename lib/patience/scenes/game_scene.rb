@@ -4,8 +4,8 @@ module Patience
     def setup
       @background_color = Ray::Color.new(31, 95, 25)
       @deck       = Deck.new
-      @tableau    = Tableau.new(@deck.shuffle_off 28)
-      @stock      = Stock.new(@deck.shuffle_off 24)
+      @tableau    = Tableau.new(@deck.shuffle_off! 28)
+      @stock      = Stock.new(@deck.shuffle_off! 24)
       @waste      = Waste.new
       @foundation = Foundation.new
       @areas      = [@tableau, @stock, @waste, @foundation]
