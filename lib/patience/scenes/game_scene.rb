@@ -9,6 +9,7 @@ module Patience
       @waste      = Waste.new
       @foundation = Foundation.new
       @zones      = [@tableau, @stock, @waste, @foundation]
+      @areas = [@tableau]
     end
 
     def register
@@ -32,11 +33,11 @@ module Patience
 
     def render(win)
       win.clear @background_color
-      @zones.each { |zone| zone.draw_on(win) }
+      @areas.each { |area| area.draw_on(win) }
     end
 
     def find_card_at(mouse_pos)
-      @zones.map { |zone| zone.card_at(mouse_pos) }.compact.pop
+      @areas.map { |area| area.card_at(mouse_pos) }.compact.pop
     end
 
   end
