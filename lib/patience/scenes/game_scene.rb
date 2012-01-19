@@ -8,8 +8,7 @@ module Patience
       @stock      = Stock.new(@deck.shuffle_off 24)
       @waste      = Waste.new
       @foundation = Foundation.new
-      @zones      = [@tableau, @stock, @waste, @foundation]
-      @areas = [@tableau]
+      @areas      = [@tableau, @stock, @waste, @foundation]
     end
 
     def register
