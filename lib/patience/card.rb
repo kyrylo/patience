@@ -177,6 +177,11 @@ module Patience
       (face_up if face_down?) or (face_down if face_up?)
     end
 
+    # Draws the sprite of card in the 'win'.
+    def draw_on(win)
+      win.draw(sprite)
+    end
+
     def_delegators :@sprite, :pos, :x, :y
 
     class DefunctRank < StandardError; end
