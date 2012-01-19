@@ -1,3 +1,5 @@
+require_relative 'pile'
+
 module Patience
   ###
   # Patience::Deck allows managing stack of cards. Every initial card deck
