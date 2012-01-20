@@ -37,5 +37,9 @@ module Patience
       assert_equal 4, pile.size
     end
 
+    def test_piles_last_card_detects_correctly
+      assert @pile.last_card?(9)
+    end
+
   end
 end
