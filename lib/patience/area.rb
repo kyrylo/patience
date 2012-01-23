@@ -36,7 +36,7 @@ module Patience
 
     # Returns the card, which has been clicked (if there's been any).
     def card_at(mouse_pos)
-      cards.find { |card| card.sprite.to_rect.contain?(mouse_pos) }
+      cards.find { |card| card.hit?(mouse_pos) }
     end
 
   end
