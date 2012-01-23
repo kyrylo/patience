@@ -183,6 +183,7 @@ module Patience
     end
 
     def_delegators :@sprite, :pos, :x, :y, :to_rect
+    def_delegator  :"@sprite.to_rect", :contain?, :hit?
 
     class DefunctRank < StandardError; end
     class DefunctSuit < StandardError; end
