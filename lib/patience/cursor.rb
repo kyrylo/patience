@@ -6,8 +6,7 @@ module Patience
     attr_accessor :mouse_pos
     attr_reader :obj
 
-    # Sets obj to given object. That means, that you
-    # would be able some or any instance methods of Cursor.
+    # Sets obj to given object.
     def click=(obj)
       @obj = obj
     end
