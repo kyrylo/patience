@@ -182,7 +182,7 @@ module Patience
       win.draw(sprite)
     end
 
-    def_delegators :@sprite, :pos, :x, :y
+    def_delegators :@sprite, :pos, :x, :y, :to_rect
 
     class DefunctRank < StandardError; end
     class DefunctSuit < StandardError; end
