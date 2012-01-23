@@ -138,7 +138,7 @@ module Patience
       # A sheet with 13 columns and 5 rows. First
       # row and column corresponds to the card back.
       @sprite.sheet_size = [13, 5]
-      @sprite.sheet_pos = [rank, suit]
+      @sprite.sheet_pos = [rank-1, suit]
     end
 
     # Prints human readable rank and suit of the card.
