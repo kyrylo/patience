@@ -33,7 +33,7 @@ module Patience
         end
 
         def find_area
-          @area = @areas.find do |area|
+          @area = @areas.values.to_a.find do |area|
             area.cards.find { |card| card.hit?(mouse_pos) }
           end
         end

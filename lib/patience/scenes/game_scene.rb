@@ -1,7 +1,6 @@
 module Patience
   class GameScene < Ray::Scene
 
-
     def setup
       @background_color = Ray::Color.new(31, 95, 25)
       @cursor     = Cursor.new
@@ -10,7 +9,8 @@ module Patience
       @stock      = Stock.new(@deck.shuffle_off! 24)
       @waste      = Waste.new
       @foundation = Foundation.new
-      @areas      = [@tableau, @stock, @waste, @foundation]
+      @areas      = { :tableau => @tableau, :stock => @stock,
+                      :waste => @waste, :foundation => @foundation }
     end
 
     def register
@@ -18,12 +18,8 @@ module Patience
       add_hook :key_press, key(:q), method(:exit!)
 
       on :mouse_press do
-        @cursor.click = find_card_at(@cursor.mouse_pos)
-        if @cursor.pickable? && @cursor.obj.face_up?
-          @cursor.pick_up
-        else
-          @cursor.click = nil # Click or it didn't happen.
-        end
+        @cursor.click = EventHandler::Click.new(@cursor.mouse_pos, @areas)
+        @cursor.click.exec unless @cursor.click.nothing?
       end
 
       on :mouse_release do
@@ -32,21 +28,16 @@ module Patience
 
       always do
         @cursor.mouse_pos = mouse_pos
-        @cursor.drag if @cursor.obj
       end
 
     end
 
     def render(win)
       win.clear @background_color
-      @areas.each { |area| area.draw_on(win) }
-      @cursor.obj.draw_on(win) if @cursor.drawable?
-    end
-
-    protected
-
-    def find_card_at(mouse_pos)
-      @areas.map { |area| area.card_at(mouse_pos) }.compact.pop
+      @areas.values.to_a.each { |area| area.draw_on(win) }
+      if @cursor.active? && @cursor.click.card.face_up?
+        @cursor.click.card.draw_on(win) 
+      end
     end
 
   end
