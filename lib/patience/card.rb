@@ -42,7 +42,7 @@ module Patience
       # Dynamically create rank classes.
       %w[Two Three Four Five Six Seven
          Eight Nine Ten Jack Queen King Ace].each_with_index do |class_name, i|
-        Rank.const_set(class_name, create_rank_class.call(i+1))
+        Rank.const_set(class_name, create_rank_class.call(i))
       end
     end
 
