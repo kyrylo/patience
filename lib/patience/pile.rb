@@ -12,9 +12,22 @@ module Patience
       @background = Ray::Sprite.new path_of 'patience/sprites/pile_background.png'
     end
 
+    # Changes background of the pile considering position of the old one.
+    def background=(bg)
+      pos = @background.pos
+      @background = bg
+      @background.pos = pos
+    end
+
     # Throw off some quantity of cards.
     def shuffle_off!(num)
       cards.slice!(0..num-1)
+    end
+
+    # Appends card to the pile considering position of that pile.
+    def <<(other_card)
+      other_card.sprite.pos = self.pos
+      cards << other_card
     end
 
     # Set position of a pile. Applies to
@@ -35,6 +48,7 @@ module Patience
       cards[n] == cards.last
     end
 
+    # Draws pile in the window.
     def draw_on(win)
       win.draw(background)
       cards.each { |card| card.draw_on(win) }
