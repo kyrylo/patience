@@ -10,7 +10,7 @@ module Patience
         if @processor.stock?
           @exec = Proc.new do
             if @processor.pile.size == 1
-              @processor.pile.background = Ray::Sprite.new path_of "patience/sprites/empty_pile.png"
+              @processor.pile.background = Ray::Sprite.new path_of "patience/sprites/empty_stock.png"
             end
             @processor.card.face_up
             @areas[:waste].piles.first << @processor.exempt(@processor.card)
