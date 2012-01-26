@@ -42,7 +42,7 @@ module Patience
       # Dynamically create rank classes.
       %w[Two Three Four Five Six Seven
          Eight Nine Ten Jack Queen King Ace].each_with_index do |class_name, i|
-        Rank.const_set(class_name, create_rank_class.call(i))
+        Rank.const_set(class_name, create_rank_class.call(i+1))
       end
     end
 
@@ -137,8 +137,8 @@ module Patience
       @sprite = Ray::Sprite.new path_of('patience/sprites/card_deck.png')
       # A sheet with 13 columns and 5 rows. First
       # row and column corresponds to the card back.
-      @sprite.sheet_size = [13, 5]
-      @sprite.sheet_pos = [rank-1, suit]
+      @sprite.sheet_size = [14, 5]
+      @sprite.sheet_pos = [rank, suit]
     end
 
     # Prints human readable rank and suit of the card.
@@ -150,28 +150,28 @@ module Patience
       "#{rank} of #{suit}"
     end
 
-    # Turns a card to its face.
+    # Turns the card to its face.
     def face_up
       sprite.sheet_pos = [rank.to_i, suit.to_i]
     end
 
-    # Checks if a card is turned to its face.
+    # Checks if the card is turned to its face.
     # The opposite of #face_down? method.
     def face_up?
-      !self.face_down?
+      self.not.face_down?
     end
 
-    # Turns a card to its back.
+    # Turns the card to its back.
     def face_down
       sprite.sheet_pos = [0, 0]
     end
 
-    # Checks if a card is turned to its back.
+    # Checks if the card is turned to its back.
     def face_down?
       sprite.sheet_pos == [0, 0]
     end
 
-    # Either turns a card to its face if it's faced
+    # Either turns the card to its face if it's faced
     # down or turns it to its back if it's faced up.
     def flip!
       (face_up if face_down?) or (face_down if face_up?)
