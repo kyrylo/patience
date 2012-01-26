@@ -6,8 +6,10 @@ module Patience
         @mouse_pos = mouse_pos
         @areas = areas
         @processor = InformationProcessor.new(mouse_pos, areas)
-        @exec = stock || waste || tableau || foundation
+        @exec = stock or waste or tableau or foundation
+        binding.pry
       end
+
 
       def exec
         @exec.call
