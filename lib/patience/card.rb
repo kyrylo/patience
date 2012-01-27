@@ -1,15 +1,15 @@
 module Patience
   ###
-  # Patience::Card is a card creator class. Cards have ranks and suits.
-  # Every card has its own sprite. Sprite is a one big image, that contains
-  # all cards. A sprite for a card is chosen by shift on the sprite. Shift
-  # is defined by integer values on X and Y axis repsectively.
+  # Patience::Card is a card creator class. Cards have ranks and suits. Every
+  # card has its own sprite. Sprite is a one big image, which contains every
+  # play card in the game. A sprite for a card is chosen by shift on the sprite.
+  # The shift is determined by integer values on X and Y axis repsectively.
   class Card
     ###
     # Rank class provides underlying methods for every rank.
     class Rank
       ##
-      # This lambda defines new class, designed to be a child of Rank.
+      # This lambda defines the new class, designed to be a child of Rank.
       create_rank_class = lambda { |num|
         Class.new(Rank) do
 
@@ -17,8 +17,8 @@ module Patience
             @num = num
           end
 
-          # Returns integer representation of a rank. Basically, it's
-          # the position of a card in the ascending row of card ranks.
+          # Returns integer representation of the rank. Basically, it's
+          # the position of the card in the ascending row of card ranks.
           # Example:
           #   card = Card.new(13, 3) #=> Ace of Spades
           #   card.rank.to_i #=> 13
@@ -65,8 +65,8 @@ module Patience
           # Returns boolean value. For red suits the value
           # is "false". For black suits the value is "true".
           # Example:
-          #   card = Card.new(13, 3) #=> Ace of Spades
-          #   card.suit.black? #=> true
+          #   spades = Suit::Spade.new
+          #   spades.black? #=> true
           #
           define_method :black? do
             true_or_false
@@ -102,6 +102,11 @@ module Patience
       Club    = create_suit_class.call(4, true)
 
       # Checks whether card is "red" (being not black).
+      # The opposite of the Card#black?. Returns true
+      # if the card is red. Otherwise, returns false.
+      # Example:
+      #   heart = Suit::Heart.new
+      #   heart.red? #=> true
       def red?; not black?; end
     end
 
@@ -109,8 +114,14 @@ module Patience
 
     attr_reader :rank, :suit, :sprite
 
+    # Creates new card object. Both arguments should be Fixnums
+    # in the valid ranges. Also, every card has its sprite, which
+    # is nothing but an instance of the Ray::Sprite class.
+    # Example:
+    #   two_of_hearts = Card.new(1, 1) #=> Two of Hearts
+    #   invalid_card = Card.new(:one, 2) # Raises DefunctRank.
+    #
     def initialize(rank, suit)
-      # Supply every suit and rank with its numerical alias.
       @rank = case rank
               when 1  then Rank::Two.new
               when 2  then Rank::Three.new
@@ -135,8 +146,8 @@ module Patience
               else raise DefunctSuit, "Nonexistent suit: #{suit}"
               end
       @sprite = Ray::Sprite.new path_of('patience/sprites/card_deck.png')
-      # A sheet with 13 columns and 5 rows. First
-      # row and column corresponds to the card back.
+      # A sheet with 14 columns and 5 rows. First row and column
+      # corresponds to the card back (their coordinats are equal to [0, 0]).
       @sprite.sheet_size = [14, 5]
       @sprite.sheet_pos = [rank, suit]
     end
@@ -151,33 +162,63 @@ module Patience
     end
 
     # Turns the card to its face.
+    # Example:
+    #   card = Card.new(1, 1)
+    #   card.face_up
+    #   card.face_up? #=> true
+    #
     def face_up
       sprite.sheet_pos = [rank.to_i, suit.to_i]
     end
 
-    # Checks if the card is turned to its face.
-    # The opposite of #face_down? method.
+    # The opposite of the Card#face_down? method. Returns true
+    # if the card is turned to its face. Otherwise, returns false.
+    # Example:
+    #   card = Card.new(1, 1)
+    #   card.face_up? #=> true
+    #
     def face_up?
       self.not.face_down?
     end
 
-    # Turns the card to its back.
+    # Turns the card to its back (sets position of the sprite to zero values).
+    # Example:
+    #   card = Card.new(1, 1)
+    #   card.face_up? #=> true
+    #   card.face_down
+    #   card.face_up? #=> false
+    #
     def face_down
       sprite.sheet_pos = [0, 0]
     end
 
-    # Checks if the card is turned to its back.
+    # Returns true if the card is turned to its back (it means, that the
+    # sprite of the card is set position of zero). Otherwise, returns false.
+    # Example:
+    #   card = Card.new(1, 1)
+    #   card.face_down? #=> false
+    #
     def face_down?
       sprite.sheet_pos == [0, 0]
     end
 
     # Either turns the card to its face if it's faced
     # down or turns it to its back if it's faced up.
+    # Example:
+    #   card = Card.new(1, 1)
+    #   card.face_down? #=> false
+    #   card.flip!
+    #   card.face_down? #=> true
+    #
     def flip!
       (face_up if face_down?) or (face_down if face_up?)
     end
 
-    # Draws the sprite of card in the 'win'.
+    # Draws the sprite of card in the window.
+    # Example:
+    #   card = Card.new(1, 1)
+    #   card.draw_on(win)
+    #
     def draw_on(win)
       win.draw(sprite)
     end
