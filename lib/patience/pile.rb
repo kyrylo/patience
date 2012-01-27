@@ -37,11 +37,6 @@ module Patience
       cards.each { |card| card.sprite.pos = *pos }
     end
 
-    # Size of a pile.
-    def size
-      cards.size
-    end
-
     # Returns true if the given number is the index of the
     # last element of the array of cards. Otherwise, returns false.
     def last_card?(n)
@@ -54,6 +49,8 @@ module Patience
       cards.each { |card| card.draw_on(win) }
     end
 
-    def_delegators :@background, :pos, :x, :y
+    def_delegators :@cards, :size, :empty?
+    def_delegators :@background, :pos, :x, :y, :to_rect
+    def_delegator  :"@background.to_rect", :contain?, :hit?
   end
 end
