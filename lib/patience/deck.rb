@@ -2,11 +2,15 @@ require_relative 'pile'
 
 module Patience
   ###
-  # Patience::Deck allows managing stack of cards. Every initial card deck
-  # contains 52 cards (just like in real world).
+  # Patience::Deck creates a play deck object, which
+  # contains 52 cards (just like a real world deck!).
+  # Example:
+  #   deck = Deck.new(cards) # Just imagine, that we've already created those!
+  #   deck.cards.size #=> 52
+  #
   class Deck < Pile
-    attr_reader :cards
 
+    # Creates a play deck. That's it!
     def initialize
       @cards = []
 
