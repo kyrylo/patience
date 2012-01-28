@@ -1,11 +1,12 @@
 module Patience
   class EventHandler
     class Click
+      attr_reader :processor
 
       def initialize(mouse_pos, areas)
         @mouse_pos = mouse_pos
         @areas = areas
-        @processor = InformationProcessor.new(mouse_pos, areas)
+        @processor = DataProcessor.new(mouse_pos, areas)
         @exec = stock || waste || tableau || foundation
       end
 
@@ -13,12 +14,12 @@ module Patience
         @exec.call
       end
 
-      def card
-        @processor.card
+      def offset
+        @processor.offset
       end
 
-      def drag
-        @processor.card.sprite.pos = mouse_pos + @processor.offset
+      def card
+        @processor.card
       end
 
       def nothing?

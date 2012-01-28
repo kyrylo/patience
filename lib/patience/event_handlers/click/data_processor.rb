@@ -1,14 +1,14 @@
 module Patience
   class EventHandler
     class Click
-      class InformationProcessor
-        attr_reader :info
+      class DataProcessor
+        attr_reader :data
 
         def initialize(mouse_pos, areas)
           @mouse_pos = mouse_pos
           @areas = areas
-          @info = InformationCollector.new(mouse_pos, areas)
-          @info.gather!
+          @data = DataCollector.new(mouse_pos, areas)
+          @data.gather!
         end
 
         def exempt(card)
@@ -16,23 +16,23 @@ module Patience
         end
 
         def nothing?
-          info.to_a.compact.size.zero?
+          data.to_a.compact.size.zero?
         end
 
         def offset
-          info.to_h[:card].sprite.pos - mouse_pos
+          data.to_h[:card].sprite.pos - mouse_pos
         end
 
         def pile
-          info.to_h[:pile]
+          data.to_h[:pile]
         end
 
         def card
-          info.to_h[:card]
+          data.to_h[:card]
         end
 
         def stock?
-          info.to_h[:area].instance_of? Stock
+          data.to_h[:area].instance_of? Stock
         end
 
         def stock_scenario
@@ -55,7 +55,7 @@ module Patience
         end
 
         def waste?
-          info.to_h[:area].instance_of? Waste
+          data.to_h[:area].instance_of? Waste
         end
 
         def waste_scenario
@@ -64,7 +64,7 @@ module Patience
         end
 
         def tableau?
-          info.to_h[:area].instance_of? Tableau
+          data.to_h[:area].instance_of? Tableau
         end
 
         def tableau_scenario
@@ -73,7 +73,7 @@ module Patience
         end
 
         def foundation?
-          info.to_h[:area].instance_of? Foundation
+          data.to_h[:area].instance_of? Foundation
         end
 
         def foundation_scenario

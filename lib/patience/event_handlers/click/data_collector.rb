@@ -1,7 +1,7 @@
 module Patience
   class EventHandler
     class Click
-      class InformationCollector
+      class DataCollector
         attr_reader :mouse_pos, :area, :pile, :card
 
         def initialize(mouse_pos, areas)
