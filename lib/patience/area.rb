@@ -53,7 +53,7 @@ module Patience
     #   field.cards #=> [Two of Hearts, Two of Hearts, Two of Hearts]
     #
     def cards
-      @piles.inject([]) { |cards, pile| cards << pile.cards  }.flatten
+      @piles.inject([]) { |cards, pile| cards << pile.cards }.flatten
     end
 
     # Draws each pile of the area in the window.
