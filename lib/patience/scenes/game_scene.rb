@@ -19,10 +19,10 @@ module Patience
 
       on :mouse_press do
         @cursor.click = EventHandler::Click.new(@cursor.mouse_pos, @areas)
-        @cursor.click.exec unless @cursor.click.nothing?
       end
 
       on :mouse_release do
+        @cursor.click.exec unless @cursor.click.nothing?
         @cursor.drop
       end
 
@@ -35,7 +35,7 @@ module Patience
     def render(win)
       win.clear @background_color
       @areas.values.to_a.each { |area| area.draw_on(win) }
-      if @cursor.active? && @cursor.click.card.face_up?
+      if @cursor.active?
         @cursor.click.card.draw_on(win) 
       end
     end

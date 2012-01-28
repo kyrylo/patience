@@ -11,7 +11,21 @@ module Patience
         end
 
         def gather!
-          find_all
+          find_all || find_pile if @pile.nil?
+        end
+
+        def find_all
+          @area = @areas.values.to_a.find do |area|
+            @pile = area.piles.find { |pile|
+              @card = pile.cards.find { |card| card.hit?(mouse_pos) }
+            }
+          end
+        end
+
+        def find_pile
+          @area = @areas.values.to_a.find { |area|
+            @pile = area.piles.find { |pile| pile.hit?(mouse_pos) }
+          }
         end
 
         def to_h
@@ -24,30 +38,6 @@ module Patience
 
         def to_s
           "Click on card #{card}, in pile #{pile}, in the region of #{area}"
-        end
-
-        protected
-
-        def find_all
-          find_area and find_pile and find_card
-        end
-
-        def find_area
-          @area = @areas.values.to_a.find do |area|
-            area.cards.find { |card| card.hit?(mouse_pos) }
-          end
-        end
-
-        def find_pile
-          find_area unless @area
-          @pile = @area.piles.find do |pile|
-            pile.cards.find { |card| card.hit?(mouse_pos) }
-          end
-        end
-
-        def find_card
-          find_pile unless @pile
-          @card = @pile.cards.reverse.find { |card| card.hit?(mouse_pos) }
         end
 
       end

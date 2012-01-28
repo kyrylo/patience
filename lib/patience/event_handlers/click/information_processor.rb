@@ -37,12 +37,20 @@ module Patience
 
         def stock_scenario
           Proc.new do
-            empty_stock = 'patience/sprites/empty_stock.png'
-            if pile.size == 1
+            if pile.empty?
+              @areas[:waste].cards.each { |card|
+                card.face_down
+                @areas[:stock].piles.first << card
+              }
+            else
+              card.face_up
+              @areas[:waste].piles.first << exempt(card)
+            end
+
+            if pile.empty?
+              empty_stock = 'patience/sprites/empty_stock.png'
               pile.background = Ray::Sprite.new path_of(empty_stock)
             end
-            card.face_up
-            @areas[:waste].piles.first << exempt(card)
           end
         end
 

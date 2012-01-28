@@ -91,6 +91,7 @@ module Patience
     # Example:
     #   pile = Pile.new
     #   pile.draw_on(win)
+    #
     def draw_on(win)
       win.draw(background)
       cards.each { |card| card.draw_on(win) }
