@@ -10,12 +10,11 @@ module Patience
   #   field = Area.new
   #   field.piles #=> [#<Patience::Pile>]
   #
-  # Methods to reconsider: #cards
   class Area
     # Returns an array of piles in the area.
     attr_reader :piles
 
-    # Instantiate an Area object. The argument 'cards' is an array of cards
+    # Instantiates an Area object. The argument 'cards' is an array of cards
     # and the 'piles_num' is a Fixnum number, which describes how many piles
     # should be created within that area. By default, Area object instantiates
     # without any cards and only with one pile. Every new pile would be created
@@ -44,7 +43,7 @@ module Patience
       piles.each { |pile| pile.pos = *pos }
     end
 
-    # (?)
+    # TODO: Do you really need it?
     # Collects all cards in every pile and returns the array of these
     # cards. If there are no cards in the area, returns an empty array.
     # Example:

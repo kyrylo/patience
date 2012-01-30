@@ -1,8 +1,10 @@
 module Patience
+  ###
+  # Patience::GameScene is a main scene of the game. All stuff happens here.
   class GameScene < Ray::Scene
 
     def setup
-      @background_color = Ray::Color.new(31, 95, 25)
+      @bg_color   = Ray::Color.new(31, 95, 25)
       @cursor     = Cursor.new
       @deck       = Deck.new
       @tableau    = Tableau.new(@deck.shuffle_off! 28)
@@ -17,12 +19,20 @@ module Patience
       add_hook :quit, method(:exit!)
       add_hook :key_press, key(:q), method(:exit!)
 
+      # If mouse button pressed, create Click event. If a card has
+      # been clicked, create Drag event. Drag only face up cards.
       on :mouse_press do
         @cursor.click = EventHandler::Click.new(@cursor.mouse_pos, @areas)
+        if @cursor.carrying_card?
+          @cursor.drag  = EventHandler::Drag.new(@cursor.card, @cursor.offset)
+          on :mouse_motion do
+            @cursor.drag.move(@cursor.mouse_pos) if @cursor.movable?
+          end
+        end
       end
 
       on :mouse_release do
-        @cursor.click.exec unless @cursor.click.nothing?
+        @cursor.click.exec if @cursor.clicked_something?
         @cursor.drop
       end
 
@@ -33,11 +43,10 @@ module Patience
     end
 
     def render(win)
-      win.clear @background_color
+      win.clear @bg_color
       @areas.values.to_a.each { |area| area.draw_on(win) }
-      if @cursor.active?
-        @cursor.click.card.draw_on(win) 
-      end
+      # Draw the card, which is being dragged.
+      @cursor.click.card.draw_on(win) if @cursor.drawable?
     end
 
   end
