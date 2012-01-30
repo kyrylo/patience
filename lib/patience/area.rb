@@ -25,6 +25,7 @@ module Patience
     #   field = Area.new(cards, 1])
     #   field = Area.new(cards)
     #   field = Area.new(cards, 10)
+    #
     def initialize(cards=[], piles_num=1)
       @piles = []
       @cards = Pile.new(cards)
