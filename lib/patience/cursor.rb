@@ -36,7 +36,7 @@ module Patience
     #   cursor.clicked_something? #=> false
     #
     def clicked_something?
-      click.something? and still_on_something?
+      click and click.something? and still_on_something?
     end
 
     # Checks whether cursor is still over the clicked object by
