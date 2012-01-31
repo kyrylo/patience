@@ -19,7 +19,7 @@ module Patience
     # should be created within that area. By default, Area object instantiates
     # without any cards and only with one pile. Every new pile would be created
     # empty, even though you feed some cards to the new object. All the cards
-    # you provide to new new object, would be placed in the very first pile.
+    # you provide to the new object, would be placed in the very first pile
     # Example:
     #   cards = [Card.new(1, 1)]
     #   field = Area.new(cards, 1])
@@ -42,18 +42,6 @@ module Patience
     #
     def pos=(pos)
       piles.each { |pile| pile.pos = *pos }
-    end
-
-    # TODO: Do you really need it?
-    # Collects all cards in every pile and returns the array of these
-    # cards. If there are no cards in the area, returns an empty array.
-    # Example:
-    #   cards = 3.times { Card.new(1, 1) }
-    #   field = Area.new(cards, 2)
-    #   field.cards #=> [Two of Hearts, Two of Hearts, Two of Hearts]
-    #
-    def cards
-      @piles.inject([]) { |cards, pile| cards << pile.cards }.flatten
     end
 
     # Draws each pile of the area in the window.
