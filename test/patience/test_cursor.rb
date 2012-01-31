@@ -8,7 +8,7 @@ module Patience
       @card = Card.new(13, 3)
       areas = { :area => Area.new }
       areas[:area].piles.first << @card
-      offset = Ray::Vector2.new(20, 20)
+      offset = Ray::Vector2[20, 20]
       mouse_pos = Ray::Vector2.new
       @cursor.mouse_pos = mouse_pos
       @cursor.click = EventHandler::Click.new(mouse_pos, areas)
@@ -57,7 +57,7 @@ module Patience
       @cursor.click = EventHandler::Click.new(cursor.mouse_pos, areas)
       assert cursor.still_on_something?
 
-      cursor.mouse_pos = Ray::Vector2.new(1000, 1000)
+      cursor.mouse_pos = Ray::Vector2[1000, 1000]
       refute cursor.still_on_something?
 
       cursor.card.sprite.pos = cursor.mouse_pos
