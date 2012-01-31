@@ -193,24 +193,17 @@ module Patience
       assert_respond_to @card, :sprite
     end
 
-    def test_card_has_position_x
-      assert_respond_to @card.sprite, :x
-    end
-
-    def test_card_has_position_y
-      assert_respond_to @card.sprite, :y
-    end
-
-    def test_card_has_position
-      assert_respond_to @card.sprite, :pos
-    end
-
     def test_cards_sprite_has_sheet_size
       assert_respond_to @card.sprite, :sheet_size
     end
 
     def test_cards_sprite_has_sheet_position
       assert_respond_to @card.sprite, :sheet_pos
+    end
+
+    def test_card_responds_to_delegated_methods
+      delegated_methods = [:pos, :x, :y, :to_rect, :contain?, :hit?]
+      delegated_methods.each { |method| assert_respond_to @card, method }
     end
 
     def test_card_can_turn_its_face_up
