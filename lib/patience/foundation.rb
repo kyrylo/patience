@@ -14,8 +14,8 @@ module Patience
     #   unusual_foundation = Area::Foundation.new([], 2)
     #   unusual_foundation.piles.size #=> 2
     #
-    def initialize(cards=[], piles_num=4)
-      super(cards, piles_num)
+    def initialize
+      super([], 4)
       self.pos = [361, 23]
     end
 
