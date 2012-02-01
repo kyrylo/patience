@@ -32,6 +32,17 @@ module Patience
       piles_num.times { @piles << Pile.new }
     end
 
+    # Shows position of the area. The position of the very
+    # first pile in the area, counts as its actual position.
+    # Example:
+    #   field = Area.new
+    #   field.pos = [10, 100]
+    #   field.pos #=> (10.0, 100.0)
+    #
+    def pos
+      piles.first.pos
+    end
+
     # Sets the position of every pile in the area to the same value.
     # Example:
     #   field = Area.new([], 2)
