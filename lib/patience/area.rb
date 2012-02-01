@@ -60,6 +60,8 @@ module Patience
     # Example:
     #   cards = 3.times { Card.new(1, 1) }
     #   field = Area.new(cards, 2)
+    #   field.pile[0] << Card.new(1, 1)
+    #   field.pile[1] << Card.new(1, 1) << Card.new(1, 1)
     #   field.cards #=> [Two of Hearts, Two of Hearts, Two of Hearts]
     #
     def cards
