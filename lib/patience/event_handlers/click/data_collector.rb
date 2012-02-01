@@ -67,7 +67,7 @@ module Patience
         end
 
         # TODO: Amend method, so it can show only pile, when pile is clicked.
-        # Returns string representation of the data
+        # Returns string representation of the data.
         # Example:
         #   data = DataCollector.new(mouse_pos, areas)
         #   data.gather!
