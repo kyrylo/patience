@@ -11,8 +11,8 @@ module Patience
     #   waste = Area::Waste.new
     #   waste.piles.size #=> 1
     #
-    def initialize(cards=[], piles_num=1)
-      super(cards, piles_num)
+    def initialize
+      super([], 1)
       self.pos = [141, 23]
     end
 
