@@ -55,6 +55,17 @@ module Patience
       piles.each { |pile| pile.pos = *pos }
     end
 
+    # Collects all cards in every pile and returns the array of these
+    # cards. If there are no cards in the area, returns an empty array.
+    # Example:
+    #   cards = 3.times { Card.new(1, 1) }
+    #   field = Area.new(cards, 2)
+    #   field.cards #=> [Two of Hearts, Two of Hearts, Two of Hearts]
+    #
+    def cards
+      @piles.inject([]) { |cards, pile| cards << pile.cards }.flatten
+    end
+
     # Draws each pile of the area in the window.
     # Example:
     #   field = Area.new

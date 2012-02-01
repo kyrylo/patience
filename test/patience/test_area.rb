@@ -74,5 +74,12 @@ module Patience
       assert_equal Ray::Vector2[-100, 20], area.pos
     end
 
+    def test_area_can_show_all_its_cards
+      area = @area.dup
+      assert_equal [], area.cards
+      area.piles[0].cards << @cards
+      assert_equal ["Two of Hearts"], area.cards.map(&:to_s)
+    end
+
   end
 end
