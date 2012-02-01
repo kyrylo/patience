@@ -16,7 +16,7 @@ module Patience
     end
 
     def test_data_collector_can_be_created
-      assert EventHandler::Click::DataCollector.new(@mouse_pos_miss, @areas)
+      assert EventHandler::Click::DataCollector.new(@mouse_pos_hit, @areas)
     end
 
     def test_data_collector_is_an_instance_of_data_collector_class
@@ -27,11 +27,13 @@ module Patience
       assert_raises(ArgumentError) do
         EventHandler::Click::DataCollector.new
       end
+
       assert_raises(ArgumentError) do
-        EventHandler::Click::DataCollector.new(@mouse_pos)
+        EventHandler::Click::DataCollector.new(@mouse_pos_miss)
       end
+
       assert_raises(ArgumentError) do
-        EventHandler::Click::DataCollector.new(@mouse_pos, @area, 10)
+        EventHandler::Click::DataCollector.new(@mouse_pos_miss, @area, 10)
       end
     end
 
