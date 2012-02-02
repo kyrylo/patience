@@ -111,25 +111,24 @@ module Patience
         #   scenario.call if opportune_moment?
         #
         def stock_scenario
-          # TODO: Current implementation is poor,
-          # because background updates on every turn.
           Proc.new do
+            stock = @areas[:stock]
+            waste = @areas[:waste]
+
             if pile.empty?
-              @areas[:waste].cards.each do |card|
-                card.face_down
-                @areas[:stock].piles.first << card
-              end
+              pile_background = 'patience/sprites/pile_background.png'
+              pile.background = Ray::Sprite.new path_of(pile_background)
+            end
+
+            if pile.empty?
+              waste.cards.each { |crd| crd.face_down and stock.piles[0] << crd }
             else
-              card.face_up
-              @areas[:waste].piles.first << exempt(card)
+              card.face_up and waste.piles[0] << exempt(card)
             end
 
             if pile.empty?
               empty_stock = 'patience/sprites/empty_stock.png'
               pile.background = Ray::Sprite.new path_of(empty_stock)
-            else
-              pile_background = 'patience/sprites/pile_background.png'
-              pile.background = Ray::Sprite.new path_of(pile_background)
             end
           end
         end
