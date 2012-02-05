@@ -91,5 +91,6 @@ module Patience
         pile.cards.delete(card)
       end
 
+      protected :find_area, :find_pile, :find_card
   end
 end
