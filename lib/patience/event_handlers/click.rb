@@ -21,7 +21,7 @@ module Patience
 
       include Processable
 
-      attr_reader :offset, :mouse_pos, :area, :pile, :card, :scenario
+      attr_reader :offset, :mouse_pos, :scenario
 
       def initialize(mouse_pos, areas)
         Processable.areas = areas

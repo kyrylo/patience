@@ -7,6 +7,8 @@ module Patience
         attr_writer :areas, :mouse_pos
       end
 
+      attr_reader :area, :pile, :card
+
       # Returns the area, which is being clicked.
       def find_area
         if @areas && @mouse_pos
@@ -46,21 +48,6 @@ module Patience
       # Otherwise, returns false. Opposite of #nothing?.
       def something?
         not nothing?
-      end
-
-      # Returns area if there is any. Otherwise, returns nil.
-      def area
-        to_h[:area]
-      end
-
-      # Returns pile if there is any. Otherwise, returns nil.
-      def pile
-        to_h[:pile]
-      end
-
-      # Returns card if there is any. Otherwise, returns nil.
-      def card
-        to_h[:card]
       end
 
       # Returns subtraction between card and mouse position at the moment
