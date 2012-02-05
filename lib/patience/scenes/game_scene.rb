@@ -32,7 +32,7 @@ module Patience
       end
 
       on :mouse_release do
-        @cursor.click.exec if @cursor.clicked_something?
+        @cursor.click.scenario.call if @cursor.clicked_something?
         @cursor.drop
       end
 
