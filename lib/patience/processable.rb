@@ -9,19 +9,20 @@ module Patience
 
       attr_reader :area, :pile, :card
 
-      # Returns the area, which is being clicked.
+      # Returns the area, which is being clicked if
+      # there has been provided areas and mouse position.
       def find_area
         if @areas && @mouse_pos
           @areas.values.find { |area| area.hit?(@mouse_pos) }
         end
       end
 
-      # Returns the pile, which is being clicked.
+      # Returns the pile, which is being clicked if area's been found.
       def find_pile
         find_area.piles.find { |pile| pile.hit?(@mouse_pos) } if find_area
       end
 
-      # Returns the card, which is being clicked.
+      # Returns the card, which is being clicked if pile's been found.
       def find_card
         if find_pile
           find_pile.cards.reverse.find { |card| card.hit?(@mouse_pos) }
