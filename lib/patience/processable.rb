@@ -9,17 +9,21 @@ module Patience
 
       # Returns the area, which is being clicked.
       def find_area
-        @areas.values.find { |area| area.hit?(@mouse_pos) }
+        if @areas && @mouse_pos
+          @areas.values.find { |area| area.hit?(@mouse_pos) }
+        end
       end
 
       # Returns the pile, which is being clicked.
       def find_pile
-        find_area.piles.find { |pile| pile.hit?(@mouse_pos) }
+        find_area.piles.find { |pile| pile.hit?(@mouse_pos) } if find_area
       end
 
       # Returns the card, which is being clicked.
       def find_card
-        find_pile.cards.reverse.find { |card| card.hit?(@mouse_pos) }
+        if find_pile
+          find_pile.cards.reverse.find { |card| card.hit?(@mouse_pos) }
+        end
       end
 
       # Returns the array, containing gathered hit elements.
