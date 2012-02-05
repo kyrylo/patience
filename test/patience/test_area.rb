@@ -37,7 +37,7 @@ module Patience
     end
 
     def test_area_responds_to_instance_methods
-      methods = [:pos=, :draw_on]
+      methods = [:pos, :pos=, :draw_on, :cards, :hit?]
       methods.each { |method| assert_respond_to @area, method }
     end
 
@@ -79,6 +79,12 @@ module Patience
       assert_equal [], area.cards
       area.piles[0].cards << @cards
       assert_equal ["Two of Hearts"], area.cards.map(&:to_s)
+    end
+
+    def test_area_can_tell_if_its_card_has_been_clicked
+      area = @area.dup
+      assert area.hit?(Ray::Vector2[20, 20])
+      refute area.hit?(Ray::Vector2[1000, 0])
     end
 
   end

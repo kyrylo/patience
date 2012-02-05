@@ -24,12 +24,12 @@ module Patience
 
     def test_pile_responds_to_instance_methods
       methods = [:cards, :background, :background=, :shuffle_off!, :<<, :pos=,
-                 :last_card?, :draw_on]
+                 :last_card?, :draw_on, :hit?]
       methods.each { |method| assert_respond_to @pile, method }
     end
 
     def test_pile_responds_to_delegated_methods
-      delegated_methods = [:size, :empty?, :pos, :x, :y, :to_rect, :hit?]
+      delegated_methods = [:size, :empty?, :pos, :x, :y]
       delegated_methods.each { |method| assert_respond_to @pile, method }
     end
 
@@ -81,6 +81,18 @@ module Patience
 
     def test_piles_last_card_detects_correctly
       assert @pile.last_card?(9)
+    end
+
+    def test_pile_can_tell_if_its_card_has_been_clicked
+      # Pile with cards.
+      pile = @pile.dup
+      assert pile.hit?(Ray::Vector2[20, 20])
+      refute pile.hit?(Ray::Vector2[1000, 0])
+
+      # Empty pile.
+      pile = Pile.new
+      assert pile.hit?(Ray::Vector2[20, 20])
+      refute pile.hit?(Ray::Vector2[1000, 0])
     end
 
   end
