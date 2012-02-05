@@ -2,22 +2,18 @@ require_relative 'area'
 
 module Patience
   ###
-  # Patience::Area::Foundation is a class,
-  # which represents Tableau area of the game.
+  # Patience::Area::Foundation is a class, which represents Tableau area of the
+  # game. Every ordinary Tableau should have 7 piles and 28 cards in them. Each
+  # pile has 1 + "serial number of the pile" cards. Every last card in every
+  # pile is turned to its face. The other cards are face down.
+  #   cards = []
+  #   cards = 28.times { cards << Card.new(1, 1) }
+  #   tableau = Tableau.new(cards)
+  #   tableau.piles.size #=> 7
+  #   tableau.cards.size #=> 28
+  #
   class Tableau < Area
 
-    # Instantiates Tableau's parameters. Every ordinary Tableau should have
-    # 7 piles and 28 cards in them. Each pile has '1 + serial number of the
-    # pile' cards. Every last card in every pile is turned to its face. The
-    # other cards are face down. creates Foundation with 4 piles and without
-    # any cards in there.
-    # Example:
-    #   cards = []
-    #   cards = 28.times { cards << Card.new(1, 1) }
-    #   tableau = Tableau.new(cards)
-    #   tableau.piles.size #=> 7
-    #   tableau.cards.size #=> 28
-    #
     def initialize(cards)
       super(cards, 7)
       @piles.each_with_index { |pile, i| pile.cards += @cards.shuffle_off!(i+1) }
@@ -28,11 +24,6 @@ module Patience
 
     # Disposes Tableau in the window by specifying coordinates
     # of every pile in this area, starting from the pos argument.
-    # Example:
-    #  tableau = Area::Tableau.new
-    #  tableau.pos = [10, 10]
-    #  tableau.piles[0].pos #=> (10, 10)
-    #
     def pos=(pos)
       x, y, step_x, step_y = pos[0], pos[1], 110, 26
       piles.each { |pile|

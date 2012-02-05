@@ -4,13 +4,11 @@ module Patience
   ###
   # Patience::Deck creates a play deck object, which
   # contains 52 cards (just like a real world deck!).
-  # Example:
   #   deck = Deck.new(cards) # Just imagine, that we've already created those!
   #   deck.cards.size #=> 52
   #
   class Deck < Pile
 
-    # Creates a play deck. That's it!
     def initialize
       @cards = []
 
