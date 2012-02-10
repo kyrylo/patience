@@ -102,27 +102,29 @@ module Patience
     # is nothing but an instance of the Ray::Sprite class.
     def initialize(rank, suit)
       @rank = case rank
-              when 1  then Rank::Two.new
-              when 2  then Rank::Three.new
-              when 3  then Rank::Four.new
-              when 4  then Rank::Five.new
-              when 5  then Rank::Six.new
-              when 6  then Rank::Seven.new
-              when 7  then Rank::Eight.new
-              when 8  then Rank::Nine.new
-              when 9  then Rank::Ten.new
-              when 10 then Rank::Jack.new
-              when 11 then Rank::Queen.new
-              when 12 then Rank::King.new
-              when 13 then Rank::Ace.new
-              else raise DefunctRank, "Nonexistent rank: #{rank}"
+                when 1  then Rank::Two.new
+                when 2  then Rank::Three.new
+                when 3  then Rank::Four.new
+                when 4  then Rank::Five.new
+                when 5  then Rank::Six.new
+                when 6  then Rank::Seven.new
+                when 7  then Rank::Eight.new
+                when 8  then Rank::Nine.new
+                when 9  then Rank::Ten.new
+                when 10 then Rank::Jack.new
+                when 11 then Rank::Queen.new
+                when 12 then Rank::King.new
+                when 13 then Rank::Ace.new
+              else
+                raise DefunctRank, "Nonexistent rank: #{rank}"
               end
       @suit = case suit
-              when 1 then Suit::Heart.new
-              when 2 then Suit::Diamond.new
-              when 3 then Suit::Spade.new
-              when 4 then Suit::Club.new
-              else raise DefunctSuit, "Nonexistent suit: #{suit}"
+                when 1 then Suit::Heart.new
+                when 2 then Suit::Diamond.new
+                when 3 then Suit::Spade.new
+                when 4 then Suit::Club.new
+              else
+                raise DefunctSuit, "Nonexistent suit: #{suit}"
               end
       @sprite = Ray::Sprite.new path_of('patience/sprites/card_deck.png')
       # A sheet with 14 columns and 5 rows. First row and column
@@ -169,7 +171,8 @@ module Patience
       win.draw(sprite)
     end
 
-    def_delegators :@sprite, :pos, :x, :y, :to_rect
+    def_delegators :@sprite, :pos, :pos=, :x, :y, :to_rect
+    def_delegator  :@sprite, :collide?, :overlaps?
     def_delegator  :"@sprite.to_rect", :contain?, :hit?
 
     class DefunctRank < StandardError; end
