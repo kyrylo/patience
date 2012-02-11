@@ -1,3 +1,5 @@
+require_relative '../processable'
+
 module Patience
   class EventHandler
     ###
@@ -7,6 +9,7 @@ module Patience
     #   cursor.drag.move(mouse_pos) if cursor.movable?
     #
     class Drag
+      include Processable
 
       def initialize(card, offset)
         @card = card
