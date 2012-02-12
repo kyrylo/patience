@@ -30,7 +30,7 @@ module Patience
 
     # Appends card to the pile considering position of that pile.
     def <<(other_card)
-      other_card.sprite.pos = self.pos
+      other_card.pos = self.pos
       cards << other_card
     end
 
@@ -38,7 +38,7 @@ module Patience
     # the cards in the pile and background both.
     def pos=(pos)
       background.pos = *pos
-      cards.each { |card| card.sprite.pos = *pos }
+      cards.each { |card| card.pos = *pos }
     end
 
     # Returns true if the given number is index of the last
