@@ -12,9 +12,9 @@ module Patience
     # Example:
     #   cursor.click = EventHandler::Click.new(mouse_pos, areas)
     #   cursor.click.card #=> Two of Hearts
-    #   cursor.click.card.sprite.pos  #=> (0, 0)
+    #   cursor.click.card.pos  #=> (0, 0)
     #   cursor.click.scenario.call # Perform some action on the card.
-    #   cursor.click.card.sprite.pos #=> (20, 20)
+    #   cursor.click.card.pos #=> (20, 20)
     #
     class Click
       extend Forwardable
