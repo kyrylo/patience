@@ -10,11 +10,17 @@ module Patience
   class Cursor
     extend Forwardable
 
-    attr_accessor :mouse_pos, :click, :drag
+    attr_accessor :mouse_pos, :click, :drag, :drop
 
-    # Refreshes click and drag by setting them to nil.
-    def drop
-      @click, @drag = nil, nil
+    def click!
+      @click.scenario.call
+    end
+
+    # Calls calculated scenario for the drop event and then
+    # refreshes click, drag and drop by setting them to nil.
+    def drop!
+      @drop.scenario.call
+      @click, @drag, @drop = nil, nil, nil
     end
 
     # Checks whether cursor clicked something. If so, also checks, if the cursor
@@ -54,7 +60,7 @@ module Patience
     # returns false. In fact, this method exists only for readability.
     alias :drawable? :movable?
 
-    def_delegators :@click, :card, :pile, :offset
+    def_delegators :@click, :card, :pile, :offset, :card_init_pos
     def_delegator  :@drag, :draggable?
   end
 end

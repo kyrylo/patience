@@ -23,17 +23,25 @@ module Patience
       # been clicked, create Drag event. Drag only face up cards.
       on :mouse_press do
         @cursor.click = EventHandler::Click.new(@cursor.mouse_pos, @areas)
+
         if @cursor.carrying_card?
           @cursor.drag  = EventHandler::Drag.new(@cursor.card, @cursor.offset)
           on :mouse_motion do
-            @cursor.drag.move(@cursor.mouse_pos) if @cursor.movable?
+            if @cursor.movable? && @cursor.click.not.stock?
+              @cursor.drag.move(@cursor.mouse_pos) 
+            end
           end
         end
+
       end
 
       on :mouse_release do
-        @cursor.click.scenario.call if @cursor.clicked_something?
-        @cursor.drop
+        @cursor.click! if @cursor.clicked_something?
+        if @cursor.carrying_card?
+          @cursor.drop = EventHandler::Drop.new(@cursor.card,
+                               @cursor.card_init_pos, @cursor.mouse_pos, @areas)
+          @cursor.drop! unless @cursor.click.stock?
+        end
       end
 
       always do
