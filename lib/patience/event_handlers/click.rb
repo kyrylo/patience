@@ -21,24 +21,37 @@ module Patience
 
       include Processable
 
-      attr_reader :offset, :mouse_pos, :scenario
+      attr_reader :card_init_pos, :offset, :scenario
 
       def initialize(mouse_pos, areas)
-        Processable.areas = areas
-        Processable.mouse_pos = mouse_pos
         @mouse_pos = mouse_pos
         @areas = areas
+        @area = select_area
         # If area has been detected, calculate other parameters too.
-        if @area = find_area
-          @pile = find_pile
-          @card = find_card
-          @offset = pick_up unless nothing? # Offset for dragging cards.
+        if @area
+          @pile = select_pile
+          @card = select_card
+          @card_init_pos = @card.pos if @card
+          # Offset for dragged card.
+          @offset = pick_up(card, mouse_pos) unless nothing?
           @scenario = -> { (stock if stock?) or (foundation if foundation?) or
                          (tableau or tableau?) or (waste? if waste?) }
         end
       end
 
       protected
+
+      def select_area
+        select_in(@areas, :area) { |area| area.hit?(@mouse_pos) }
+      end
+
+      def select_pile
+        select_in(@areas, :pile) { |pile| pile.hit?(@mouse_pos) }
+      end
+
+      def select_card
+        select_in(@areas, :card) { |card| card.hit?(@mouse_pos) }
+      end
 
       # Executes scenario for the click on Stock.
       def stock
