@@ -1,32 +1,42 @@
 module Patience
   ###
-  # Processable
+  # Processable module.
   module Processable
-
-      class << self
-        attr_writer :areas, :mouse_pos
-      end
-
       attr_reader :area, :pile, :card
 
-      # Returns the area, which is being clicked if
-      # there has been provided areas and mouse position.
-      def find_area
-        if @areas && @mouse_pos
-          @areas.values.find { |area| area.hit?(@mouse_pos) }
+      # Finds the area or pile, or card (depends on the option)
+      # in the areas. If option is wrong, raises ArgumentError.
+      def select_in(areas, option, &blk)
+        case option
+          when :area then find_area_in(areas, &blk)
+          when :pile then find_pile_in(areas, &blk)
+          when :card then find_card_in(areas, &blk)
+        else
+          raise ArgumentError, "Unknown option: #{option}"
         end
       end
 
-      # Returns the pile, which is being clicked if area's been found.
-      def find_pile
-        find_area.piles.find { |pile| pile.hit?(@mouse_pos) } if find_area
+      # Returns the area, which is being clicked.
+      def find_area_in(areas)
+        areas.values.find { |area| yield(area) }
       end
 
-      # Returns the card, which is being clicked if pile's been found.
-      def find_card
-        if find_pile
-          find_pile.cards.reverse.find { |card| card.hit?(@mouse_pos) }
+      # Returns the pile, which is being clicked.
+      def find_pile_in(areas)
+        find_area_in(areas) do |area|
+          pile = area.piles.find { |pile| yield(pile) }
+          return pile unless pile.nil?
         end
+        nil
+      end
+
+      # Returns the card, which is being clicked.
+      def find_card_in(areas)
+        find_pile_in(areas) do |pile|
+          card = pile.cards.reverse.find { |card| yield(card) }
+          return card unless card.nil?
+        end
+        nil
       end
 
       # Returns the array, containing gathered hit elements.
@@ -53,8 +63,8 @@ module Patience
 
       # Returns subtraction between card and mouse position at the moment
       # of click, only if cursor clicked the card. Otherwise, returns nil.
-      def pick_up
-        card.sprite.pos - @mouse_pos if card
+      def pick_up(card, mouse_pos)
+        card.sprite.pos - mouse_pos if card
       end
 
       # Returns true, if the clicked area is Stock. Otherwise, returns false.
@@ -83,6 +93,5 @@ module Patience
         pile.cards.delete(card)
       end
 
-      protected :find_area, :find_pile, :find_card
   end
 end
