@@ -95,6 +95,8 @@ module Patience
 
     extend Forwardable
 
+    include Comparable
+
     attr_reader :rank, :suit, :sprite
 
     # Creates new card object. Both arguments should be Fixnums
@@ -169,6 +171,11 @@ module Patience
     # Draws the sprite of card in the window.
     def draw_on(win)
       win.draw(sprite)
+    end
+
+    # Compares two cards with each other, concerning their ranks.
+    def <=>(other_card)
+      self.rank.to_i <=> other_card.rank.to_i
     end
 
     def_delegators :@sprite, :pos, :pos=, :x, :y, :to_rect
