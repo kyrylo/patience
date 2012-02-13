@@ -202,7 +202,7 @@ module Patience
     end
 
     def test_card_responds_to_delegated_methods
-      delegated_methods = [:pos, :x, :y, :to_rect, :hit?]
+      delegated_methods = [:pos, :x, :y, :to_rect, :hit?, :overlaps?]
       delegated_methods.each { |method| assert_respond_to @card, method }
     end
 

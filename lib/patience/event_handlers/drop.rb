@@ -3,8 +3,8 @@ require_relative '../processable'
 module Patience
   class EventHandler
     # Drop's objects handles dropping of the cards. It means, that these
-    # objects decide, what to do with dropped card. For example, they can return a
-    # dropped card to its initial position, cancelling the work of drag event.
+    # objects decide, what to do with dropped card. For example, they can return
+    # a dropped card to its initial position, cancelling the work of drag event.
     #   cursor.drop = EventHandler::Drop.new(card, card_init_pos,
     #                                         mouse_pos, areas)
     #   # Execute scenario for the drop event,

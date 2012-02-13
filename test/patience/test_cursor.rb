@@ -13,6 +13,8 @@ module Patience
       @cursor.mouse_pos = mouse_pos
       @cursor.click = EventHandler::Click.new(mouse_pos, areas)
       @cursor.drag = EventHandler::Drag.new(@card, offset)
+      @cursor.drop = EventHandler::Drop.new(@cursor.card,
+                               @cursor.card_init_pos, @cursor.mouse_pos, areas)
     end
 
     def test_cursor_can_be_created
@@ -20,9 +22,9 @@ module Patience
     end
 
     def test_cursor_responds_to_instance_methods
-      methods = [:mouse_pos, :mouse_pos=, :click, :click=, :drag,
+      methods = [:mouse_pos, :mouse_pos=, :click, :click!, :click=, :drag,
                  :drag=, :drop, :clicked_something?, :still_on_something?,
-                 :movable?, :carrying_card?, :drawable?]
+                 :movable?, :carrying_card?, :drawable?, :drop!, :drop=]
       methods.each { |method| assert_respond_to @cursor, method }
     end
 
@@ -35,7 +37,7 @@ module Patience
       cursor = @cursor.dup
       assert cursor.click
       assert cursor.drag
-      cursor.drop
+      cursor.drop!
       refute cursor.click
       refute cursor.drag
     end
@@ -43,7 +45,7 @@ module Patience
     def test_cursor_can_check_whether_it_clicked_something
       cursor = @cursor.dup
       assert cursor.clicked_something?
-      cursor.drop
+      cursor.drop!
       refute cursor.clicked_something?
     end
 
@@ -78,7 +80,7 @@ module Patience
       cursor = @cursor.dup
       assert cursor.carrying_card?
 
-      cursor.drop
+      cursor.drop!
       refute cursor.carrying_card?
 
       areas = { :area => Area.new }

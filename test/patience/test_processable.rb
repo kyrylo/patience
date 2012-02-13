@@ -5,22 +5,17 @@ module Patience
 
     class Dummy
       include Processable
-      attr_writer :areas, :mouse_pos
-      Processable.areas = @areas
-      Processable.mouse_pos = @mouse_pos
-    end
+      attr_accessor :area, :card, :pile
 
-    class DummyWithVariables < Dummy
-      def find_all
-        @area = find_area
-        @pile = find_pile
-        @card = find_card
+      def find_all(areas, mouse_pos)
+        @area = find_area_in(areas) { |area| area.hit?(mouse_pos) }
+        @pile = find_pile_in(areas) { |pile| pile.hit?(mouse_pos) }
+        @card = find_card_in(areas) { |card| card.hit?(mouse_pos) }
       end
     end
 
     def setup
-      @data = Dummy.new
-      @data_wv = DummyWithVariables.new
+      @dummy = Dummy.new
       @mouse_pos_miss = Ray::Vector2[0, 0]
       @mouse_pos_hit = Ray::Vector2[32, 166]
       @deck = Deck.new
@@ -28,129 +23,144 @@ module Patience
                  :stock      => Stock.new(@deck.shuffle_off! 24),
                  :waste      => Waste.new,
                  :foundation => Foundation.new }
-      @data.areas = @areas
-      @data_wv.areas = @areas
+    end
+
+    def test_processable_has_getter_methods
+      [:area, :pile, :card].each { |method| assert_respond_to @dummy, method }
+    end
+
+    def test_processable_can_select_in_areas_needed_entity_by_certain_conditions
+      assert_equal Tableau, @dummy.select_in(@areas, :area) { |area|
+                              area.hit?(@mouse_pos_hit)
+                            }.class
+      assert_equal NilClass, @dummy.select_in(@areas, :area) { |area|
+                               area.hit?(@mouse_pos_miss)
+                             }.class
+
+      assert_equal Pile, @dummy.select_in(@areas, :pile) { |pile|
+                           pile.hit?(@mouse_pos_hit)
+                         }.class
+      assert_equal NilClass, @dummy.select_in(@areas, :pile) { |pile|
+                               pile.hit?(@mouse_pos_miss)
+                             }.class
+
+      assert_equal Card, @dummy.select_in(@areas, :card) { |card|
+                           card.hit?(@mouse_pos_hit)
+                         }.class
+      assert_equal NilClass, @dummy.select_in(@areas, :card) { |card|
+                               card.hit?(@mouse_pos_miss)
+                             }.class
+
+      assert_raises(ArgumentError) do
+        @dummy.select_in(@areas, :cake)  { |cake| cake.hit?(@mouse_pos_miss) }
+        @dummy.select_in(@areas, :yadda) { |blah| blah.hit?(@mouse_pos_hit) }
+      end
     end
 
     def test_processable_can_find_area
-      dummy = Dummy.new
-      refute @data.send(:find_area)
-
-      refute @data.send(:find_area)
-      @data.mouse_pos = @mouse_pos_miss
-      refute @data.send(:find_area)
-      @data.mouse_pos = @mouse_pos_hit
-      assert @data.send(:find_area)
+      assert_equal Tableau, @dummy.find_area_in(@areas) { |area|
+                              area.hit?(@mouse_pos_hit)
+                            }.class
+      mouse_pos_hit_stock = Ray::Vector2[31, 65]
+      assert_equal Stock, @dummy.find_area_in(@areas) { |area|
+                            area.hit?(mouse_pos_hit_stock)
+                          }.class
+      assert_equal NilClass, @dummy.find_area_in(@areas) { |area|
+                               area.hit?(@mouse_pos_miss)
+                             }.class
     end
 
     def test_processable_can_find_pile
-      dummy = Dummy.new
-      refute dummy.send(:find_pile)
-
-      refute @data.send(:find_pile)
-      @data.mouse_pos = @mouse_pos_miss
-      refute @data.send(:find_pile)
-      @data.mouse_pos = @mouse_pos_hit
-      assert @data.send(:find_pile)
+      assert_equal Pile, @dummy.find_pile_in(@areas) { |pile|
+                           pile.hit?(@mouse_pos_hit) && @hit_pile = pile
+                         }.class
+      assert @areas[:tableau].piles.include?(@hit_pile)
+      assert_equal NilClass, @dummy.find_pile_in(@areas) { |pile|
+                               pile.hit?(@mouse_pos_miss)
+                             }.class
     end
 
     def test_processable_can_find_card
-      dummy = Dummy.new
-      refute dummy.send(:find_card)
-
-      refute @data.send(:find_card)
-      @data.mouse_pos = @mouse_pos_miss
-      @data.mouse_pos = @mouse_pos_hit
-      assert @data.send(:find_card)
+      mouse_pos_hit_stock = Ray::Vector2[31, 65]
+      assert_equal Card, @dummy.find_card_in(@areas) { |card|
+                           card.hit?(@mouse_pos_hit)
+                         }.class
+      assert_equal Card, @dummy.find_card_in(@areas) { |card|
+                          card.hit?(mouse_pos_hit_stock) &&
+                          @hit_card = card
+                        }.class
+      assert @areas[:stock].cards.include?(@hit_card)
+      assert_equal NilClass, @dummy.find_card_in(@areas) { |card|
+                               card.hit?(@mouse_pos_miss)
+                             }.class
     end
 
     def test_processable_can_represent_data_as_array
-      @data_wv.mouse_pos = @mouse_pos_miss
-      @data_wv.find_all
-      assert_equal [nil, nil, nil], @data_wv.to_a
-      @data_wv.mouse_pos = @mouse_pos_hit
-      @data_wv.find_all
-      refute_nil @data_wv.to_a.compact
-      assert_instance_of Tableau, @data_wv.to_a.first
-      assert_kind_of     Area,    @data_wv.to_a.first
-      assert_instance_of Pile,    @data_wv.to_a[1]
-      assert_instance_of Card,    @data_wv.to_a.last
+      assert_equal [nil, nil, nil], @dummy.to_a
+      @dummy.find_all(@areas, @mouse_pos_hit)
+      refute_nil @dummy.to_a.compact
+      assert_instance_of Tableau, @dummy.to_a.first
+      assert_kind_of     Area,    @dummy.to_a.first
+      assert_instance_of Pile,    @dummy.to_a[1]
+      assert_instance_of Card,    @dummy.to_a.last
     end
 
     def test_processable_can_represent_data_as_hash
-      @data_wv.mouse_pos = @mouse_pos_miss
-      @data_wv.find_all
-      assert_equal({ :area => nil, :pile => nil, :card => nil }, @data_wv.to_h)
-      @data_wv.mouse_pos = @mouse_pos_hit
-      @data_wv.find_all
-      refute_nil @data_wv.to_h
-      assert_instance_of Tableau, @data_wv.to_h[:area]
-      assert_kind_of     Area,    @data_wv.to_h[:area]
-      assert_instance_of Pile,    @data_wv.to_h[:pile]
-      assert_instance_of Card,    @data_wv.to_h[:card]
+      assert_equal({ :area => nil, :pile => nil, :card => nil }, @dummy.to_h)
+      @dummy.find_all(@areas, @mouse_pos_hit)
+      refute_nil @dummy.to_h
+      assert_instance_of Tableau, @dummy.to_h[:area]
+      assert_kind_of     Area,    @dummy.to_h[:area]
+      assert_instance_of Pile,    @dummy.to_h[:pile]
+      assert_instance_of Card,    @dummy.to_h[:card]
     end
 
     def test_processable_can_check_if_there_is_some_data
-      @data_wv.mouse_pos = @mouse_pos_miss
-      @data_wv.find_all
-      refute @data_wv.something?
-      @data_wv.mouse_pos = @mouse_pos_hit
-      @data_wv.find_all
-      assert @data_wv.something?
+      refute @dummy.something?
+      @dummy.find_all(@areas, @mouse_pos_hit)
+      assert @dummy.something?
     end
 
     def test_processable_can_check_if_there_is_no_data
-      @data_wv.mouse_pos = @mouse_pos_miss
-      @data_wv.find_all
-      assert @data_wv.nothing?
-      @data_wv.mouse_pos = @mouse_pos_hit
-      @data_wv.find_all
-      refute @data_wv.nothing?
+      assert @dummy.nothing?
+      @dummy.find_all(@areas, @mouse_pos_hit)
+      refute @dummy.nothing?
     end
 
     def test_processable_can_count_an_offset
-      @data_wv.mouse_pos = @mouse_pos_miss
-      @data_wv.find_all
-      assert_nil @data_wv.pick_up
-      @data_wv.mouse_pos = @mouse_pos_hit
-      @data_wv.find_all
-      assert_equal Ray::Vector2[-1, -1], @data_wv.pick_up
+      @dummy.find_all(@areas, @mouse_pos_hit)
+      assert_equal Ray::Vector2[-1, -1],
+                   @dummy.pick_up(@areas[:tableau].cards[0], @mouse_pos_hit)
     end
 
     def test_processable_can_check_if_stock_was_hit
-      @data_wv.mouse_pos = Ray::Vector2[40, 40]
-      @data_wv.find_all
-      assert @data_wv.stock?
+      @dummy.find_all(@areas, Ray::Vector2[40, 40])
+      assert @dummy.stock?
     end
 
     def test_processable_can_check_if_waste_was_hit
-      @data_wv.mouse_pos = Ray::Vector2[160, 40]
-      @data_wv.find_all
-      assert @data_wv.waste?
+      @dummy.find_all(@areas, Ray::Vector2[160, 40])
+      assert @dummy.waste?
     end
 
     def test_processable_can_check_if_tableau_was_hit
-      @data_wv.mouse_pos = Ray::Vector2[32, 166]
-      @data_wv.find_all
-      assert @data_wv.tableau?
+      @dummy.find_all(@areas, Ray::Vector2[32, 166])
+      assert @dummy.tableau?
     end
 
     def test_processable_can_check_if_foundation_was_hit
-      @data_wv.mouse_pos = Ray::Vector2[590, 40]
-      @data_wv.find_all
-      assert @data_wv.foundation?
+      @dummy.find_all(@areas, Ray::Vector2[590, 40])
+      assert @dummy.foundation?
     end
 
-    def test_data_processor_can_exempt_card_from_the_clicked_pile
-      @data_wv.mouse_pos = @mouse_pos_miss
-      @data_wv.find_all
-      assert_raises(NoMethodError) { @data_wv.exempt(Card.new(1, 1)) }
+    def test_processable_can_exempt_card_from_the_clicked_pile
+      @dummy.find_all(@areas, @mouse_pos_miss)
+      assert_raises(NoMethodError) { @dummy_wv.exempt(Card.new(1, 1)) }
 
-      @data_wv.mouse_pos = @mouse_pos_hit
-      @data_wv.find_all
-      assert_equal 1, @data_wv.pile.size
-      assert_equal "Two of Hearts", @data_wv.exempt(@data_wv.card).to_s
-      assert_equal 0, @data_wv.pile.size
+      @dummy.find_all(@areas, @mouse_pos_hit)
+      assert_equal 1, @dummy.pile.size
+      assert_equal "Two of Hearts", @dummy.exempt(@dummy.card).to_s
+      assert_equal 0, @dummy.pile.size
     end
 
   end
