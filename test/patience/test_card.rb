@@ -3,103 +3,6 @@ require_relative 'helper'
 module Patience
   class TestCard < MiniTest::Unit::TestCase
 
-    class Rank
-      def setup
-        @ranks = %w[Two Three Four Five Six Seven
-                    Eight Nine Ten Jack Queen King Ace]
-        @rank_object = Rank::Five.new
-      end
-
-      def test_all_ranks_exist
-        @ranks.each { |rank| assert "Rank::#{rank}".constantize.new }
-      end
-
-      def test_ranks_are_kind_of_rank_class
-        @ranks.each do |rank|
-          assert_kind_of "Rank::#{rank}".constantize.new, Rank
-        end
-      end
-
-      def test_rank_object_responds_to_methods
-        assert_respond_to @rank_object, :to_i
-        assert_respond_to @rank_object, :to_s
-      end
-
-      def test_unreal_rank_cant_be_created
-        assert_throws NameError, Rank::One.new
-        assert_throws NameError, Rank::Eleven.new
-        assert_throws NameError, Rank::Joker.new
-      end
-
-      def test_rank_has_integer_alias
-        @ranks.each_with_index do |rank, i|
-          assert_equal i+1, "Rank::#{rank}".constantize.new
-        end
-      end
-
-      def test_rank_has_string_alias
-        @ranks.each do |rank|
-          assert_equal rank, "Rank::#{rank}".constantize.new.to_s
-        end
-      end
-    end
-
-    class Suit
-      def setup
-        @suits = %w[Heart Diamond Spade Club]
-        @suit_object = Suit::Diamond.new
-      end
-
-      def test_all_suits_exist
-        @suits.each { |suit| assert "Suit::#{suit}".constantize.new }
-      end
-
-      def test_suits_are_kind_of_suit_class
-        @suits.each do |suit|
-          assert_kind_of "Suit::#{suit}".constantize.new, Suit
-        end
-      end
-
-      def test_suit_object_responds_to_methods
-        assert_respond_to @suit_object, :red?
-        assert_respond_to @suit_object, :black?
-        assert_respond_to @suit_object, :to_i
-        assert_respond_to @suit_object, :to_s
-      end
-
-      def test_suit_has_integer_alias
-        @suits.each_with_index do |suit, i|
-          assert_equal i+1, "Suit::#{suit}".constantize.new
-        end
-      end
-
-      def test_suit_has_string_alias
-        @suits.each do |suit|
-          assert_equal suit, "Suit::#{suit}".constantize.new.to_s
-        end
-      end
-
-      def test_hearts_is_red
-        assert Suit::Heart.new.red?
-        refute Suit::Heart.new.black?
-      end
-
-      def test_diamonds_is_red
-        assert Suit::Diamond.new.red?
-        refute Suit::Diamond.new.black?
-      end
-
-      def test_spades_is_black
-        assert Suit::Spade.new.black?
-        refute Suit::Spade.new.red?
-      end
-
-      def test_clubs_is_black
-        assert Suit::Club.new.black?
-        refute Suit::Club.new.red?
-      end
-    end
-
     def setup
       @card = Card.new(13, 3)
       @ranks = %w[Two Three Four Five Six Seven Eight
@@ -207,42 +110,37 @@ module Patience
     end
 
     def test_card_can_turn_its_face_up
-      card = @card.dup
-      assert card.face_up
-      assert_equal [13, 3], card.face_up
+      assert @card.face_up
+      assert_equal [13, 3], @card.face_up
     end
 
     def test_card_can_be_checked_if_it_has_been_turned_its_face_up
-      card = @card.dup
-      assert card.face_up?
-      refute card.face_down?
+      assert @card.face_up?
+      refute @card.face_down?
     end
 
     def test_card_can_turn_its_face_down
-      card = @card.dup
-      assert card.face_down
-      assert_equal [0, 0], card.face_down
+      assert @card.face_down
+      assert_equal [0, 0], @card.face_down
     end
 
     def test_card_can_be_checked_if_it_has_been_turned_its_face_down
-      card = @card.dup
-      card.sprite.sheet_pos = [0, 0]
-      assert card.face_down?
-      refute card.face_up?
+      @card.sprite.sheet_pos = [0, 0]
+      assert @card.face_down?
+      refute @card.face_up?
     end
 
     def test_cards_face_can_be_flipped
-      card = @card.dup
-      assert card.face_up?
-      refute card.face_down?
+      assert @card.face_up?
+      refute @card.face_down?
 
-      card.flip!
-      assert card.face_down?
-      refute card.face_up?
+      @card.flip!
+      assert @card.face_down?
+      refute @card.face_up?
 
-      card.flip!
-      assert card.face_up?
-      refute card.face_down?
+      @card.flip!
+      assert @card.face_up?
+      refute @card.face_down?
     end
 
   end

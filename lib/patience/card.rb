@@ -10,92 +10,7 @@ module Patience
   #   card.face_up? #=> false
   #
   class Card
-    ###
-    # Rank class provides underlying methods for every rank.
-    class Rank
-      ##
-      # This lambda defines the new class, designed to be a child of Rank.
-      create_rank_class = lambda { |num|
-        Class.new(Rank) do
-
-          define_method :initialize do
-            @num = num
-          end
-
-          # Returns integer representation of the rank. Basically, it's
-          # the position of the card in the ascending row of card ranks.
-          def to_i
-            @num
-          end
-
-          # Returns string representation of a rank. It asks class to
-          # give its full name, exscinding everything but its actual name.
-          def to_s
-            "#{self.class.name.demodulize}"
-          end
-        end
-      }
-
-      # Dynamically create rank classes.
-      %w[Two Three Four Five Six Seven
-         Eight Nine Ten Jack Queen King Ace].each_with_index do |class_name, i|
-        Rank.const_set(class_name, create_rank_class.call(i+1))
-      end
-    end
-
-    ###
-    # Suit supplies only one method: #red?. The idea is that every
-    # actual suit has its own class, which is inherited from Suit.
-    # Each suit class defines its own #black? method dynamically.
-    class Suit
-      ##
-      # This lambda defines new class, designed to be a child
-      # of Suit and supplied with #black? method, contents of
-      # which depends on the given argument "true_or_false".
-      create_suit_class = lambda { |num, true_or_false|
-        Class.new(Suit) do
-
-          define_method :initialize do
-            @num = num
-          end
-
-          # Returns boolean value. For red suits the value
-          # is "false". For black suits the value is "true".
-          define_method :black? do
-            true_or_false
-          end
-
-          # Returns integer representation of a suit.
-          # Example:
-          def to_i
-            @num
-          end
-
-          # Returns plural string representation of a suit. It asks class to
-          # give its full name, exscinding everything but its actual name.
-          def to_s
-            "#{self.class.name.demodulize}s"
-          end
-
-        end
-      }
-
-      # Create classes for every suit, giving the answer on the question about
-      # their blackness. If the answer is negative, obviously the suit is red.
-      Heart   = create_suit_class.call(1, false)
-      Diamond = create_suit_class.call(2, false)
-      Spade   = create_suit_class.call(3, true)
-      Club    = create_suit_class.call(4, true)
-
-      # Checks whether card is "red" (being not black).
-      # The opposite of the Card#black?. Returns true
-      # if the card is red. Otherwise, returns false.
-      def red?; not black?; end
-    end
-
     extend Forwardable
-
-    include Comparable
 
     attr_reader :rank, :suit, :sprite
 
@@ -174,8 +89,9 @@ module Patience
     end
 
     # Compares two cards with each other, concerning their ranks.
-    def <=>(other_card)
-      self.rank.to_i <=> other_card.rank.to_i
+
+    def eql?(other_card)
+      self.rank == other_card.rank && self.suit == other_card.suit
     end
 
     def_delegators :@sprite, :pos, :pos=, :x, :y, :to_rect
