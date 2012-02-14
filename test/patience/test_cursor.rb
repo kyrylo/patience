@@ -13,8 +13,7 @@ module Patience
       @cursor.mouse_pos = mouse_pos
       @cursor.click = EventHandler::Click.new(mouse_pos, areas)
       @cursor.drag = EventHandler::Drag.new(@card, offset)
-      @cursor.drop = EventHandler::Drop.new(@cursor.card,
-                               @cursor.card_init_pos, @cursor.mouse_pos, areas)
+      @cursor.drop = EventHandler::Drop.new(@cursor, areas)
     end
 
     def test_cursor_can_be_created
