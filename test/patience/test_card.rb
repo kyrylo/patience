@@ -14,16 +14,6 @@ module Patience
       }
     end
 
-    def test_card_is_an_instance_of_card_class
-      assert_instance_of Card, @card
-    end
-
-    def test_card_class_accepts_only_two_arguments
-      assert_raises(ArgumentError) { Card.new(1) }
-      assert_raises(ArgumentError) { Card.new(1, 1, 10) }
-      assert_raises(ArgumentError) { Card.new }
-    end
-
     def test_card_accepts_only_valid_ranks
       @ranks.size.times { |i| assert Card.new(i+1, 1) }
       assert_raises(Card::DefunctRank) { Card.new(0, 1)   }

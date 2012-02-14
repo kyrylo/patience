@@ -9,21 +9,8 @@ module Patience
       @stock = Stock.new(@deck.shuffle_off! 24)
     end
 
-    def test_stock_can_be_created
-      assert Stock.new([Card.new(1, 1)])
-    end
-
-    def test_stock_is_an_instance_of_stock_class
-      assert_instance_of Stock, @stock
-    end
-
     def test_stock_is_a_child_of_area_class
       assert_kind_of Area, @stock
-    end
-
-    def test_stock_accpets_exactly_one_argument
-      assert_raises(ArgumentError) { Stock.new }
-      assert_raises(ArgumentError) { Stock.new(10, nil) }
     end
 
     def test_initial_stock_has_24_cards
@@ -46,11 +33,10 @@ module Patience
     end
 
     def test_stock_can_be_disposed_in_the_window
-      stock = @stock.dup
-      stock.send(:pos=, [0, 0])
-      assert_equal Ray::Vector2[0, 0],   stock.pos
-      stock.send(:pos=, [200, 300])
-      assert_equal Ray::Vector2[200, 300], stock.pos
+      @stock.send(:pos=, [0, 0])
+      assert_equal Ray::Vector2[0, 0], @stock.pos
+      @stock.send(:pos=, [200, 300])
+      assert_equal Ray::Vector2[200, 300], @stock.pos
     end
 
   end

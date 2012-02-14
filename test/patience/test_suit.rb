@@ -21,13 +21,6 @@ module Patience
       end
     end
 
-    def test_suit_object_responds_to_methods
-      assert_respond_to @suit_object, :red?
-      assert_respond_to @suit_object, :black?
-      assert_respond_to @suit_object, :to_i
-      assert_respond_to @suit_object, :to_s
-    end
-
     def test_suit_has_integer_alias
       @suits.each_with_index do |suit, i|
         assert_equal i+1, "Patience::Card::Suit::#{suit}".constantize.new

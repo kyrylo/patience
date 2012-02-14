@@ -10,38 +10,14 @@ module Patience
       @drag = EventHandler::Drag.new(@click.card, @click.offset)
     end
 
-    def test_drag_can_be_created
-      assert EventHandler::Drag.new(@click, @click.offset)
-    end
-
-    def test_drag_is_an_instance_of_drag_class
-      assert_instance_of EventHandler::Drag, @drag
-    end
-
-    def test_drag_accepts_two_arguments
-      assert_raises(ArgumentError) { EventHandler::Drag.new }
-      assert_raises(ArgumentError) { EventHandler::Drag.new(@mouse_pos) }
-      assert_raises(ArgumentError) do
-        EventHandler::Drag.new(@mouse_pos, @areas, 10)
-      end
-    end
-
-    def test_drag_responds_to_instance_methods
-      methods = [:move, :draggable?]
-      methods.each { |method| assert_respond_to @drag, method }
-    end
-
     def test_drag_can_move_cards
-      click = @click.dup
-      drag  = @drag.dup
-      mouse_pos = @mouse_pos.dup
-      mouse_pos += [200, 200]
-      assert_equal Ray::Vector2[31, 165], click.card.sprite.pos
-      drag.move(mouse_pos)
-      assert_equal Ray::Vector2[231, 365], click.card.sprite.pos
-      mouse_pos += [-231, -365]
-      drag.move(mouse_pos)
-      assert_equal Ray::Vector2[0, 0], click.card.sprite.pos
+      @mouse_pos += [200, 200]
+      assert_equal Ray::Vector2[31, 165], @click.card.sprite.pos
+      @drag.move(@mouse_pos)
+      assert_equal Ray::Vector2[231, 365], @click.card.sprite.pos
+      @mouse_pos += [-231, -365]
+      @drag.move(@mouse_pos)
+      assert_equal Ray::Vector2[0, 0], @click.card.sprite.pos
     end
 
     def test_drag_can_check_whether_a_card_is_draggable

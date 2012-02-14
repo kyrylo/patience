@@ -25,10 +25,6 @@ module Patience
                  :foundation => Foundation.new }
     end
 
-    def test_processable_has_getter_methods
-      [:area, :pile, :card].each { |method| assert_respond_to @dummy, method }
-    end
-
     def test_processable_can_select_in_areas_needed_entity_by_certain_conditions
       assert_equal Tableau, @dummy.select_in(@areas, :area) { |area|
                               area.hit?(@mouse_pos_hit)

@@ -8,26 +8,8 @@ module Patience
       @tableau = Tableau.new(@deck.shuffle_off! 28)
     end
 
-    def test_tableau_can_be_created
-      assert Tableau.new([Card.new(1, 1)])
-    end
-
-    def test_tableau_is_an_instance_of_tableau_class
-      assert_instance_of Tableau, @tableau
-    end
-
     def test_tableau_is_a_child_of_area_class
       assert_kind_of Area, @tableau
-    end
-
-    def test_tableau_accepts_exactly_one_argument
-      assert_raises(ArgumentError) { Tableau.new }
-      assert_raises(ArgumentError) { Tableau.new(10, nil) }
-    end
-
-    def test_tableau_responds_to_protected_instance_methods
-      protected_methods = [:pos=]
-      protected_methods.each { |method| assert_respond_to @tableau, method }
     end
 
     def test_initial_tableau_has_28_cards
@@ -55,13 +37,12 @@ module Patience
     end
 
     def test_tableau_can_be_disposed_in_the_window
-      tableau = @tableau.dup
-      tableau.send(:pos=, [0, 0])
-      assert_equal Ray::Vector2[0, 0],   tableau.pos
-      assert_equal Ray::Vector2[660, 0], tableau.piles.last.pos
-      tableau.send(:pos=, [200, 300])
-      assert_equal Ray::Vector2[200, 300], tableau.pos
-      assert_equal Ray::Vector2[860, 300], tableau.piles.last.pos
+      @tableau.send(:pos=, [0, 0])
+      assert_equal Ray::Vector2[0, 0],   @tableau.pos
+      assert_equal Ray::Vector2[660, 0], @tableau.piles.last.pos
+      @tableau.send(:pos=, [200, 300])
+      assert_equal Ray::Vector2[200, 300], @tableau.pos
+      assert_equal Ray::Vector2[860, 300], @tableau.piles.last.pos
     end
 
     def test_cards_in_tableau_have_a_margin_along_the_axis_Y

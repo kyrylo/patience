@@ -22,11 +22,6 @@ module Patience
       end
     end
 
-    def test_rank_object_responds_to_methods
-      assert_respond_to @rank, :to_i
-      assert_respond_to @rank, :to_s
-    end
-
     def test_unreal_rank_cant_be_created
       assert_raises(NameError) { Patience::Card::Rank::One.new }
       assert_raises(NameError) { Patience::Card::Rank::Eleven.new }

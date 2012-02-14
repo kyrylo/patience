@@ -15,10 +15,6 @@ module Patience
       @suits.each { |suit| assert_includes @cards, "#{rank} of #{suit}" }
     end
 
-    def test_deck_can_be_created
-      assert_instance_of Deck, @deck
-    end
-
     def test_initial_size_of_deck_should_be_52
       assert_equal 52, @deck.size
     end
