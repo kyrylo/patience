@@ -34,8 +34,7 @@ module Patience
           @card_init_pos = @card.pos if @card
           # Offset for dragged card.
           @offset = pick_up(card, mouse_pos) unless nothing?
-          @scenario = -> { (stock if stock?) or (foundation if foundation?) or
-                         (tableau or tableau?) or (waste? if waste?) }
+          @scenario = -> { stock or foundation or tableau or waste }
         end
       end
 
@@ -55,36 +54,44 @@ module Patience
 
       # Executes scenario for the click on Stock.
       def stock
-        stock = @areas[:stock]
-        waste = @areas[:waste]
+        if stock?
+          stock = @areas[:stock]
+          waste = @areas[:waste]
 
-        if pile.empty?
-          pile_background = 'patience/sprites/pile_background.png'
-          pile.background = Ray::Sprite.new path_of(pile_background)
-        end
+          if pile.empty?
+            pile_background = 'patience/sprites/pile_background.png'
+            pile.background = Ray::Sprite.new path_of(pile_background)
+          end
 
-        if pile.empty?
-          waste.cards.each { |card| card.face_down and stock.piles[0] << card }
-        else
-          card.face_up and waste.piles[0] << exempt(card)
-        end
+          if pile.empty?
+            waste.cards.each { |card| card.face_down && stock.piles[0] << card }
+          else
+            card.face_up and waste.piles[0] << exempt(card)
+          end
 
-        if pile.empty?
-          empty_stock = 'patience/sprites/empty_stock.png'
-          pile.background = Ray::Sprite.new path_of(empty_stock)
+          if pile.empty?
+            empty_stock = 'patience/sprites/empty_stock.png'
+            pile.background = Ray::Sprite.new path_of(empty_stock)
+          end
         end
       end
 
       # Executes scenario for the click on Waste.
       def waste
+        if waste?
+        end
       end
 
       # Executes scenario for the click on Tableau.
       def tableau
+        if tableau?
+        end
       end
 
       # Executes scenario for the click on Foundation.
       def foundation
+        if foundation?
+        end
       end
 
     end
