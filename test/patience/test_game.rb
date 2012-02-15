@@ -14,5 +14,16 @@ module Patience
       assert_equal Ray::Vector2[800, 600], @scene.window.size
     end
 
+    def test_game_has_game_scene
+      assert_instance_of GameScene,
+                         @game.scenes.to_a.find { |scene|
+                           scene.instance_of? GameScene
+                         }
+    end
+
+    def test_main_scene_is_game_scene
+      assert_instance_of GameScene, @game.scenes.current
+    end
+
   end
 end
