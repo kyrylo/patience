@@ -55,5 +55,18 @@ module Patience
       refute ten1 < ten2
     end
 
+    def test_rank_can_be_checked_if_it_is_higher_by_one_than_the_other_rank
+      ace = Patience::Card::Rank::Ace.new
+      four = Patience::Card::Rank::Four.new
+      six = Patience::Card::Rank::Six.new
+
+      assert @rank.higher_by_one_than?(four)
+      refute four.higher_by_one_than?(@rank)
+      refute @rank.higher_by_one_than?(ace)
+      refute ace.higher_by_one_than?(@rank)
+      refute @rank.higher_by_one_than?(six)
+      assert six.higher_by_one_than?(@rank)
+    end
+
   end
 end

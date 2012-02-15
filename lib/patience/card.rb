@@ -88,14 +88,17 @@ module Patience
       win.draw(sprite)
     end
 
-    # Compares two cards with each other, concerning their ranks.
-
+    # Compares two cards with each other,
+    # considering their rank and suit equality.
     def eql?(other_card)
-      self.rank == other_card.rank && self.suit == other_card.suit
+      (@rank == other_card.rank) and (@suit == other_card.suit)
+    end
+
+    def overlaps?(other_card)
+      sprite.collide?(other_card.sprite) and self.not.eql?(other_card)
     end
 
     def_delegators :@sprite, :pos, :pos=, :x, :y, :to_rect
-    def_delegator  :@sprite, :collide?, :overlaps?
     def_delegator  :"@sprite.to_rect", :contain?, :hit?
 
     class DefunctRank < StandardError; end

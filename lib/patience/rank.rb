@@ -19,15 +19,8 @@ module Patience
             @num
           end
 
-          # Returns string representation of a rank. It asks class to
-          # give its full name, exscinding everything but its actual name.
-          def to_s
-            "#{self.class.name.demodulize}"
-          end
-
-          # Compares two ranks with each other. Based on integer values.
-          def <=>(other_rank)
-            self.to_i <=> other_rank.to_i
+          def higher_by_one_than?(other_rank)
+            @num - other_rank.to_i == 1
           end
         end
       }
@@ -37,6 +30,18 @@ module Patience
          Eight Nine Ten Jack Queen King Ace].each_with_index do |class_name, i|
         Rank.const_set(class_name, create_rank_class.call(i+1))
       end
+
+      # Returns string representation of a rank. It asks class to
+      # give its full name, exscinding everything but its actual name.
+      def to_s
+        "#{self.class.name.demodulize}"
+      end
+
+      # Compares two ranks with each other. Based on integer values.
+      def <=>(other_rank)
+        @num <=> other_rank.to_i
+      end
+
     end
   end
 end

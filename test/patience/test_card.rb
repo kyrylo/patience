@@ -133,5 +133,37 @@ module Patience
       refute @card.face_down?
     end
 
+    def test_card_can_be_checked_for_overlapping_another_card
+      another_card = Card.new(10, 1)
+      another_card.pos = Ray::Vector2[20, 20]
+      assert @card.overlaps?(another_card)
+      assert another_card.overlaps?(@card)
+
+      another_card.pos = Ray::Vector2[200, 200]
+      refute @card.overlaps?(another_card)
+      refute another_card.overlaps?(@card)
+
+      equal_card = Card.new(10, 1)
+      equal_card.pos = Ray::Vector2[200, 200]
+      assert_equal another_card.pos, equal_card.pos
+      refute another_card.overlaps?(equal_card)
+      refute equal_card.overlaps?(another_card)
+    end
+
+    def test_cards_can_be_checked_for_equality_on_the_basis_of_ranks_and_suits
+      same_card = Card.new(13, 3)
+      only_same_rank = Card.new(13, 1)
+      only_same_suit = Card.new(1, 3)
+      not_same_at_all = Card.new(5, 4)
+
+      assert @card.eql?(same_card)
+      assert same_card.eql?(@card)
+      refute @card.eql?(only_same_rank)
+      refute @card.eql?(only_same_suit)
+      refute only_same_suit.eql?(@card)
+      refute @card.eql?(not_same_at_all)
+      refute not_same_at_all.eql?(@card)
+    end
+
   end
 end

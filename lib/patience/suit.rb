@@ -28,17 +28,6 @@ module Patience
           def to_i
             @num
           end
-
-          # Returns plural string representation of a suit. It asks class to
-          # give its full name, exscinding everything but its actual name.
-          def to_s
-            "#{self.class.name.demodulize}s"
-          end
-
-          # Compares two suits with each other for equality.
-          def ==(other_suit)
-            self.to_i == other_suit.to_i
-          end
         end
       }
 
@@ -52,7 +41,33 @@ module Patience
       # Checks whether card is "red" (being not black).
       # The opposite of the Card#black?. Returns true
       # if the card is red. Otherwise, returns false.
-      def red?; not black?; end
+      def red?
+        not black?
+      end
+
+      # Returns plural string representation of a suit. It asks class to
+      # give its full name, exscinding everything but its actual name.
+      def to_s
+        "#{self.class.name.demodulize}s"
+      end
+
+      # Compares two suits with each other for equality.
+      def <=>(other_suit)
+        @num <=> other_suit.to_i
+      end
+
+      # Returns true if the color of suit of self is the same as other suit's
+      # color. Otherwise, returns false. The opposite of #different_color?.
+      def same_color?(other_suit)
+        not different_color?(other_suit)
+      end
+
+      # Returns true if the color of suit of self differs
+      # from other suit's color. Otherwise, returns false.
+      def different_color?(other_suit)
+        (self.black? && other_suit.red?) or self.red? && other_suit.black?
+      end
+
     end
   end
 end

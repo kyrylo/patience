@@ -38,8 +38,7 @@ module Patience
       on :mouse_release do
         @cursor.click! if @cursor.clicked_something?
         if @cursor.carrying_card?
-          @cursor.drop = EventHandler::Drop.new(@cursor.card,
-                               @cursor.card_init_pos, @cursor.mouse_pos, @areas)
+          @cursor.drop = EventHandler::Drop.new(@cursor, @areas)
           @cursor.drop! unless @cursor.click.stock?
         end
       end

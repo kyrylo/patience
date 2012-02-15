@@ -5,7 +5,7 @@ module Patience
 
     def setup
       @suits = %w[Heart Diamond Spade Club]
-      @suit_object = Patience::Card::Suit::Diamond.new
+      @suit = Patience::Card::Suit::Diamond.new
     end
 
     def test_all_suits_exist
@@ -63,6 +63,24 @@ module Patience
       refute spades == hearts
       assert spades != hearts
       assert diamonds1 == diamonds2
+    end
+
+    def test_suits_can_be_checked_if_they_are_of_the_same_color
+      red_suit = Patience::Card::Suit::Heart.new
+      black_suit = Patience::Card::Suit::Spade.new
+      assert @suit.same_color?(red_suit)
+      assert red_suit.same_color?(@suit)
+      refute @suit.same_color?(black_suit)
+      refute black_suit.same_color?(@suit)
+    end
+
+    def test_suits_can_be_checked_if_they_are_of_the_different_color
+      red_suit = Patience::Card::Suit::Heart.new
+      black_suit = Patience::Card::Suit::Spade.new
+      refute @suit.different_color?(red_suit)
+      refute red_suit.different_color?(@suit)
+      assert @suit.different_color?(black_suit)
+      assert black_suit.different_color?(@suit)
     end
 
   end
