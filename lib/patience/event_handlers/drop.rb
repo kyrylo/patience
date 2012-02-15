@@ -76,7 +76,7 @@ module Patience
 
       # Adds dropped card to the pile.
       def put_in
-        if @card_beneath
+        if @card_beneath && @dropped_card.face_up?
           @pile_beneath << exempt(@dropped_card)
           @dropped_card.pos = @pile_beneath.cards[-2].pos + [0, 20]
         end

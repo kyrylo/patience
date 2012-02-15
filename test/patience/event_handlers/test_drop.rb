@@ -80,7 +80,25 @@ module Patience
     end
 
     def test_drop_can_add_card_to_the_pile
+      @drop.dropped_card.face_down
+      @drop.pile_beneath = @areas[:tableau].piles[4]
+      @drop.card_beneath = @drop.pile_beneath.cards.last
+      assert_equal Ray::Vector2[361, 243],
+                   @areas[:tableau].piles[3].cards.last.pos
+      assert_equal Ray::Vector2[471, 269],
+                   @areas[:tableau].piles[4].cards.last.pos
+      assert @areas[:tableau].piles[3].cards.last.eql? Card.new(3, 2)
+      @drop.send(:put_in)
+      assert_equal Ray::Vector2[361, 243],
+                   @areas[:tableau].piles[3].cards.last.pos
+      assert_equal Ray::Vector2[471, 269],
+                   @areas[:tableau].piles[4].cards.last.pos
+      assert @areas[:tableau].piles[3].cards.last.eql? Card.new(3, 2)
+      refute @areas[:tableau].piles[4].cards.last.eql? Card.new(3, 2)
+
+      @drop.dropped_card.face_up
       @drop.card_beneath = nil
+      @drop.pile_beneath = nil
       assert_equal Ray::Vector2[361, 243],
                    @areas[:tableau].piles[3].cards.last.pos
       assert_equal Ray::Vector2[471, 269],
