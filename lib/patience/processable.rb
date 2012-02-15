@@ -64,7 +64,7 @@ module Patience
       # Returns subtraction between card and mouse position at the moment
       # of click, only if cursor clicked the card. Otherwise, returns nil.
       def pick_up(card, mouse_pos)
-        card.sprite.pos - mouse_pos if card
+        card.pos - mouse_pos if card
       end
 
       # Returns true, if the clicked area is Stock. Otherwise, returns false.
