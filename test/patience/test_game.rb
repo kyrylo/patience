@@ -1,7 +1,7 @@
 require_relative 'helper'
 
 module Patience
-  class TestGame < MiniTest::Unit::TestCase
+  class TestGame < TestCase
 
     def setup
       @game = Patience::Game.new
@@ -10,18 +10,18 @@ module Patience
       @scene.setup
     end
 
-    def test_window_size_of_the_game_is_eight_hundred_by_six_hundred_pixels
+    test 'Window size of the game is eight hundred by six hundred pixels' do
       assert_equal Ray::Vector2[800, 600], @scene.window.size
     end
 
-    def test_game_has_game_scene
+    test 'Test the game has GameScene' do
       assert_instance_of GameScene,
                          @game.scenes.to_a.find { |scene|
                            scene.instance_of? GameScene
                          }
     end
 
-    def test_main_scene_is_game_scene
+    test 'Main scene is GameScene' do
       assert_instance_of GameScene, @game.scenes.current
     end
 

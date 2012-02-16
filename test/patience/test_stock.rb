@@ -1,7 +1,7 @@
 require_relative 'helper'
 
 module Patience
-  class TestStockArea < MiniTest::Unit::TestCase
+  class TestStockArea < TestCase
 
     def setup
       @deck = Deck.new
@@ -9,30 +9,30 @@ module Patience
       @stock = Stock.new(@deck.shuffle_off! 24)
     end
 
-    def test_stock_is_a_child_of_area_class
+    test 'Stock is a child of Area' do
       assert_kind_of Area, @stock
     end
 
-    def test_initial_stock_has_24_cards
+    test 'Initial Stock has 24 cards' do
       assert_equal 24, @stock.piles[0].size
     end
 
-    def test_initial_stock_has_24_card_even_if_there_were_provided_more_cards
+    test 'Initial Stock has 24 cards, even if there were provided more cards' do
       deck = Deck.new
       stock = Stock.new(deck.shuffle_off! 52)
       assert_equal 24, @stock.piles[0].size
     end
 
-    def test_stock_consists_of_1_pile
+    test 'Stock consists of one pile' do
       assert_equal 1, @stock.piles.size
     end
 
-    def test_overall_position_of_stock_can_be_gotten
+    test 'The overall position of Stock can be gotten' do
       assert_equal Ray::Vector2[31, 23], @stock.pos
       assert_equal Ray::Vector2[31, 23], @stock.piles.first.pos
     end
 
-    def test_stock_can_be_disposed_in_the_window
+    test 'Stock can be disposed in the window' do
       @stock.send(:pos=, [0, 0])
       assert_equal Ray::Vector2[0, 0], @stock.pos
       @stock.send(:pos=, [200, 300])

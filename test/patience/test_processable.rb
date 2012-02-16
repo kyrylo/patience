@@ -1,7 +1,7 @@
 require_relative 'helper'
 
 module Patience
-  class TestProcessable < MiniTest::Unit::TestCase
+  class TestProcessable < TestCase
 
     class Dummy
       include Processable
@@ -25,7 +25,7 @@ module Patience
                  :foundation => Foundation.new }
     end
 
-    def test_processable_can_select_in_areas_needed_entity_by_certain_conditions
+    test 'Processable can select entity in areas by certain conditions' do
       assert_equal Tableau, @dummy.select_in(@areas, :area) { |area|
                               area.hit?(@mouse_pos_hit)
                             }.class
@@ -53,7 +53,7 @@ module Patience
       end
     end
 
-    def test_processable_can_find_area
+    test 'Processable can find an area' do
       assert_equal Tableau, @dummy.find_area_in(@areas) { |area|
                               area.hit?(@mouse_pos_hit)
                             }.class
@@ -66,7 +66,7 @@ module Patience
                              }.class
     end
 
-    def test_processable_can_find_pile
+    test 'Processable can find a pile' do
       assert_equal Pile, @dummy.find_pile_in(@areas) { |pile|
                            pile.hit?(@mouse_pos_hit) && @hit_pile = pile
                          }.class
@@ -76,7 +76,7 @@ module Patience
                              }.class
     end
 
-    def test_processable_can_find_card
+    test 'Processable can find a card' do
       mouse_pos_hit_stock = Ray::Vector2[31, 65]
       assert_equal Card, @dummy.find_card_in(@areas) { |card|
                            card.hit?(@mouse_pos_hit)
@@ -91,7 +91,7 @@ module Patience
                              }.class
     end
 
-    def test_processable_can_represent_data_as_array
+    test 'Processable can represent data as array' do
       assert_equal [nil, nil, nil], @dummy.to_a
       @dummy.find_all(@areas, @mouse_pos_hit)
       refute_nil @dummy.to_a.compact
@@ -101,7 +101,7 @@ module Patience
       assert_instance_of Card,    @dummy.to_a.last
     end
 
-    def test_processable_can_represent_data_as_hash
+    test 'Processable can represent data as hash' do
       assert_equal({ :area => nil, :pile => nil, :card => nil }, @dummy.to_h)
       @dummy.find_all(@areas, @mouse_pos_hit)
       refute_nil @dummy.to_h
@@ -111,45 +111,45 @@ module Patience
       assert_instance_of Card,    @dummy.to_h[:card]
     end
 
-    def test_processable_can_check_if_there_is_some_data
+    test 'Processable can check for data existence' do
       refute @dummy.something?
       @dummy.find_all(@areas, @mouse_pos_hit)
       assert @dummy.something?
     end
 
-    def test_processable_can_check_if_there_is_no_data
+    test 'Processable can check for data abscence' do
       assert @dummy.nothing?
       @dummy.find_all(@areas, @mouse_pos_hit)
       refute @dummy.nothing?
     end
 
-    def test_processable_can_count_an_offset
+    test 'Processable can count an offset' do
       @dummy.find_all(@areas, @mouse_pos_hit)
       assert_equal Ray::Vector2[-1, -1],
                    @dummy.pick_up(@areas[:tableau].cards[0], @mouse_pos_hit)
     end
 
-    def test_processable_can_check_if_stock_was_hit
+    test 'Processable can check, if Stock has been hit' do
       @dummy.find_all(@areas, Ray::Vector2[40, 40])
       assert @dummy.stock?
     end
 
-    def test_processable_can_check_if_waste_was_hit
+    test 'Processable can check, if Waste has been hit' do
       @dummy.find_all(@areas, Ray::Vector2[160, 40])
       assert @dummy.waste?
     end
 
-    def test_processable_can_check_if_tableau_was_hit
+    test 'Processable can check, if Tableau has been hit' do
       @dummy.find_all(@areas, Ray::Vector2[32, 166])
       assert @dummy.tableau?
     end
 
-    def test_processable_can_check_if_foundation_was_hit
+    test 'Processable can check, if Foundation has been hit' do
       @dummy.find_all(@areas, Ray::Vector2[590, 40])
       assert @dummy.foundation?
     end
 
-    def test_processable_can_exempt_card_from_the_clicked_pile
+    test 'Processable can exempt a card from the clicked pile' do
       @dummy.find_all(@areas, @mouse_pos_miss)
       assert_raises(NoMethodError) { @dummy_wv.exempt(Card.new(1, 1)) }
 

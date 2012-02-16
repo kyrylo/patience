@@ -1,7 +1,7 @@
 require_relative '../helper'
 
 module Patience
-  class TestClick < MiniTest::Unit::TestCase
+  class TestClick < TestCase
 
     class Dummy < EventHandler::Click
       attr_accessor :area, :pile, :card
@@ -24,7 +24,7 @@ module Patience
       @dummy_click_hit  = Dummy.new(@mouse_pos_hit, @areas)
     end
 
-    def test_click_can_select_area
+    test 'Click can select an area' do
       assert_nil @dummy_click_hit.area
       @dummy_click_hit.area = @dummy_click_hit.send(:select_area)
       assert_instance_of Tableau, @dummy_click_hit.area
@@ -35,7 +35,7 @@ module Patience
       assert_nil @dummy_click_miss.area
     end
 
-    def test_click_can_select_pile
+    test 'Click can select a pile' do
       assert_nil @dummy_click_hit.pile
       @dummy_click_hit.pile = @dummy_click_hit.send(:select_pile)
       assert_instance_of Pile, @dummy_click_hit.pile
@@ -45,7 +45,7 @@ module Patience
       assert_nil @dummy_click_miss.pile
     end
 
-    def test_click_can_select_card
+    test 'Click can select a card' do
       assert_nil @dummy_click_hit.card
       @dummy_click_hit.card = @dummy_click_hit.send(:select_card)
       assert_instance_of Card, @dummy_click_hit.card

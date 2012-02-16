@@ -8,13 +8,13 @@ module Please
 end
 
 module Patience
-  class TestString < MiniTest::Unit::TestCase
+  class TestString < TestCase
 
-    def test_demodulize
+    test 'Demodulize' do
       assert_equal "Changes", "Going::Through::Changes".demodulize
     end
 
-    def test_constantize
+    test 'Constantize' do
       assert_equal Please::Forgive::Me, "Please::Forgive::Me".constantize
       assert_equal Please::Forgive::Me, "::Please::Forgive::Me".constantize
       assert_equal Please::Forgive, "Please::Forgive".constantize

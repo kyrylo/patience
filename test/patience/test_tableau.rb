@@ -1,42 +1,42 @@
 require_relative 'helper'
 
 module Patience
-  class TestTableauArea < MiniTest::Unit::TestCase
+  class TestTableauArea < TestCase
 
     def setup
       @deck = Deck.new
       @tableau = Tableau.new(@deck.shuffle_off! 28)
     end
 
-    def test_tableau_is_a_child_of_area_class
+    test 'Tableau is a child of Area' do
       assert_kind_of Area, @tableau
     end
 
-    def test_initial_tableau_has_28_cards
+    test 'Initial Tableau has 28 cards' do
       cards = @tableau.piles.inject([]) { |cards, pile| cards << pile.cards }
       assert_equal 28, cards.flatten.size
     end
 
     # Test, that initial tableau pile contains N+1 cards,
     # where N is an index number of the pile, starting from 0.
-    def test_initial_tableau_piles_have_correct_amount_of_cards
+    test 'Initial Tableau piles have correct amount of cards' do
       @tableau.piles.each_with_index do |pile, i|
         assert_equal i+1, pile.size
       end
     end
 
-    def test_overall_position_of_tableau_can_be_gotten
+    test 'The overall position of Tableau can be gotten' do
       assert_equal Ray::Vector2[31, 165], @tableau.pos
       assert_equal Ray::Vector2[31, 165], @tableau.piles.first.pos
     end
 
-    def test_particular_position_of_a_pile_in_tableau_can_be_gotten
+    test 'Particular position of a pile in Tableau can be gotten' do
       assert_equal Ray::Vector2[141, 165], @tableau.piles[1].pos
       assert_equal Ray::Vector2[251, 165], @tableau.piles[2].pos
       assert_equal Ray::Vector2[691, 165], @tableau.piles.last.pos
     end
 
-    def test_tableau_can_be_disposed_in_the_window
+    test 'Tableau can be disposed in the window' do
       @tableau.send(:pos=, [0, 0])
       assert_equal Ray::Vector2[0, 0],   @tableau.pos
       assert_equal Ray::Vector2[660, 0], @tableau.piles.last.pos
@@ -45,7 +45,7 @@ module Patience
       assert_equal Ray::Vector2[860, 300], @tableau.piles.last.pos
     end
 
-    def test_cards_in_tableau_have_a_margin_along_the_axis_Y
+    test 'Cards in Tableau have a margin along the Y axis' do
       assert_equal Ray::Vector2[31, 165], @tableau.piles[0].cards[0].pos
       assert_equal Ray::Vector2[251, 191], @tableau.piles[2].cards[1].pos
       assert_equal Ray::Vector2[471, 191], @tableau.piles[4].cards[1].pos

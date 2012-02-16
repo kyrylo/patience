@@ -1,30 +1,30 @@
 require_relative 'helper'
 
 module Patience
-  class TestWasteArea < MiniTest::Unit::TestCase
+  class TestWasteArea < TestCase
 
     def setup
       @waste = Waste.new
     end
 
-    def test_waste_is_a_child_of_area_class
+    test 'Waste is a child of Area' do
       assert_kind_of Area, @waste
     end
 
-    def test_initial_waste_has_no_cards
+    test 'Initial Waste has no cards' do
       assert_equal 0, @waste.piles[0].cards.size
     end
 
-    def test_waste_consists_of_1_pile
+    test 'Waste consists of one pile' do
       assert_equal 1, @waste.piles.size
     end
 
-    def test_overall_position_of_waste_can_be_gotten
+    test 'Overall position of Waste can be gotten' do
       assert_equal Ray::Vector2[141, 23], @waste.pos
       assert_equal Ray::Vector2[141, 23], @waste.piles.first.pos
     end
 
-    def test_waste_can_be_disposed_in_the_window
+    test 'Waste can be disposed in the window' do
       @waste.send(:pos=, [0, 0])
       assert_equal Ray::Vector2[0, 0], @waste.pos
       @waste.send(:pos=, [200, 300])

@@ -1,7 +1,7 @@
 require_relative 'helper'
 
 module Patience
-  class TestCursor < MiniTest::Unit::TestCase
+  class TestCursor < TestCase
 
     def setup
       @cursor = Cursor.new
@@ -16,7 +16,7 @@ module Patience
       @cursor.drop = EventHandler::Drop.new(@cursor, @areas)
     end
 
-    def test_cursor_can_drop_objects
+    test 'A cursor can drop objects' do
       assert @cursor.click
       assert @cursor.drag
       @cursor.drop!
@@ -24,13 +24,13 @@ module Patience
       refute @cursor.drag
     end
 
-    def test_cursor_can_check_whether_it_clicked_something
+    test 'A cursor can check, whether it clicked something' do
       assert @cursor.clicked_something?
       @cursor.drop!
       refute @cursor.clicked_something?
     end
 
-    def test_cursor_can_check_whether_it_still_hovers_clicked_object
+    test 'A cursor can check, whether it still hovers the clicked object' do
       assert @cursor.still_on_something?
 
       @areas[:area].piles.first << @card
@@ -45,7 +45,7 @@ module Patience
 
     end
 
-    def test_cursor_can_check_if_the_object_is_movable
+    test 'A cursor can check, if the object is movable' do
       assert @cursor.movable?
       @cursor.card.face_down
       refute @cursor.movable?
@@ -53,7 +53,7 @@ module Patience
       refute @cursor.movable?
     end
 
-    def test_cursor_can_check_whether_it_is_carrying_a_card
+    test 'A cursor can check whether it is carrying a card' do
       assert @cursor.carrying_card?
       @cursor.drop!
       refute @cursor.carrying_card?

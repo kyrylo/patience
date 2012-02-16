@@ -1,7 +1,7 @@
 require_relative '../helper'
 
 module Patience
-  class TestDrop < MiniTest::Unit::TestCase
+  class TestDrop < TestCase
 
     class EventHandler::Click
       attr_accessor :mouse_pos
@@ -20,7 +20,7 @@ module Patience
       @drop = Dummy.new(@click, @areas)
     end
 
-    def test_drop_can_find_area_beneath
+    test 'Drop can find an area beneath' do
       @drop.dropped_card.pos = Ray::Vector2[0, 0]
       assert_nil @drop.send(:find_area_beneath)
       @drop.dropped_card.pos = Ray::Vector2[252, 218]
@@ -30,7 +30,7 @@ module Patience
       assert_kind_of Area, @drop.send(:find_area_beneath)
     end
 
-    def test_drop_can_find_pile_beneath
+    test 'Drop can find a pile beneath' do
       @drop.dropped_card.pos = Ray::Vector2[0, 0]
       assert_nil @drop.send(:find_pile_beneath)
       @drop.dropped_card.pos = Ray::Vector2[252, 218]
@@ -40,7 +40,7 @@ module Patience
       assert_equal Pile, @drop.send(:find_pile_beneath).class
     end
 
-    def test_drop_can_find_card_beneath
+    test 'Drop can find a card beneath' do
       @drop.dropped_card.pos = Ray::Vector2[0, 0]
       assert_nil @drop.send(:find_card_beneath)
       @drop.dropped_card.pos = Ray::Vector2[252, 218]
@@ -49,7 +49,7 @@ module Patience
       assert_equal Card, @drop.send(:find_card_beneath).class
     end
 
-    def test_drop_can_check_if_a_card_is_operative
+    test 'Drop can check if a card is operative' do
       @drop.dropped_card.pos = Ray::Vector2[0, 0]
       refute @drop.send(:operative?, @click.card)
       @drop.dropped_card.pos = Ray::Vector2[252, 218]
@@ -58,7 +58,7 @@ module Patience
       assert @drop.send(:operative?, @areas[:tableau].piles[4].cards.last)
     end
 
-    def test_drop_can_call_off_a_card
+    test 'Drop can call off a card' do
       assert_equal Ray::Vector2[361, 243], @drop.dropped_card.pos
       @drop.dropped_card.pos = Ray::Vector2[0, 0]
       assert_equal Ray::Vector2[0, 0], @drop.dropped_card.pos
@@ -66,20 +66,20 @@ module Patience
       assert_equal Ray::Vector2[361, 243], @drop.dropped_card.pos
     end
 
-    def test_drop_can_be_checked_for_meeting_the_rank_conditions
+    test 'Drop can be checked for the meeting of rank conditions' do
       assert @drop.send(:meets_rank_conditions?, Card.new(4, 2))
       refute @drop.send(:meets_rank_conditions?, Card.new(5, 2))
       refute @drop.send(:meets_rank_conditions?, Card.new(3, 2))
     end
 
-    def test_drop_can_be_checked_for_meeting_the_suit_conditions
+    test 'Drop can be checked for the meeting of suit conditions' do
       refute @drop.send(:meets_suit_conditions?, Card.new(10, 1))
       refute @drop.send(:meets_suit_conditions?, Card.new(10, 2))
       assert @drop.send(:meets_suit_conditions?, Card.new(10, 3))
       assert @drop.send(:meets_suit_conditions?, Card.new(10, 4))
     end
 
-    def test_drop_can_add_card_to_the_pile
+    test 'Drop can add a card to a pile' do
       @drop.dropped_card.face_down
       @drop.pile_beneath = @areas[:tableau].piles[4]
       @drop.card_beneath = @drop.pile_beneath.cards.last
@@ -88,6 +88,7 @@ module Patience
       assert_equal Ray::Vector2[471, 269],
                    @areas[:tableau].piles[4].cards.last.pos
       assert @areas[:tableau].piles[3].cards.last.eql? Card.new(3, 2)
+
       @drop.send(:put_in)
       assert_equal Ray::Vector2[361, 243],
                    @areas[:tableau].piles[3].cards.last.pos
@@ -104,6 +105,7 @@ module Patience
       assert_equal Ray::Vector2[471, 269],
                    @areas[:tableau].piles[4].cards.last.pos
       assert @areas[:tableau].piles[3].cards.last.eql? Card.new(3, 2)
+
       @drop.send(:put_in)
       assert_equal Ray::Vector2[361, 243],
                    @areas[:tableau].piles[3].cards.last.pos
@@ -120,6 +122,7 @@ module Patience
                    @areas[:tableau].piles[4].cards.last.pos
       assert @areas[:tableau].piles[3].cards.last.eql? Card.new(3, 2)
       refute @areas[:tableau].piles[4].cards.last.eql? Card.new(3, 2)
+
       @drop.send(:put_in)
       assert_equal Ray::Vector2[361, 217],
                    @areas[:tableau].piles[3].cards.last.pos

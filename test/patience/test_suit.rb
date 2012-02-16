@@ -1,60 +1,60 @@
 require_relative 'helper'
 
 module Patience
-  class TestCardSuit < MiniTest::Unit::TestCase
+  class TestCardSuit < TestCase
 
     def setup
       @suits = %w[Heart Diamond Spade Club]
       @suit = Patience::Card::Suit::Diamond.new
     end
 
-    def test_all_suits_exist
+    test 'All suits do exist' do
       @suits.each do |suit|
         assert "Patience::Card::Suit::#{suit}".constantize.new
       end
     end
 
-    def test_suits_are_kind_of_suit_class
+    test 'Suits are kind of Suit' do
       @suits.each do |suit|
         assert_kind_of Patience::Card::Suit,
                       "Patience::Card::Suit::#{suit}".constantize.new
       end
     end
 
-    def test_suit_has_integer_alias
+    test 'A suit can be represented as Fixnum' do
       @suits.each_with_index do |suit, i|
         assert_equal i+1, "Patience::Card::Suit::#{suit}".constantize.new
       end
     end
 
-    def test_suit_has_string_alias
+    test 'A suit can be represented as String' do
       @suits.each do |suit|
         assert_equal suit+'s',
                      "Patience::Card::Suit::#{suit}".constantize.new.to_s
       end
     end
 
-    def test_hearts_is_red
+    test 'The Heart suit is red' do
       assert Patience::Card::Suit::Heart.new.red?
       refute Patience::Card::Suit::Heart.new.black?
     end
 
-    def test_diamonds_is_red
+    test 'The Diamond suit is red' do
       assert Patience::Card::Suit::Diamond.new.red?
       refute Patience::Card::Suit::Diamond.new.black?
     end
 
-    def test_spades_is_black
+    test 'The Spade suit is black' do
       assert Patience::Card::Suit::Spade.new.black?
       refute Patience::Card::Suit::Spade.new.red?
     end
 
-    def test_clubs_is_black
+    test 'The Club suit is black' do
       assert Patience::Card::Suit::Club.new.black?
       refute Patience::Card::Suit::Club.new.red?
     end
 
-    def test_suits_can_be_compared_to_each_other
+    test 'Suits can be compared to each other' do
       spades = Patience::Card::Suit::Spade.new
       hearts = Patience::Card::Suit::Heart.new
       diamonds1 = Patience::Card::Suit::Diamond.new
@@ -65,7 +65,7 @@ module Patience
       assert diamonds1 == diamonds2
     end
 
-    def test_suits_can_be_checked_if_they_are_of_the_same_color
+    test "Suits can be checked, if they're of the same color" do
       red_suit = Patience::Card::Suit::Heart.new
       black_suit = Patience::Card::Suit::Spade.new
       assert @suit.same_color?(red_suit)
@@ -74,7 +74,7 @@ module Patience
       refute black_suit.same_color?(@suit)
     end
 
-    def test_suits_can_be_checked_if_they_are_of_the_different_color
+    test "Suits can be checked, if they're of the different colors" do
       red_suit = Patience::Card::Suit::Heart.new
       black_suit = Patience::Card::Suit::Spade.new
       refute @suit.different_color?(red_suit)

@@ -1,7 +1,7 @@
 require_relative '../helper'
 
 module Patience
-  class TestClass < MiniTest::Unit::TestCase
+  class TestClass < TestCase
 
     class Parent
     end
@@ -18,7 +18,7 @@ module Patience
     class Grandchild2 < Child1
     end
 
-    def test_descendats
+    test 'Descendats' do
       assert_equal [Grandchild2, Grandchild1, Child2, Child1], Parent.descendants
       assert_equal [Grandchild2, Grandchild1], Child1.descendants
       assert_equal [], Child2.descendants

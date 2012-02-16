@@ -1,30 +1,30 @@
 require_relative 'helper'
 
 module Patience
-  class TestPile < MiniTest::Unit::TestCase
+  class TestPile < TestCase
 
     def setup
       @cards = Array.new 10, Card.new(12, 3)
       @pile = Pile.new(@cards)
     end
 
-    def test_pile_has_cards
+    test 'A pile has cards' do
       assert @pile.cards
     end
 
-    def test_card_can_be_appended_to_the_pile
+    test 'A card can be appended to the pile' do
       @pile << Card.new(13, 3)
       assert_equal "Ace of Spades", @pile.cards.last.to_s
       @pile << Card.new(1, 4)
       assert_equal "Two of Clubs", @pile.cards.last.to_s
     end
 
-    def test_pile_has_background
+    test 'A pile has background' do
       assert @pile.background
       assert_instance_of Ray::Sprite, @pile.background
     end
 
-    def test_background_of_the_pile_can_be_changed
+    test 'The background of a pile can be changed' do
       assert_equal Ray::Vector2[0, 0], @pile.background.pos
       @pile.background.pos = [200, 200]
       path = '../lib/patience/sprites/empty_stock.png'
@@ -32,29 +32,29 @@ module Patience
       assert_equal Ray::Vector2[200, 200], @pile.background.pos
     end
 
-    def test_pile_has_position
+    test 'A pile has position' do
       assert_equal [0, 0], @pile.pos.to_a
     end
 
-    def test_position_of_a_pile_can_be_set
+    test 'The position of a pile can be set' do
       @pile.pos = [105, 20]
       assert_equal [105, 20], @pile.pos.to_a
     end
 
-    def test_cards_can_be_counted_in_a_pile
+    test 'Cards can be counted in a pile' do
       assert_equal 10, @pile.size
     end
 
-    def test_cards_can_be_shuffled_off_from_a_pile
+    test 'Cards can be shuffled off from a pile' do
       assert_equal 6, @pile.shuffle_off!(6).size
       assert_equal 4, @pile.size
     end
 
-    def test_piles_last_card_detects_correctly
+    test "A pile's last card detects correctly" do
       assert @pile.last_card?(9)
     end
 
-    def test_pile_can_tell_if_its_card_has_been_clicked
+    test 'A pile can tell if its card has been clicked' do
       # Pile with cards.
       assert @pile.hit?(Ray::Vector2[20, 20])
       refute @pile.hit?(Ray::Vector2[1000, 0])

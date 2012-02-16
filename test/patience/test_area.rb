@@ -1,29 +1,29 @@
 require_relative 'helper'
 
 module Patience
-  class TestArea < MiniTest::Unit::TestCase
+  class TestArea < TestCase
 
     def setup
       @area = Area.new
       @cards = [Card.new(1, 1)]
     end
 
-    def test_new_area_should_contain_at_least_one_pile
+    test 'New area should contain at least one pile' do
       assert_equal 1, Area.new.piles.size
     end
 
-    def test_area_can_contain_several_piles
+    test 'Area can contain several piles' do
       assert_equal 1,   Area.new(@cards, 1).piles.size
       assert_equal 10,  Area.new(@cards, 10).piles.size
       assert_equal 100, Area.new(@cards, 100).piles.size
     end
 
-    def test_area_can_return_array_of_the_piles
+    test 'Area can return array of the piles' do
       assert_instance_of Array, @area.piles
       assert_instance_of Pile,  @area.piles.first
     end
 
-    def test_area_can_be_disposed
+    test 'Area can be disposed' do
       assert_equal Ray::Vector2[0, 0], @area.piles[0].pos
       @area.pos = [20, 20]
       assert_equal Ray::Vector2[20, 20], @area.piles[0].pos
@@ -41,7 +41,7 @@ module Patience
       assert_equal Ray::Vector2[-100, 20], area.piles[3].pos
     end
 
-    def test_area_can_tell_its_position
+    test 'Area can tell its position' do
       assert_equal Ray::Vector2[0, 0], @area.pos
       @area.pos = [20, 20]
       assert_equal Ray::Vector2[20, 20], @area.pos
@@ -49,13 +49,13 @@ module Patience
       assert_equal Ray::Vector2[-100, 20], @area.pos
     end
 
-    def test_area_can_show_all_its_cards
+    test 'Area can show all its cards' do
       assert_equal [], @area.cards
       @area.piles[0].cards << @cards
       assert_equal ["Two of Hearts"], @area.cards.map(&:to_s)
     end
 
-    def test_area_can_tell_if_its_card_has_been_clicked
+    test 'Area can tell, if its card has been clicked' do
       assert @area.hit?(Ray::Vector2[20, 20])
       refute @area.hit?(Ray::Vector2[1000, 0])
     end

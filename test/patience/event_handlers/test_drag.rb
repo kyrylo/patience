@@ -1,7 +1,7 @@
 require_relative '../helper'
 
 module Patience
-  class TestDrag < MiniTest::Unit::TestCase
+  class TestDrag < TestCase
 
     def setup
       @mouse_pos = Ray::Vector2[32, 166]
@@ -10,7 +10,7 @@ module Patience
       @drag = EventHandler::Drag.new(@click.card, @click.offset)
     end
 
-    def test_drag_can_move_cards
+    test 'Drag can move cards' do
       @mouse_pos += [200, 200]
       assert_equal Ray::Vector2[31, 165], @click.card.sprite.pos
       @drag.move(@mouse_pos)
@@ -20,7 +20,7 @@ module Patience
       assert_equal Ray::Vector2[0, 0], @click.card.sprite.pos
     end
 
-    def test_drag_can_check_whether_a_card_is_draggable
+    test 'Drag can check, whether a card is draggable' do
       assert @drag.draggable?
       click  = EventHandler::Click.new(Ray::Vector2[0, 0], @areas)
       drag = EventHandler::Drag.new(click.card, click.offset)
