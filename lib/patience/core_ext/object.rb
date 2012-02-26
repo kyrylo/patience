@@ -1,4 +1,4 @@
-require 'rake'
+require_relative 'core_ext'
 
 class Object
   rake_extension("not") do
@@ -8,7 +8,7 @@ class Object
   end
 
   ###
-  # The original idea blongs to Jay Fields:
+  # The original idea belongs to Jay Fields:
   # http://blog.jayfields.com/2007/08/ruby-adding-not-method-for-readability.html
   #
   # The Object::Not instances are proxies, that send all calls back to the

@@ -1,4 +1,4 @@
-require 'rake'
+require_relative 'core_ext'
 
 class Class
   rake_extension("descendants") do

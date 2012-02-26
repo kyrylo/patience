@@ -1,4 +1,4 @@
-require 'rake'
+require_relative 'core_ext'
 
 class String
   rake_extension("demodulize") do
