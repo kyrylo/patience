@@ -4,7 +4,7 @@ module Patience
   # card has its own sprite. Sprite is a one big image, which contains every
   # play card in the game. A sprite for a card is chosen by shift on the sprite.
   # The shift is determined by integer values on X and Y axis repsectively.
-  #   card = Card(13, 3)
+  #   card = Card.new(13, 3)
   #   card.to_s #=> "Ace of Spades"
   #   card.face_down
   #   card.face_up? #=> false
@@ -19,19 +19,19 @@ module Patience
     # is nothing but an instance of the Ray::Sprite class.
     def initialize(rank, suit)
       @rank = case rank
-                when 1  then Rank::Two.new
-                when 2  then Rank::Three.new
-                when 3  then Rank::Four.new
-                when 4  then Rank::Five.new
-                when 5  then Rank::Six.new
-                when 6  then Rank::Seven.new
-                when 7  then Rank::Eight.new
-                when 8  then Rank::Nine.new
-                when 9  then Rank::Ten.new
-                when 10 then Rank::Jack.new
-                when 11 then Rank::Queen.new
-                when 12 then Rank::King.new
-                when 13 then Rank::Ace.new
+                when 1  then Rank::Ace.new
+                when 2  then Rank::Two.new
+                when 3  then Rank::Three.new
+                when 4  then Rank::Four.new
+                when 5  then Rank::Five.new
+                when 6  then Rank::Six.new
+                when 7  then Rank::Seven.new
+                when 8  then Rank::Eight.new
+                when 9  then Rank::Nine.new
+                when 10 then Rank::Ten.new
+                when 11 then Rank::Jack.new
+                when 12 then Rank::Queen.new
+                when 13 then Rank::King.new
               else
                 raise DefunctRank, "Nonexistent rank: #{rank}"
               end
