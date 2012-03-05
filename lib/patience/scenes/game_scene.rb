@@ -7,12 +7,17 @@ module Patience
       @bg_color   = Ray::Color.new(31, 95, 25)
       @cursor     = Cursor.new
       @deck       = Deck.new
+      @deck.cards.shuffle!
+
       @tableau    = Tableau.new(@deck.shuffle_off! 28)
       @stock      = Stock.new(@deck.shuffle_off! 24)
       @waste      = Waste.new
       @foundation = Foundation.new
-      @areas      = { :tableau => @tableau, :stock => @stock,
-                      :waste => @waste, :foundation => @foundation }
+
+      @areas      = { :tableau    => @tableau,
+                      :stock      => @stock,
+                      :waste      => @waste,
+                      :foundation => @foundation }
     end
 
     def register
@@ -23,22 +28,21 @@ module Patience
       # been clicked, create Drag event. Drag only face up cards.
       on :mouse_press do
         @cursor.click = EventHandler::Click.new(@cursor.mouse_pos, @areas)
-
         if @cursor.carrying_card?
-          @cursor.drag  = EventHandler::Drag.new(@cursor.card, @cursor.offset)
-          on :mouse_motion do
-            if @cursor.movable? && @cursor.click.not.stock?
-              @cursor.drag.move(@cursor.mouse_pos) 
-            end
-          end
+          @cursor.drag  = EventHandler::Drag.new(@cursor)
         end
+      end
 
+      on :mouse_motion do
+        if @cursor.movable? and @cursor.click.not.stock?
+          @cursor.drag.move(@cursor.mouse_pos)
+        end
       end
 
       on :mouse_release do
         @cursor.click! if @cursor.clicked_something?
         if @cursor.carrying_card?
-          @cursor.drop = EventHandler::Drop.new(@cursor, @areas)
+          @cursor.drop = EventHandler::Drop.new(@cursor.click, @areas)
           @cursor.drop! unless @cursor.click.stock?
         end
       end
@@ -53,7 +57,9 @@ module Patience
       win.clear @bg_color
       @areas.values.to_a.each { |area| area.draw_on(win) }
       # Draw the card, which is being dragged.
-      @cursor.click.card.draw_on(win) if @cursor.drawable?
+      if @cursor.drawable?
+        @cursor.click.cards.keys.each { |card| card.draw_on(win) }
+      end
     end
 
   end
