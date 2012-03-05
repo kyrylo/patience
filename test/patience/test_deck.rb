@@ -42,10 +42,11 @@ module Patience
     end
 
     test 'Cards of a deck can be accessed via their positon in the deck' do
-      assert_equal 'Ace of Spades',   @cards[50].to_s
-      assert_equal 'Two of Clubs',    @cards[3].to_s
-      assert_equal 'Ten of Diamonds', @cards[33].to_s
-      assert_equal 'Jack of Hearts',  @cards[36].to_s
+      assert_equal 'King of Spades',   @cards[50].to_s
+      assert_equal 'Ace of Clubs',     @cards[3].to_s
+      assert_equal 'Nine of Diamonds', @cards[33].to_s
+      assert_equal 'Ten of Hearts',    @cards[36].to_s
+      assert_equal 'Ace of Hearts',    @cards[0].to_s
     end
 
   end

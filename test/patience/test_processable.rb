@@ -26,30 +26,36 @@ module Patience
     end
 
     test 'Processable can select entity in areas by certain conditions' do
-      assert_equal Tableau, @dummy.select_in(@areas, :area) { |area|
-                              area.hit?(@mouse_pos_hit)
-                            }.class
-      assert_equal NilClass, @dummy.select_in(@areas, :area) { |area|
-                               area.hit?(@mouse_pos_miss)
-                             }.class
+      assert_equal Tableau,
+                   @dummy.detect_in(@areas, :area) { |area|
+                     area.hit?(@mouse_pos_hit)
+                   }.class
+      assert_equal NilClass,
+                   @dummy.detect_in(@areas, :area) { |area|
+                     area.hit?(@mouse_pos_miss)
+                   }.class
 
-      assert_equal Pile, @dummy.select_in(@areas, :pile) { |pile|
-                           pile.hit?(@mouse_pos_hit)
-                         }.class
-      assert_equal NilClass, @dummy.select_in(@areas, :pile) { |pile|
-                               pile.hit?(@mouse_pos_miss)
-                             }.class
+      assert_equal Pile,
+                   @dummy.detect_in(@areas, :pile) { |pile|
+                     pile.hit?(@mouse_pos_hit)
+                   }.class
+      assert_equal NilClass,
+                   @dummy.detect_in(@areas, :pile) { |pile|
+                     pile.hit?(@mouse_pos_miss)
+                   }.class
 
-      assert_equal Card, @dummy.select_in(@areas, :card) { |card|
-                           card.hit?(@mouse_pos_hit)
-                         }.class
-      assert_equal NilClass, @dummy.select_in(@areas, :card) { |card|
-                               card.hit?(@mouse_pos_miss)
-                             }.class
+      assert_equal Card,
+                   @dummy.detect_in(@areas, :card) { |card|
+                     card.hit?(@mouse_pos_hit)
+                   }.class
+      assert_equal NilClass,
+                   @dummy.detect_in(@areas, :card) { |card|
+                     card.hit?(@mouse_pos_miss)
+                   }.class
 
       assert_raises(ArgumentError) do
-        @dummy.select_in(@areas, :cake)  { |cake| cake.hit?(@mouse_pos_miss) }
-        @dummy.select_in(@areas, :yadda) { |blah| blah.hit?(@mouse_pos_hit) }
+        @dummy.detect_in(@areas, :cake)  { |cake| cake.hit?(@mouse_pos_miss) }
+        @dummy.detect_in(@areas, :yadda) { |blah| blah.hit?(@mouse_pos_hit) }
       end
     end
 
@@ -147,16 +153,6 @@ module Patience
     test 'Processable can check, if Foundation has been hit' do
       @dummy.find_all(@areas, Ray::Vector2[590, 40])
       assert @dummy.foundation?
-    end
-
-    test 'Processable can exempt a card from the clicked pile' do
-      @dummy.find_all(@areas, @mouse_pos_miss)
-      assert_raises(NoMethodError) { @dummy_wv.exempt(Card.new(1, 1)) }
-
-      @dummy.find_all(@areas, @mouse_pos_hit)
-      assert_equal 1, @dummy.pile.size
-      assert_equal "Two of Hearts", @dummy.exempt(@dummy.card).to_s
-      assert_equal 0, @dummy.pile.size
     end
 
   end

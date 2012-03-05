@@ -41,9 +41,9 @@ module Patience
     end
 
     test 'A card rank can be represented as string' do
-      assert_equal "Ace", Card.new(13, 3).rank.to_s
-      assert_equal "Two", Card.new(1, 4).rank.to_s
-      assert_equal "Six", Card.new(5, 2).rank.to_s
+      assert_equal "King", Card.new(13, 3).rank.to_s
+      assert_equal "Ace",  Card.new(1, 4).rank.to_s
+      assert_equal "Five", Card.new(5, 2).rank.to_s
     end
 
     test 'A card has suit' do
@@ -77,9 +77,9 @@ module Patience
     end
 
     test 'A card can be readable by human' do
-      assert_equal "Ace of Spades",     @card.to_s
-      assert_equal "Two of Hearts",     Card.new(1, 1).to_s
-      assert_equal "Seven of Diamonds", Card.new(6, 2).to_s
+      assert_equal "King of Spades",  @card.to_s
+      assert_equal "Ace of Hearts",   Card.new(1, 1).to_s
+      assert_equal "Six of Diamonds", Card.new(6, 2).to_s
     end
 
     test 'A card has sprite' do

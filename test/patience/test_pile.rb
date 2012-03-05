@@ -4,7 +4,7 @@ module Patience
   class TestPile < TestCase
 
     def setup
-      @cards = Array.new 10, Card.new(12, 3)
+      @cards = Array.new(10) { Card.new(12, 3) }
       @pile = Pile.new(@cards)
     end
 
@@ -14,9 +14,9 @@ module Patience
 
     test 'A card can be appended to the pile' do
       @pile << Card.new(13, 3)
-      assert_equal "Ace of Spades", @pile.cards.last.to_s
+      assert_equal "King of Spades", @pile.cards.last.to_s
       @pile << Card.new(1, 4)
-      assert_equal "Two of Clubs", @pile.cards.last.to_s
+      assert_equal "Ace of Clubs", @pile.cards.last.to_s
     end
 
     test 'A pile has background' do
@@ -51,10 +51,10 @@ module Patience
     end
 
     test "A pile's last card detects correctly" do
-      assert @pile.last_card?(9)
+      assert @pile.last_card?(@cards.last)
     end
 
-    test 'A pile can tell if its card has been clicked' do
+    test 'A pile can tell, if its card has been clicked' do
       # Pile with cards.
       assert @pile.hit?(Ray::Vector2[20, 20])
       refute @pile.hit?(Ray::Vector2[1000, 0])
@@ -63,6 +63,20 @@ module Patience
       pile = Pile.new
       assert pile.hit?(Ray::Vector2[20, 20])
       refute pile.hit?(Ray::Vector2[1000, 0])
+    end
+
+    test 'A pile can tell, if it overlaps with a card' do
+      empty_pile = Pile.new
+      assert empty_pile.overlaps?(@cards[0])
+
+      @cards[0].pos = Ray::Vector2[200, 200]
+      refute empty_pile.overlaps?(@cards[0])
+
+      non_empty_pile = Pile.new([Card.new(13, 3)])
+      assert non_empty_pile.overlaps?(@cards[1])
+
+      @cards[1].pos = Ray::Vector2[200, 200]
+      refute non_empty_pile.overlaps?(@cards[1])
     end
 
   end
