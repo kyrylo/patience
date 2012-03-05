@@ -5,10 +5,10 @@ module Patience
   # methods, so they could be controlled via only one interface. Basically,
   # this class is useless on its own. The purpose of Area is to be inherited
   # by other classes, which are more verbose in their intentions. By default,
-  # Area object instantiates without any cards and only with one pile. Every new
-  # pile would be created empty, even though you feed some cards to the new
-  # object. All the cards you provide to the new object, wouldn't be placed
-  # anywhere. You have to allocate them manually.
+  # Area object instantiates without any cards and only with one pile. Every
+  # new pile would be created empty, even though you feed some cards to the
+  # new object. All the cards you provide to the new object, wouldn't be
+  # placed anywhere. You have to allocate them manually.
   #   field = Area.new
   #   field.piles #=> [#<Patience::Pile>]
   #   filed.piles[0].pos #=> (0, 0)
@@ -38,7 +38,7 @@ module Patience
     # Collects all cards in every pile and returns the array of these
     # cards. If there are no cards in the area, returns an empty array.
     def cards
-      @piles.inject([]) { |cards, pile| cards << pile.cards }.flatten
+      piles.inject([]) { |cards, pile| cards << pile.cards }.flatten
     end
 
     # Draws each pile of the area in the window.
@@ -50,6 +50,12 @@ module Patience
     # clicked. If there is no such, returns nil.
     def hit?(mouse_pos)
       piles.find { |pile| pile.hit?(mouse_pos) }
+    end
+
+    # Adds card from outer_pile to the very first
+    # pile of the area, flipping it en route.
+    def add_from(outer_pile, card)
+      card.flip! and piles.first << outer_pile.remove(card)
     end
 
   end
