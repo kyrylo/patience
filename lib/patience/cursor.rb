@@ -60,7 +60,7 @@ module Patience
     # returns false. In fact, this method exists only for readability.
     alias :drawable? :movable?
 
-    def_delegators :@click, :card, :pile, :offset, :card_init_pos
+    def_delegators :@click, :card, :pile, :offset, :cards
     def_delegator  :@drag, :draggable?
   end
 end
