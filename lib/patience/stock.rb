@@ -12,7 +12,7 @@ module Patience
 
     def initialize(cards)
       super(cards, 1)
-      @piles[0].cards += @cards.shuffle_off!(24).each(&:face_down)
+      self.piles.first.cards += @cards.shuffle_off!(24).each(&:face_down)
       self.pos = [31, 23]
     end
 
