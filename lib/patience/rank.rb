@@ -19,15 +19,12 @@ module Patience
             @num
           end
 
-          def higher_by_one_than?(other_rank)
-            @num - other_rank.to_i == 1
-          end
         end
       }
 
       # Dynamically create rank classes.
-      %w[Two Three Four Five Six Seven
-         Eight Nine Ten Jack Queen King Ace].each_with_index do |class_name, i|
+      %w[Ace Two Three Four Five Six Seven
+         Eight Nine Ten Jack Queen King].each_with_index do |class_name, i|
         Rank.const_set(class_name, create_rank_class.call(i+1))
       end
 
@@ -40,6 +37,18 @@ module Patience
       # Compares two ranks with each other. Based on integer values.
       def <=>(other_rank)
         @num <=> other_rank.to_i
+      end
+
+      def ace?
+        @num == 1
+      end
+
+      def king?
+        @num == 13
+      end
+
+      def higher_by_one_than?(other_rank)
+        @num - other_rank.to_i == 1
       end
 
     end
