@@ -56,16 +56,16 @@ module Patience
         @num <=> other_suit.to_i
       end
 
-      # Returns true if the color of suit of self is the same as other suit's
-      # color. Otherwise, returns false. The opposite of #different_color?.
+      # Returns true, if the color of suit is
+      # the same as the color of other suit.
       def same_color?(other_suit)
-        not different_color?(other_suit)
+        (black? and other_suit.black?) or (red? and other_suit.red?)
       end
 
-      # Returns true if the color of suit of self differs
-      # from other suit's color. Otherwise, returns false.
+      # Returns true if the color of suit
+      # of differs from other suit's color.
       def different_color?(other_suit)
-        (self.black? && other_suit.red?) or self.red? && other_suit.black?
+        (black? and other_suit.red?) or (red? and other_suit.black?)
       end
 
     end
