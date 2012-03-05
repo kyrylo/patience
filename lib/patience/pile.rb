@@ -41,10 +41,10 @@ module Patience
       cards.each { |card| card.pos = *pos }
     end
 
-    # Returns true if the given number is index of the last
-    # element of the array of cards. Otherwise, returns false.
-    def last_card?(n)
-      cards[n] == cards.last
+    # Returns true if the given card is the last
+    # card in the pile Otherwise, returns false.
+    def last_card?(card)
+      card == cards.last
     end
 
     # Draws pile in the window.
@@ -56,11 +56,23 @@ module Patience
     # Returns true or card, if there was clicked background or card
     # in the pile, respectively. Otherwise returns false or nil.
     def hit?(mouse_pos)
-      background.to_rect.contain?(mouse_pos) ||
+      background.to_rect.contain?(mouse_pos) or
       cards.find { |card| card.hit?(mouse_pos) }
     end
 
-    def_delegators :@cards, :size, :empty?
+    # If the pile is empty, returns the result of collision detection
+    # of the other_card and background of the pile. If the pile isn't
+    # empty, tries to find a card, which overlaps other_card.
+    def overlaps?(other_card)
+      if cards.empty?
+        background.to_rect.collide?(other_card)
+      else
+        cards.find { |card| card.face_up? and card.overlaps?(other_card) }
+      end
+    end
+
+    def_delegators :@cards, :size, :empty?, :delete
+    def_delegator  :@cards, :delete, :remove
     def_delegators :@background, :pos, :x, :y
   end
 end
