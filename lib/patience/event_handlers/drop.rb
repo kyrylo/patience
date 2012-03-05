@@ -5,9 +5,9 @@ module Patience
     # Drop's objects handles dropping of the cards. It means, that these
     # objects decide, what to do with dropped card. For example, they can return
     # a dropped card to its initial position, cancelling the work of drag event.
-    #   cursor.drop = EventHandler::Drop.new(cursor, areas)
+    #   cursor.drop = EventHandler::Drop.new(click, areas)
     #   # Execute scenario for the drop event,
-    #   # which calculates by analasing input data.
+    #   # which calculates dynamically.
     #   cursor.drop.scenario.call
     #
     class Drop
@@ -16,69 +16,129 @@ module Patience
 
       attr_reader :scenario
 
-      def initialize(cursor, areas)
-        @dropped_card = cursor.card
-        @dropped_card_init_pos = cursor.card_init_pos
-        @mouse_pos = cursor.mouse_pos
-        @pile = cursor.pile
+      def initialize(click, areas)
+        @cards = click.cards
         @areas = areas
-        @area = find_area_beneath
+        @pile = click.pile
+        @card_to_drop = click.card
+
         @card_beneath = find_card_beneath
         @pile_beneath = find_pile_beneath
-        @scenario = -> { put_in or call_off }
+        @area = find_area_beneath
+
+        @scenario = -> {
+          if tableau?
+            put_in_tableau
+          elsif foundation?
+            put_in_foundation
+          else
+            call_off
+          end
+        }
       end
 
       protected
 
-      # Finds operative card and returns area, which that
-      # card belongs to. If cannot find the card, returns nil.
+      # Finds an area beneath the dropped card.
       def find_area_beneath
-        select_in(@areas, :area) do |area|
-          find_card_in({:area => area}) { |card| operative?(card) }
+        detect_in(@areas, :area) { |area| area.piles.include?(@pile_beneath) }
+      end
+
+      # Finds a pile beneath the dropped card.
+      def find_pile_beneath
+        # Find out, if dropped card is a king or an ace.
+        king_or_ace = @card_to_drop.rank.king? || @card_to_drop.rank.ace?
+        detect_in(@areas, :pile) do |pile|
+          # If dropped card is a king or an ace, don't
+          # check, whether a pile includes card beneath.
+          pile != @pile and pile.overlaps?(@card_to_drop) and
+          (king_or_ace ? pile.empty? : pile.cards.include?(@card_beneath))
         end
       end
 
-      # Returns the pile, onto which the area's been
-      # dropped. If cannot find the area, returns nil.
-      def find_pile_beneath
-        select_in(@areas, :pile) { |pile| pile.cards.include?(@card_beneath) }
-      end
-
-      # Returns the operative card (which overlaps another
-      # card). If cannot find the card, returns nil.
+      # Finds a card beneath the dropped card.
       def find_card_beneath
-        select_in(@areas, :card) { |card| operative?(card) }
+        all_tail_cards = @areas.values.map do |area|
+          area.piles.map { |pile| pile.cards.last }
+        end.flatten.compact
+
+        # Iterate only over tail cards.
+        all_tail_cards.find do |card|
+          area = detect_in(@areas, :area) { |area| area.cards.include?(card)}
+          card.face_up? and card.overlaps?(@card_to_drop) and
+          (case area
+            when Tableau then tableau_conditions?(card)
+            when Foundation then foundation_conditions?(card)
+          end)
+        end
       end
 
-      # Returns true, if the card meets the requirements
-      # of certain conditions. Otherwise, returns false.
-      def operative?(card)
-        card.overlaps?(@dropped_card) && !waste? && card.face_up? &&
-        meets_rank_conditions?(card) && meets_suit_conditions?(card)
+      # Returns true, if card's rank is higher by 1 than the rank of
+      # the card which is dropped and the card's suit has different color.
+      def tableau_conditions?(card)
+        card.rank.higher_by_one_than?(@card_to_drop.rank) and
+        card.suit.different_color?(@card_to_drop.suit)
       end
 
-      # Returns true, if the rank of card is higher by one that
-      # the rank of the dropped card. Otherwise, returns false.
-      def meets_rank_conditions?(card)
-        card.rank.higher_by_one_than?(@dropped_card.rank)
+      # Returns true, if card's rank is lower by 1 than the rank of the
+      # card, which is dropped and the card's suit must be the same color.
+      def foundation_conditions?(card)
+        @card_to_drop.rank.higher_by_one_than?(card.rank) and
+        card.suit.same_color?(@card_to_drop.suit)
       end
 
-      # Returns true, if the suit of card differs from
-      # the suit of dropped card. Otherwise, returns false.
-      def meets_suit_conditions?(card)
-        card.suit.different_color?(@dropped_card.suit)
+      # Removes card from its pile and adds to the pile beneath.
+      def add_to_pile_beneath(card)
+        @pile_beneath << @pile.remove(card)
       end
 
-      # Sets the position of dropped card to its initial one.
+      # Sets the position of a dropped card to its initial location.
       def call_off
-        @dropped_card.pos = @dropped_card_init_pos unless @card_beneath
+        @cards.each { |card, init_pos| card.pos = init_pos }
       end
 
-      # Adds dropped card to the pile.
-      def put_in
-        if @card_beneath && @dropped_card.face_up?
-          @pile_beneath << exempt(@dropped_card)
-          @dropped_card.pos = @pile_beneath.cards[-2].pos + [0, 20]
+      # Returns true, if dropped card meets
+      # requirements for dropping into Tableau.
+      def can_put_in_tableau?
+        (@pile_beneath.empty? and @card_to_drop.rank.king?) or
+        (@card_beneath and @card_to_drop.rank.not.ace? and
+        @pile_beneath.last_card?(@card_beneath) and
+        tableau_conditions?(@card_beneath))
+      end
+
+      # Returns true, if dropped card meets
+      # requirements for dropping into Foundation.
+      def can_put_in_foundation?
+        (@pile_beneath.empty? and @card_to_drop.rank.ace?) or
+        (@card_beneath and foundation_conditions?(@card_beneath))
+      end
+
+      # Adds dropped card to one of Tableau's piles, if it's
+      # possible. If not, calls off card to it's initital position.
+      def put_in_tableau
+        if can_put_in_tableau?
+          @cards.keys.each_with_index do |card, i|
+            add_to_pile_beneath(card)
+            if @pile_beneath.size == 1 # It was empty one line before.
+              card.pos = @pile_beneath.pos + [0, i*20]
+            else
+              card.pos = @pile_beneath.cards[-2].pos + [0, 20]
+            end
+            @pile.cards.last.face_up unless @pile.empty?
+          end
+        else
+          call_off
+        end
+      end
+
+      # Adds dropped card to one of Foundation's piles, if it's
+      # possible. If not, calls off card to it's initital position.
+      def put_in_foundation
+        if can_put_in_foundation?
+          add_to_pile_beneath(@card_to_drop)
+          @pile.cards.last.face_up unless @pile.empty?
+        else
+          call_off
         end
       end
 

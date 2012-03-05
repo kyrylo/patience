@@ -4,12 +4,11 @@ module Patience
   class EventHandler
     ###
     # Click represents a state of every click in the game. Processable module
-    # endows Click with special abilities (the group of "find" methods). Every
-    # object of Click has the scenario parameter, which is an instance of the
-    # Lambda. Thereby, an action, which should be performed on click, can be
-    # executed lately and lazily (on demand). Scenario is nothing but a bunch of
-    # certain actions, being performed on click.
-    # Example:
+    # endows Click with special abilities (the group of "detect" methods).
+    # Every object of Click has the scenario parameter, which is an instance of
+    # the Lambda. Thereby, an action, which should be performed on click, can be
+    # executed lately and lazily (on demand). Scenario is nothing but a bunch
+    # of certain actions, being performed on click.
     #   cursor.click = EventHandler::Click.new(mouse_pos, areas)
     #   cursor.click.card #=> Two of Hearts
     #   cursor.click.card.pos  #=> (0, 0)
@@ -21,52 +20,57 @@ module Patience
 
       include Processable
 
-      attr_reader :card_init_pos, :offset, :scenario
+      attr_reader :cards, :offset, :scenario
 
       def initialize(mouse_pos, areas)
         @mouse_pos = mouse_pos
         @areas = areas
-        @area = select_area
+        @area = detect_area
+
         # If area has been detected, calculate other parameters too.
         if @area
-          @pile = select_pile
-          @card = select_card
-          @card_init_pos = @card.pos if @card
+          @pile = detect_pile
+          @cards = collect_cards # A clicked card and tail cards.
+          @card = cards.keys.first if @cards # The very clicked card.
           # Offset for dragged card.
-          @offset = pick_up(card, mouse_pos) unless nothing?
-          @scenario = -> { stock or foundation or tableau or waste }
+          @offset = pick_up(@card, mouse_pos) if @card and something?
+
+          @scenario = -> { stock }
         end
       end
 
       protected
 
-      def select_area
-        select_in(@areas, :area) { |area| area.hit?(@mouse_pos) }
+      # Finds an area of a card, which was clicked.
+      def detect_area
+        detect_in(@areas, :area) { |area| area.hit?(@mouse_pos) }
       end
 
-      def select_pile
-        select_in(@areas, :pile) { |pile| pile.hit?(@mouse_pos) }
+      # Finds a pile of a card, which was clicked.
+      def detect_pile
+        detect_in(@areas, :pile) { |pile| pile.hit?(@mouse_pos) }
       end
 
-      def select_card
-        select_in(@areas, :card) { |card| card.hit?(@mouse_pos) }
+      # Finds a card, which was clicked and tries to find
+      # descending cards, in the pile (if there are any).
+      def collect_cards
+        card = detect_in(@areas, :card) { |card| card.hit?(@mouse_pos) }
+        return card unless card
+
+        n = @pile.size - @pile.cards.index(card)
+        tail_cards = @pile.cards.last(n)
+        Hash[*tail_cards.map { |card| [card, card.pos] }.flatten]
       end
 
-      # Executes scenario for the click on Stock.
+      # Adds a card from Stock to Waste, if Stock was clicked.
       def stock
         if stock?
-          stock = @areas[:stock]
-          waste = @areas[:waste]
-
           if pile.empty?
             pile_background = 'patience/sprites/pile_background.png'
             pile.background = Ray::Sprite.new path_of(pile_background)
-          end
-
-          if pile.empty?
-            waste.cards.each { |card| card.face_down && stock.piles[0] << card }
+            refill_stock
           else
-            card.face_up and waste.piles[0] << exempt(card)
+            displace_to_waste if @card
           end
 
           if pile.empty?
@@ -76,22 +80,18 @@ module Patience
         end
       end
 
-      # Executes scenario for the click on Waste.
-      def waste
-        if waste?
-        end
+      # Removes all cards from Stock and adds them to Waste.
+      def refill_stock
+        @areas[:waste].tap { |waste|
+          waste.cards.reverse_each do |card|
+            @areas[:stock].add_from(waste.piles.first, card)
+          end
+        }
       end
 
-      # Executes scenario for the click on Tableau.
-      def tableau
-        if tableau?
-        end
-      end
-
-      # Executes scenario for the click on Foundation.
-      def foundation
-        if foundation?
-        end
+      # Adds clicked card from Stock to Waste.
+      def displace_to_waste
+        @areas[:waste].add_from(@pile, @card)
       end
 
     end
