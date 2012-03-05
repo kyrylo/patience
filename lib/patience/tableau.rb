@@ -33,7 +33,7 @@ module Patience
         pile.cards.each_with_index do |card, i|
           card.sprite.y += y2
           y2 += step_y # Margin between cards along the axis Y.
-          card.face_down unless pile.last_card?(i)
+          card.face_down unless pile.last_card?(card)
         end
       }
     end
