@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
   s.author       = 'Kyrylo Silin'
   s.email        = 'kyrylosilin@gmail.com'
   s.homepage     = 'https://github.com/kyrylo/patience'
-  s.license      = 'MIT'
+  s.license      = 'zlib'
   s.summary      = 'Klondike solitaire game.'
   s.description  = 'Klondike solitaire game which is built with help of Ray game library.'
   s.post_install_message = "To run the game, type 'patience' in your terminal."
