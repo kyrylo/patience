@@ -1,0 +1,10 @@
+before_install:
+  - wget http://ftp.uk.debian.org/debian/pool/main/g/glew/libglew1.7_1.7.0-3_i386.deb
+  - wget http://ftp.uk.debian.org/debian/pool/main/g/glew/libglew-dev_1.7.0-3_i386.deb
+  - sudo dpkg -i libglew*
+  - sudo apt-get install libsndfile1-dev libfreetype6-dev libopenal-dev
+  - bundle config build.ray --with-cflags="-std=c99"
+
+language: ruby
+rvm:
+  - 1.9.3
