@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name         = 'patience'
-  s.version      = '0.0.0'
+  s.version      = '0.1.0'
   s.author       = 'Kyrylo Silin'
   s.email        = 'kyrylosilin@gmail.com'
   s.homepage     = 'https://github.com/kyrylo/patience'
