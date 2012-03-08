@@ -98,7 +98,7 @@ To launch the game:
 Credits
 -------
 
-* Thanks to [Bil Bas (Spooner)](https://github.com/Spooner/ "Bil Bas (Spooner)") for giving advices and answering my questions
+* Thanks to [Bil Bas (Spooner)](https://github.com/Spooner "Bil Bas") for giving advices and answering my questions
 * Thanks to [Mon Ouïe](https://github.com/Mon-Ouie "Mon Ouïe") for Ray
 
 Future plans
