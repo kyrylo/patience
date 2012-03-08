@@ -30,7 +30,7 @@ mess. Brief rules:
 * You can't drag cards from Stock
 * You can't drop cards onto Stock
 * If Stock is empty, you can refresh it with cards from Waste (if there are any)
-  by clicking it again.
+  by clicking the former again.
 
 ### Waste
 
@@ -40,19 +40,23 @@ mess. Brief rules:
 
 ### Tableau
 
+* In the very beginning of the game comprises of 28 cards
+* Consists of 7 piles. Each pile has `number of pile` cards
 * Accepts cards from Waste and other piles from Tableau
 * You can drop _only_ a King onto the freed pile
+* You can move whole (valid) piles onto a proper cards
 * You can drop a card onto a card in the pile, which's lower by one rank and has
   suit of different color.
+
   Example:
 
-  ![Correct drop](http://img-fotki.yandex.ru/get/6200/98991937.7/0_726e1_bc6edf54_orig "Correct drop") ![Wrong drop](http://img-fotki.yandex.ru/get/6200/98991937.7/0_726e3_640d9de0_orig "Wrong drop")
-
-* You can move whole (valid) piles onto a proper cards
+  ![Correct drop](http://img-fotki.yandex.ru/get/6200/98991937.7/0_726e1_bc6edf54_orig "Correct drop")
+  ![Wrong drop](http://img-fotki.yandex.ru/get/6200/98991937.7/0_726e3_640d9de0_orig "Wrong drop")
 
 ### Foundation
 
 * In the very beginning of each game has no cards
+* Consists of 4 piles
 * If the pile of Foundation is empty, it can accept only an Ace.
 * If the pile of Foundation isn't empty, it will accept only cards of the same
   suit, that are higher by one rank.
@@ -100,11 +104,6 @@ Credits
 
 * Thanks to [Bil Bas (Spooner)](https://github.com/Spooner "Bil Bas") for giving advices and answering my questions
 * Thanks to [Mon Ouïe](https://github.com/Mon-Ouie "Mon Ouïe") for Ray
-
-Future plans
-------------
-
-The vector of progress sits in TODO.md file.
 
 License
 -------
