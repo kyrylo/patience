@@ -71,8 +71,7 @@ Requirements
 ### Dependencies
 
 * [Ruby](http://ruby-lang.org/ "Ruby")
-
-  Tested _only_ on 1.9.3 version.
+  (Tested _only_ on 1.9.3 version)
 
 * [Ray](https://github.com/Mon-Ouie/ray/ "Ray") (0.2.0)
 
