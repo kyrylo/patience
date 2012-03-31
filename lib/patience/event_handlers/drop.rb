@@ -120,9 +120,9 @@ module Patience
           @cards.keys.each_with_index do |card, i|
             add_to_pile_beneath(card)
             if @pile_beneath.size == 1 # It was empty one line before.
-              card.pos = @pile_beneath.pos + [0, i*20]
+              card.pos = @pile_beneath.pos + [0, i*19]
             else
-              card.pos = @pile_beneath.cards[-2].pos + [0, 20]
+              card.pos = @pile_beneath.cards[-2].pos + [0, 19]
             end
             @pile.cards.last.face_up unless @pile.empty?
           end
