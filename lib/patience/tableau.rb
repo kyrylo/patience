@@ -17,7 +17,7 @@ module Patience
     def initialize(cards)
       super(cards, 7)
       @piles.each_with_index { |pile, i| pile.cards += @cards.shuffle_off!(i+1) }
-      self.pos = [31, 165]
+      self.pos = [31, 175]
     end
 
     protected

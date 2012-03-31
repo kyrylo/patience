@@ -11,7 +11,7 @@ module Patience
 
     def initialize
       super([], 4)
-      self.pos = [361, 23]
+      self.pos = [356, 23]
     end
 
     protected
@@ -20,8 +20,11 @@ module Patience
     # of every pile in this area, starting from the pos argument.
     def pos=(pos)
       x, y, step_x = pos[0], pos[1], 110
+      foundation_bg = path_of('patience/sprites/foundation_bg.png')
+
       piles.each do |pile|
         pile.pos = [x, y]
+        pile.background = Ray::Sprite.new foundation_bg
         x += step_x # Margin between piles along the axis X.
       end
     end

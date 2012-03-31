@@ -98,7 +98,8 @@ module Patience
       sprite.collide?(other_card.sprite) and self.not.eql?(other_card)
     end
 
-    def_delegators :@sprite, :pos, :pos=, :x, :y, :to_rect
+    def_delegators :@sprite, :pos, :pos=, :x, :y, :to_rect,
+                   :sprite_width, :sprite_height
     def_delegator  :"@sprite.to_rect", :contain?, :hit?
 
     class DefunctRank < StandardError; end

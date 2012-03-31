@@ -30,7 +30,20 @@ module Patience
 
     # Appends card to the pile considering position of that pile.
     def <<(other_card)
+      bg_w = self.background.sub_rect.w
+      bg_h = self.background.sub_rect.h
+      sprite_w = other_card.sprite_width
+      sprite_h = other_card.sprite_height
+
       other_card.pos = self.pos
+
+      if bg_w > sprite_w && bg_h > sprite_h
+        w = bg_w - sprite_w
+        h = bg_h - sprite_h
+
+        other_card.pos += [w/2, h/2]
+      end
+
       cards << other_card
     end
 

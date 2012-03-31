@@ -11,7 +11,7 @@ module Patience
 
     def initialize
       super([], 1)
-      self.pos = [141, 23]
+      self.pos = [141, 27]
     end
 
   end
