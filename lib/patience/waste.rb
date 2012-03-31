@@ -12,6 +12,7 @@ module Patience
     def initialize
       super([], 1)
       self.pos = [141, 27]
+      self.piles[0].background = Ray::Sprite.new # Emptiness.
     end
 
   end
