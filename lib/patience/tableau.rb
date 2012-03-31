@@ -25,14 +25,16 @@ module Patience
     # Disposes Tableau in the window by specifying coordinates
     # of every pile in this area, starting from the pos argument.
     def pos=(pos)
-      x, y, step_x, step_y = pos[0], pos[1], 110, 26
+      x, y, step_x, step_y = pos[0], pos[1], 110, 10
+
       piles.each { |pile|
         pile.pos = [x, y]
         x += step_x # Margin between piles along the axis X.
         y2 = 0 # Y position of the first card.
+
         pile.cards.each_with_index do |card, i|
           card.sprite.y += y2
-          y2 += step_y # Margin between cards along the axis Y.
+          y2 += step_y # Y axis margin.
           card.face_down unless pile.last_card?(card)
         end
       }
