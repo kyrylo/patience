@@ -4,7 +4,7 @@ module Patience
   class GameScene < Ray::Scene
 
     def setup
-      @bg_color   = Ray::Color.new(31, 95, 25)
+      @bg_sprite  = Ray::Sprite.new path_of('patience/sprites/table_bg.png')
       @cursor     = Cursor.new
       @deck       = Deck.new
       @deck.cards.shuffle!
@@ -54,7 +54,7 @@ module Patience
     end
 
     def render(win)
-      win.clear @bg_color
+      win.draw @bg_sprite
       @areas.values.to_a.each { |area| area.draw_on(win) }
       # Draw the card, which is being dragged.
       if @cursor.drawable?
