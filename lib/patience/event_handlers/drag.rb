@@ -21,7 +21,7 @@ module Patience
       # Changes position of the card's sprite, considering the offset.
       def move(mouse_pos)
         @tail_cards.keys.each_with_index do |card, i|
-          card.pos = mouse_pos + @offset + [0, i*20]
+          card.pos = mouse_pos + @offset + [0, i*19]
         end
       end
 
