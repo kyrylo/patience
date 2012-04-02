@@ -39,13 +39,9 @@ module Patience
         @num <=> other_rank.to_i
       end
 
-      def ace?
-        @num == 1
-      end
-
-      def king?
-        @num == 13
-      end
+      def ace?;   @num == 1;  end
+      def king?;  @num == 13; end
+      def queen?; @num == 12; end
 
       def higher_by_one_than?(other_rank)
         @num - other_rank.to_i == 1

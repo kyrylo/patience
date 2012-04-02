@@ -84,5 +84,13 @@ module Patience
       refute ace_rank.king?
     end
 
+    test "A rank can be checked, if it's a queen" do
+      ace_rank = Patience::Card::Rank::Ace.new
+      queen_rank = Patience::Card::Rank::Queen.new
+
+      assert queen_rank.queen?
+      refute ace_rank.queen?
+    end
+
   end
 end
