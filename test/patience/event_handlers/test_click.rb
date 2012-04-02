@@ -14,14 +14,14 @@ module Patience
 
     def setup
       @mouse_pos_missclick = Ray::Vector2[0, 0]
-      @mouse_pos_hit = Ray::Vector2[32, 166]
+      @mouse_pos_hit = Ray::Vector2[32, 175]
       @deck = Deck.new
       @areas = { :tableau => Tableau.new(@deck.shuffle_off! 28),
                  :waste => Waste.new,
                  :stock => Stock.new(@deck.shuffle_off! 10) }
       @dummy_click_miss = Dummy.new(@mouse_pos_missclick, @areas)
       @dummy_click_hit  = Dummy.new(@mouse_pos_hit, @areas)
-      @stock_hit = Dummy.new(Ray::Vector2[32, 24], @areas)
+      @stock_hit = Dummy.new(Ray::Vector2[32, 28], @areas)
     end
 
     def fill_attributes_up(click)
@@ -55,21 +55,21 @@ module Patience
 
     test 'A card can be selected by click' do
       # Hit
-      tableau_click = Dummy.new(Ray::Vector2[472, 270], @areas)
+      tableau_click = Dummy.new(Ray::Vector2[472, 176], @areas)
       assert_nil tableau_click.card
       assert_nil tableau_click.cards
       tableau_click.pile = @areas[:tableau].piles[4]
 
       [Card.new(3, 1), Card.new(2, 4)].each do |card|
         @areas[:tableau].piles[4] << card
-        card.pos = @areas[:tableau].piles[4].cards[-2].pos + [0, 20]
+        card.pos = @areas[:tableau].piles[4].cards[-2].pos + [0, 19]
       end
 
       tableau_click.cards = tableau_click.send(:collect_cards).map(&:first)
       assert tableau_click.cards
-      assert_instance_of Card::Rank::Four,  tableau_click.cards[0].rank
+      assert_instance_of Card::Rank::Three, tableau_click.cards[0].rank
       assert_instance_of Card::Rank::Three, tableau_click.cards[1].rank
-      assert_instance_of Card::Rank::Two,   tableau_click.cards[2].rank
+      assert_instance_of Card::Rank::Four,  tableau_click.cards[2].rank
 
       # Miss
       assert_nil @dummy_click_miss.card

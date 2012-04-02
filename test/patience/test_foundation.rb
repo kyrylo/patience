@@ -16,13 +16,13 @@ module Patience
     end
 
     test 'Overall position of foundation can be gotten' do
-      assert_equal Ray::Vector2[361, 23], @foundation.pos
-      assert_equal Ray::Vector2[361, 23], @foundation.piles.first.pos
+      assert_equal Ray::Vector2[356, 23], @foundation.pos
+      assert_equal Ray::Vector2[356, 23], @foundation.piles.first.pos
     end
 
     test 'Particular position of a pile in foundation can be gotten' do
-      assert_equal Ray::Vector2[471, 23], @foundation.piles[1].pos
-      assert_equal Ray::Vector2[581, 23], @foundation.piles[2].pos
+      assert_equal Ray::Vector2[466, 23], @foundation.piles[1].pos
+      assert_equal Ray::Vector2[576, 23], @foundation.piles[2].pos
     end
 
     test 'Foundation can be disposed in the window' do

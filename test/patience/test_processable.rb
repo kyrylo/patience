@@ -17,7 +17,7 @@ module Patience
     def setup
       @dummy = Dummy.new
       @mouse_pos_miss = Ray::Vector2[0, 0]
-      @mouse_pos_hit = Ray::Vector2[32, 166]
+      @mouse_pos_hit = Ray::Vector2[45, 176]
       @deck = Deck.new
       @areas = { :tableau    => Tableau.new(@deck.shuffle_off! 28),
                  :stock      => Stock.new(@deck.shuffle_off! 24),
@@ -63,7 +63,7 @@ module Patience
       assert_equal Tableau, @dummy.find_area_in(@areas) { |area|
                               area.hit?(@mouse_pos_hit)
                             }.class
-      mouse_pos_hit_stock = Ray::Vector2[31, 65]
+      mouse_pos_hit_stock = Ray::Vector2[32, 65]
       assert_equal Stock, @dummy.find_area_in(@areas) { |area|
                             area.hit?(mouse_pos_hit_stock)
                           }.class
@@ -83,7 +83,7 @@ module Patience
     end
 
     test 'Processable can find a card' do
-      mouse_pos_hit_stock = Ray::Vector2[31, 65]
+      mouse_pos_hit_stock = Ray::Vector2[32, 65]
       assert_equal Card, @dummy.find_card_in(@areas) { |card|
                            card.hit?(@mouse_pos_hit)
                          }.class
@@ -131,7 +131,7 @@ module Patience
 
     test 'Processable can count an offset' do
       @dummy.find_all(@areas, @mouse_pos_hit)
-      assert_equal Ray::Vector2[-1, -1],
+      assert_equal Ray::Vector2[-14, -1],
                    @dummy.pick_up(@areas[:tableau].cards[0], @mouse_pos_hit)
     end
 
@@ -140,18 +140,13 @@ module Patience
       assert @dummy.stock?
     end
 
-    test 'Processable can check, if Waste has been hit' do
-      @dummy.find_all(@areas, Ray::Vector2[160, 40])
-      assert @dummy.waste?
-    end
-
     test 'Processable can check, if Tableau has been hit' do
-      @dummy.find_all(@areas, Ray::Vector2[32, 166])
+      @dummy.find_all(@areas, Ray::Vector2[32, 176])
       assert @dummy.tableau?
     end
 
     test 'Processable can check, if Foundation has been hit' do
-      @dummy.find_all(@areas, Ray::Vector2[590, 40])
+      @dummy.find_all(@areas, Ray::Vector2[577, 24])
       assert @dummy.foundation?
     end
 

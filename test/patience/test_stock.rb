@@ -28,8 +28,8 @@ module Patience
     end
 
     test 'The overall position of Stock can be gotten' do
-      assert_equal Ray::Vector2[31, 23], @stock.pos
-      assert_equal Ray::Vector2[31, 23], @stock.piles.first.pos
+      assert_equal Ray::Vector2[31, 27], @stock.pos
+      assert_equal Ray::Vector2[31, 27], @stock.piles.first.pos
     end
 
     test 'Stock can be disposed in the window' do

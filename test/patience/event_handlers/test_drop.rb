@@ -15,7 +15,6 @@ module Patience
       @mouse_pos = Ray::Vector2[361, 243]
       @deck      = Deck.new
       @areas     = { :tableau    => Tableau.new(@deck.shuffle_off! 28),
-                     :waste      => Waste.new,
                      :foundation => Foundation.new }
       @click     = EventHandler::Click.new(@mouse_pos, @areas)
       @drop      = Dummy.new(@click, @areas)
@@ -90,13 +89,13 @@ module Patience
     end
 
     test 'A dropped card can be called off' do
-      assert_equal Ray::Vector2[361, 243], @drop.card_to_drop.pos
+      assert_equal Ray::Vector2[361, 205], @drop.card_to_drop.pos
 
       @drop.card_to_drop.pos = Ray::Vector2[0, 0]
       assert_equal Ray::Vector2[0, 0], @drop.card_to_drop.pos
 
       @drop.send(:call_off)
-      assert_equal Ray::Vector2[361, 243], @drop.card_to_drop.pos
+      assert_equal Ray::Vector2[361, 205], @drop.card_to_drop.pos
     end
 
     test 'A dropped card can be added to the pile beneath' do
@@ -153,22 +152,22 @@ module Patience
     end
 
     test 'A dropped card can be put in Foundation' do
-      @click = EventHandler::Click.new(Ray::Vector2[32, 165], @areas)
+      @click = EventHandler::Click.new(Ray::Vector2[32, 176], @areas)
       @drop = Dummy.new(@click, @areas)
-      @drop.card_to_drop.pos = Ray::Vector2[362, 23]
+      @drop.card_to_drop.pos = Ray::Vector2[467, 24]
       fill_attributes_up(@drop)
       @drop.send(:put_in_foundation)
-      assert_equal 1, @areas[:foundation].piles[0].size
+      assert_equal 1, @areas[:foundation].piles[1].size
 
       last_card = @areas[:tableau].piles[2].cards.last
       @areas[:tableau].piles[2].cards.delete(last_card)
       @areas[:tableau].piles[2].cards.last.flip!
       @click = EventHandler::Click.new(Ray::Vector2[252, 192], @areas)
       @drop = Dummy.new(@click, @areas)
-      @drop.card_to_drop.pos = Ray::Vector2[362, 23]
+      @drop.card_to_drop.pos = Ray::Vector2[467, 24]
       fill_attributes_up(@drop)
       @drop.send(:put_in_foundation)
-      assert_equal 2, @areas[:foundation].piles[0].size
+      assert_equal 2, @areas[:foundation].piles[1].size
     end
 
   end

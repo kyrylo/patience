@@ -20,8 +20,8 @@ module Patience
     end
 
     test 'Overall position of Waste can be gotten' do
-      assert_equal Ray::Vector2[141, 23], @waste.pos
-      assert_equal Ray::Vector2[141, 23], @waste.piles.first.pos
+      assert_equal Ray::Vector2[141, 27], @waste.pos
+      assert_equal Ray::Vector2[141, 27], @waste.piles.first.pos
     end
 
     test 'Waste can be disposed in the window' do

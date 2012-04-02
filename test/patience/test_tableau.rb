@@ -26,14 +26,14 @@ module Patience
     end
 
     test 'The overall position of Tableau can be gotten' do
-      assert_equal Ray::Vector2[31, 165], @tableau.pos
-      assert_equal Ray::Vector2[31, 165], @tableau.piles.first.pos
+      assert_equal Ray::Vector2[31, 175], @tableau.pos
+      assert_equal Ray::Vector2[31, 175], @tableau.piles.first.pos
     end
 
     test 'Particular position of a pile in Tableau can be gotten' do
-      assert_equal Ray::Vector2[141, 165], @tableau.piles[1].pos
-      assert_equal Ray::Vector2[251, 165], @tableau.piles[2].pos
-      assert_equal Ray::Vector2[691, 165], @tableau.piles.last.pos
+      assert_equal Ray::Vector2[141, 175], @tableau.piles[1].pos
+      assert_equal Ray::Vector2[251, 175], @tableau.piles[2].pos
+      assert_equal Ray::Vector2[691, 175], @tableau.piles.last.pos
     end
 
     test 'Tableau can be disposed in the window' do
@@ -46,11 +46,11 @@ module Patience
     end
 
     test 'Cards in Tableau have a margin along the Y axis' do
-      assert_equal Ray::Vector2[31, 165], @tableau.piles[0].cards[0].pos
-      assert_equal Ray::Vector2[251, 191], @tableau.piles[2].cards[1].pos
-      assert_equal Ray::Vector2[471, 191], @tableau.piles[4].cards[1].pos
-      assert_equal Ray::Vector2[581, 217], @tableau.piles[5].cards[2].pos
-      assert_equal Ray::Vector2[691, 321], @tableau.piles.last.cards.last.pos
+      assert_equal Ray::Vector2[31, 175], @tableau.piles[0].cards[0].pos
+      assert_equal Ray::Vector2[251, 185], @tableau.piles[2].cards[1].pos
+      assert_equal Ray::Vector2[471, 185], @tableau.piles[4].cards[1].pos
+      assert_equal Ray::Vector2[581, 195], @tableau.piles[5].cards[2].pos
+      assert_equal Ray::Vector2[691, 235], @tableau.piles.last.cards.last.pos
     end
 
   end
