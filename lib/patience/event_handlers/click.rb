@@ -65,7 +65,9 @@ module Patience
       # Adds a card from Stock to Waste, if Stock was clicked.
       def stock
         if stock?
+
           if pile.empty?
+            return if @areas[:waste].cards.size == 1
             pile_background = 'patience/sprites/pile_background.png'
             pile.background = Ray::Sprite.new path_of(pile_background)
             refill_stock
@@ -74,9 +76,15 @@ module Patience
           end
 
           if pile.empty?
-            empty_stock = 'patience/sprites/empty_stock.png'
-            pile.background = Ray::Sprite.new path_of(empty_stock)
+            if @areas[:waste].cards.size == 1
+              fully_empty_stock = 'patience/sprites/fully_empty_stock.png'
+              pile.background = Ray::Sprite.new path_of(fully_empty_stock)
+            else
+              empty_stock = 'patience/sprites/empty_stock.png'
+              pile.background = Ray::Sprite.new path_of(empty_stock)
+            end
           end
+
         end
       end
 
