@@ -6,7 +6,7 @@ Patience
 Description
 -----------
 
-![Patience, version 0.1.0](http://img-fotki.yandex.ru/get/5908/98991937.6/0_7259e_d9e01c58_orig "Patience, version 0.1.0")
+![Patience, version 0.1.1](http://img-fotki.yandex.ru/get/6205/98991937.8/0_74890_ae085989_orig "Patience, version 0.1.1")
 
 _Patience_ is a card game (also known as Solitaire), which is written in Ruby.
 The game is based on Ray, a Ruby library for games. Currenlty, _Patience_ runs
