@@ -1,7 +1,7 @@
 require_relative '../processable'
 
 module Patience
-  class EventHandler
+  module EventHandler
     ###
     # Click represents a state of every click in the game. Processable module
     # endows Click with special abilities (the group of "detect" methods).

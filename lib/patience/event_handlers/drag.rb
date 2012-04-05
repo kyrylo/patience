@@ -1,7 +1,7 @@
 require_relative '../processable'
 
 module Patience
-  class EventHandler
+  module EventHandler
     ###
     # Patience::EventHandler::Drag provides drag objects,
     # that serves for moving cards in the window.
