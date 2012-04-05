@@ -1,14 +1,18 @@
 require_relative 'area'
 
 module Patience
-  ###
-  # Patience::Area::Foundation is a class, which
-  # represents Foundation area of the game.
-  #   foundation = Area::Foundation.new
-  #   foundation.piles.size #=> 1
-  #
+  # Public: Represents Foundation area of the game.
   class Foundation < Area
 
+    # Public: Create new Foundation.
+    #
+    # Examples
+    #
+    #   foundation = Area::Foundation.new
+    #   foundation.piles.size
+    #   #=> 1
+    #
+    # Returns nothing.
     def initialize
       super([], 4)
       self.pos = [356, 23]
@@ -16,8 +20,12 @@ module Patience
 
     protected
 
-    # Disposes Foundation in the window by specifying coordinates
-    # of every pile in this area, starting from the pos argument.
+    # Internal: Dispose Foundation in the window by specifying coordinates of
+    # every pile in this area, starting from the pos argument.
+    #
+    # pos - The Ray::Vector2 coordinate or the Array of X and Y coordinates.
+    #
+    # Returns nothing.
     def pos=(pos)
       x, y, step_x = pos[0], pos[1], 110
       foundation_bg = path_of('patience/sprites/foundation_bg.png')

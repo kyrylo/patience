@@ -42,43 +42,43 @@ module Patience
       [area, pile, card]
     end
 
-    # Returns hash, containing gathered hit elements.
+    # Returns Hash, containing gathered hit elements.
     def to_h
       { :area => area, :pile => pile, :card => card }
     end
 
-    # Returns true, if there hasn't been found something.
+    # Returns true if there hasn't been found something.
     def nothing?
       to_a.compact.size.zero?
     end
 
-    # Returns true, if there's been found something. Opposite of #nothing?.
+    # Returns true if there's been found something. Opposite of #nothing?.
     def something?
       not nothing?
     end
 
-    # Returns subtraction between card and mouse position at
-    # the moment of click, only if cursor clicked the card.
+    # Returns the subtraction between card and mouse position at the moment of
+    # click, only if the cursor clicked the card.
     def pick_up(card, mouse_pos)
       card.pos - mouse_pos
     end
 
-    # Returns true, if the clicked area is Stock.
+    # Returns true if the clicked area is Stock.
     def stock?
       area.instance_of? Stock
     end
 
-    # Returns true, if the clicked area is Waste.
+    # Returns true if the clicked area is Waste.
     def waste?
       area.instance_of? Waste
     end
 
-    # Returns true, if the clicked area is Tableau.
+    # Returns true if the clicked area is Tableau.
     def tableau?
       area.instance_of? Tableau
     end
 
-    # Returns true, if the clicked area is Foundation.
+    # Returns true if the clicked area is Foundation.
     def foundation?
       area.instance_of? Foundation
     end

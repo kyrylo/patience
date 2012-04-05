@@ -1,14 +1,19 @@
 require_relative 'pile'
 
 module Patience
-  ###
-  # Patience::Deck creates a play deck object, which
-  # contains 52 cards (just like a real world deck!).
-  #   deck = Deck.new(cards) # Just imagine, that we've already created those!
-  #   deck.cards.size #=> 52
-  #
+  # Public: Creates the deck with playing cards.
   class Deck < Pile
 
+    # Public: Create the play deck object, which contains 52 cards (just like a
+    # real world deck!).
+    #
+    # Examples
+    #
+    #   deck = Deck.new(cards_ary)
+    #   deck.cards.size
+    #   #=> 52
+    #
+    # Returns nothing.
     def initialize
       @cards = []
 
