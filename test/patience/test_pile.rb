@@ -27,8 +27,7 @@ module Patience
     test 'The background of a pile can be changed' do
       assert_equal Ray::Vector2[0, 0], @pile.background.pos
       @pile.background.pos = [200, 200]
-      path = '../lib/patience/sprites/empty_stock.png'
-      assert @pile.background = Ray::Sprite.new(path_of(path))
+      assert @pile.background = Ray::Sprite.new(image_path('empty_stock'))
       assert_equal Ray::Vector2[200, 200], @pile.background.pos
     end
 
