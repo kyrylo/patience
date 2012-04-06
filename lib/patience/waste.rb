@@ -10,8 +10,8 @@ module Patience
   class Waste < Area
 
     def initialize
-      super([], 1)
-      self.pos = [141, 27]
+      super([], WASTE['piles'])
+      self.pos = WASTE['position'].values
       self.piles[0].background = Ray::Sprite.new # Emptiness.
     end
 

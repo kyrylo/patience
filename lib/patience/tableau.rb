@@ -15,9 +15,9 @@ module Patience
   class Tableau < Area
 
     def initialize(cards)
-      super(cards, 7)
+      super(cards, TABLEAU['piles'])
       @piles.each_with_index { |pile, i| pile.cards += @cards.shuffle_off!(i+1) }
-      self.pos = [31, 175]
+      self.pos = TABLEAU['position'].values
     end
 
     protected
@@ -25,7 +25,8 @@ module Patience
     # Disposes Tableau in the window by specifying coordinates
     # of every pile in this area, starting from the pos argument.
     def pos=(pos)
-      x, y, step_x, step_y = pos[0], pos[1], 110, 10
+      x, y = pos[0], pos[1]
+      step_x, step_y = TABLEAU['indent']['x'], TABLEAU['indent']['y']
 
       piles.each { |pile|
         pile.pos = [x, y]

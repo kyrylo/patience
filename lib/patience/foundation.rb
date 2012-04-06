@@ -14,8 +14,9 @@ module Patience
     #
     # Returns nothing.
     def initialize
-      super([], 4)
-      self.pos = [356, 23]
+      super([], FOUNDATION['piles'])
+      #self.pos = [356, 23]
+      self.pos = FOUNDATION['position'].values
     end
 
     protected
@@ -27,7 +28,7 @@ module Patience
     #
     # Returns nothing.
     def pos=(pos)
-      x, y, step_x = pos[0], pos[1], 110
+      x, y, step_x = pos[0], pos[1], FOUNDATION['indent']
 
       piles.each do |pile|
         pile.pos = [x, y]

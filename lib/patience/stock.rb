@@ -11,9 +11,9 @@ module Patience
   class Stock < Area
 
     def initialize(cards)
-      super(cards, 1)
+      super(cards, STOCK['piles'])
       self.piles.first.cards += @cards.shuffle_off!(24).each(&:face_down)
-      self.pos = [31, 27]
+      self.pos = STOCK['position'].values
     end
 
   end

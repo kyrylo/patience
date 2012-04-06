@@ -1,0 +1,10 @@
+# Configuration file for the layout of Stock area.
+---
+
+# Quantity of the piles in Stock.
+piles: 1
+
+# Position of Stock.
+position:
+  x: 31
+  y: 27

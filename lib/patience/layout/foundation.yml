@@ -1,0 +1,14 @@
+# Configuration file for the layout of Foundation area.
+---
+
+# Quantity of the piles in Foundation.
+piles: 4
+
+# Position of the first pile in Foundation. Other piles get their position
+# relatively to the first pile.
+position:
+  x: 356
+  y: 23
+
+# Card width (78 pixels) plus indentation space.
+indent: 110

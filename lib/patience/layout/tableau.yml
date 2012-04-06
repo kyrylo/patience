@@ -1,0 +1,16 @@
+# Configuration file for the layout of Tableau area.
+---
+
+# Quantity of the piles in Tableau.
+piles: 7
+
+# Position of the first pile in Tableau. Other piles get their position
+# relatively to the first pile.
+position:
+  x: 31
+  y: 175
+
+# Card width (78 pixels) plus indentation space.
+indent:
+  x: 110
+  y: 10
