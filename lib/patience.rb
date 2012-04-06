@@ -2,7 +2,7 @@ require 'ray'
 require 'forwardable'
 
 def path_of(resource)
-  File.expand_path(resource)
+  File.join(File.expand_path('../', File.dirname(__FILE__)), resource)
 end
 
 def image_path(image, ext='png')
