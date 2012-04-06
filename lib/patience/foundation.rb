@@ -28,11 +28,10 @@ module Patience
     # Returns nothing.
     def pos=(pos)
       x, y, step_x = pos[0], pos[1], 110
-      foundation_bg = path_of('patience/sprites/foundation_bg.png')
 
       piles.each do |pile|
         pile.pos = [x, y]
-        pile.background = Ray::Sprite.new foundation_bg
+        pile.background = Ray::Sprite.new image_path('foundation_bg')
         x += step_x # Margin between piles along the axis X.
       end
     end

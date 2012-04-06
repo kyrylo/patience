@@ -57,7 +57,7 @@ module Patience
               else
                 raise DefunctSuit, "Nonexistent suit: #{suit}"
               end
-      @sprite = Ray::Sprite.new path_of('patience/sprites/card_deck.png')
+      @sprite = Ray::Sprite.new image_path('card_deck')
       # A sheet with 14 columns and 5 rows. First row and column
       # corresponds to the card back (their coordinats are equal to [0, 0]).
       @sprite.sheet_size = [14, 5]

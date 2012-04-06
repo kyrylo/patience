@@ -19,8 +19,7 @@ module Patience
     # Returns nothing.
     def initialize(cards=[])
       @cards = cards
-      pile_background = 'patience/sprites/pile_background.png'
-      @background = Ray::Sprite.new path_of(pile_background)
+      @background = Ray::Sprite.new image_path('pile_background')
     end
 
     # Public: Change the background sprite of the pile considering position of

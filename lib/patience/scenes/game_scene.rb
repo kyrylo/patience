@@ -4,7 +4,7 @@ module Patience
   class GameScene < Ray::Scene
 
     def setup
-      @bg_sprite  = Ray::Sprite.new path_of('patience/sprites/table_bg.png')
+      @bg_sprite  = Ray::Sprite.new image_path('table_bg')
       @cursor     = Cursor.new
       @deck       = Deck.new
       @deck.cards.shuffle!
@@ -29,7 +29,7 @@ module Patience
       on :mouse_press do
         @cursor.click = EventHandler::Click.new(@cursor.mouse_pos, @areas)
         if @cursor.carrying_card?
-          @cursor.drag  = EventHandler::Drag.new(@cursor)
+          @cursor.drag = EventHandler::Drag.new(@cursor)
         end
       end
 
