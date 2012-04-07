@@ -24,16 +24,18 @@ module Patience
 
       def initialize(mouse_pos, areas)
         @mouse_pos = mouse_pos
-        @areas = areas
-        @area = detect_area
+        @areas     = areas
+        @area      = detect_area
 
         # If area has been detected, calculate other parameters too.
         if @area
-          @pile = detect_pile
+          @pile  = detect_pile
           @cards = collect_cards # A clicked card and tail cards.
-          @card = cards.keys.first if @cards # The very clicked card.
+          @card  = cards.keys.first if @cards # The very clicked card.
+          @card  = nil if animating_card? # Prevent clicking the moving card.
+
           # Offset for dragged card.
-          @offset = pick_up(@card, mouse_pos) if @card and something?
+          @offset = pick_up(@card, mouse_pos) if @card && something?
 
           @scenario = -> { stock }
         end
@@ -60,6 +62,13 @@ module Patience
         n = @pile.size - @pile.cards.index(card)
         tail_cards = @pile.cards.last(n)
         Hash[*tail_cards.map { |card| [card, card.pos] }.flatten]
+      end
+
+      # Internal: Check, whether the clicked card is performing some animations.
+      def animating_card?
+        Effect.animations.any? do |anim|
+          @card == anim.target && anim.running?
+        end
       end
 
       # Adds a card from Stock to Waste, if Stock was clicked.

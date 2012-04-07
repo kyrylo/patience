@@ -11,7 +11,7 @@ module Patience
     #   cursor.drop.scenario.call
     #
     class Drop
-
+      include Ray::Helper
       include Processable
 
       attr_reader :scenario
@@ -98,7 +98,7 @@ module Patience
 
       # Sets the position of a dropped card to its initial location.
       def call_off
-        @cards.each { |card, init_pos| card.pos = init_pos }
+        @cards.each { |card, init_pos| Effect.call_off(card, init_pos) }
       end
 
       # Returns true, if dropped card meets

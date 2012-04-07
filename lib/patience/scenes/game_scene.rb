@@ -48,6 +48,7 @@ module Patience
       end
 
       always do
+        Effect.animations.update
         @cursor.mouse_pos = mouse_pos
       end
 
@@ -60,6 +61,7 @@ module Patience
       if @cursor.drawable?
         @cursor.click.cards.keys.each { |card| card.draw_on(win) }
       end
+
     end
 
   end
