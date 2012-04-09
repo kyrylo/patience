@@ -98,7 +98,9 @@ module Patience
 
       # Sets the position of a dropped card to its initial location.
       def call_off
-        @cards.each { |card, init_pos| Effect.call_off(card, init_pos) }
+        @cards.each do |card, init_pos|
+          Animation.call_off(card, init_pos)
+        end
       end
 
       # Returns true, if dropped card meets

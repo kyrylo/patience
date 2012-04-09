@@ -8,26 +8,30 @@ module Patience
 
       def initialize(mouse_pos, areas)
         @mouse_pos = mouse_pos
-        @areas = areas
+        @areas     = areas
       end
     end
 
     def setup
       @mouse_pos_missclick = Ray::Vector2[0, 0]
-      @mouse_pos_hit = Ray::Vector2[32, 175]
-      @deck = Deck.new
-      @areas = { :tableau => Tableau.new(@deck.shuffle_off! 28),
-                 :waste => Waste.new,
-                 :stock => Stock.new(@deck.shuffle_off! 10) }
+      @mouse_pos_hit       = Ray::Vector2[32, 175]
+      @deck                = Deck.new
+
+      @areas = {
+        :tableau => Tableau.new(@deck.shuffle_off! 28),
+        :waste => Waste.new,
+        :stock => Stock.new(@deck.shuffle_off! 10)
+      }
+
       @dummy_click_miss = Dummy.new(@mouse_pos_missclick, @areas)
       @dummy_click_hit  = Dummy.new(@mouse_pos_hit, @areas)
-      @stock_hit = Dummy.new(Ray::Vector2[32, 28], @areas)
+      @stock_hit        = Dummy.new(Ray::Vector2[32, 28], @areas)
     end
 
     def fill_attributes_up(click)
       click.area  = click.send(:detect_area)
       click.pile  = click.send(:detect_pile)
-      cards = click.send(:collect_cards)
+      cards       = click.send(:collect_cards)
       click.cards = cards.map(&:first) if cards
       click.card  = click.cards.first
     end
@@ -77,6 +81,10 @@ module Patience
       @dummy_click_miss.cards = @dummy_click_miss.send(:collect_cards)
       assert_nil @dummy_click_miss.card
       assert_nil @dummy_click_miss.cards
+    end
+
+    test 'A clicked card can be checked, if it is performing any animations' do
+      skip('Write me')
     end
 
     test 'Stock can be refilled by a click' do

@@ -7,6 +7,7 @@ module Patience
       @bg_sprite  = Ray::Sprite.new image_path('table_bg')
       @cursor     = Cursor.new
       @deck       = Deck.new
+
       @deck.cards.shuffle!
 
       @tableau    = Tableau.new(@deck.shuffle_off! 28)
@@ -18,6 +19,8 @@ module Patience
                       :stock      => @stock,
                       :waste      => @waste,
                       :foundation => @foundation }
+
+      Animation.event_runner = event_runner
     end
 
     def register
@@ -48,7 +51,7 @@ module Patience
       end
 
       always do
-        Effect.animations.update
+        Animation.animations.update if Animation.animations
         @cursor.mouse_pos = mouse_pos
       end
 
@@ -57,11 +60,17 @@ module Patience
     def render(win)
       win.draw @bg_sprite
       @areas.values.to_a.each { |area| area.draw_on(win) }
+
       # Draw the card, which is being dragged.
       if @cursor.drawable?
         @cursor.click.cards.keys.each { |card| card.draw_on(win) }
       end
 
+      if Animation.animations.any?(&:running?)
+        Animation.moving_cards.each do |card|
+          card.draw_on(win)
+        end
+      end
     end
 
   end

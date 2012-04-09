@@ -31,8 +31,9 @@ module Patience
         if @area
           @pile  = detect_pile
           @cards = collect_cards # A clicked card and tail cards.
-          @card  = cards.keys.first if @cards # The very clicked card.
-          @card  = nil if animating_card? # Prevent clicking the moving card.
+          if @cards && !animating_card? # Prevent clicking the moving card.
+            @card  = cards.keys.first # The very clicked card.
+          end
 
           # Offset for dragged card.
           @offset = pick_up(@card, mouse_pos) if @card && something?
@@ -64,9 +65,11 @@ module Patience
         Hash[*tail_cards.map { |card| [card, card.pos] }.flatten]
       end
 
-      # Internal: Check, whether the clicked card is performing some animations.
+      # Internal: Check, whether the clicked card is performing any animations.
+      #
+      # Returns true if the card is currently animating or false otherwise.
       def animating_card?
-        Effect.animations.any? do |anim|
+        Animation.animations.any? do |anim|
           @card == anim.target && anim.running?
         end
       end
