@@ -31,9 +31,8 @@ module Patience
         if @area
           @pile  = detect_pile
           @cards = collect_cards # A clicked card and tail cards.
-          if @cards && !animating_card? # Prevent clicking the moving card.
-            @card  = cards.keys.first # The very clicked card.
-          end
+          @card  = cards.keys.first if @cards # The very clicked card.
+          @card  = nil if animating_card? # Prevent clicking the moving card.
 
           # Offset for dragged card.
           @offset = pick_up(@card, mouse_pos) if @card && something?
