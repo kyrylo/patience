@@ -66,10 +66,9 @@ module Patience
         @cursor.click.cards.keys.each { |card| card.draw_on(win) }
       end
 
+      # Draw the card, which is being animated.
       if Animation.animations.any?(&:running?)
-        Animation.moving_cards.each do |card|
-          card.draw_on(win)
-        end
+        Animation.moving_cards.each { |card| card.draw_on(win) }
       end
     end
 
